@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.green.company.mapper.CompanyUserMapper">
+  <insert id="saveUser">
+		INSERT INTO COMPANY_USERS   (
+	    COMPANY_USER_IDX,
+	    COMPANY_USER_ID,
+	    COMPANY_USER_PASSWD,
+	    COMPANY_USER_NAME,
+	    COMPANY_PHONE,
+	    COMPANY_NAME,
+	    COMPANY_BCODE,
+	    COMPANY_BOSS_NAME,
+	    COMPANY_EMAIL,
+	    COMPANY_USER_EMAIL,
+	    COMPANY_ESTABLISH       	) 
+		VALUES                      (
+  	  COMPANY_USERS_SEQ.NEXTVAL,
+      #{company_user_id},
+      #{company_user_passwd},
+      #{company_user_name},
+      #{company_phone},
+      #{company_name},
+      #{company_bcode},
+      #{company_boss_name},
+      #{company_email},
+      #{company_user_email},
+      #{company_establish}     )
+	</insert>
+	
+	<select id="login">
+		SELECT * 
+		FROM COMPANY_USERS 
+		WHERE COMPANY_USER_ID = #{arg0} AND COMPANY_USER_PASSWD = #{arg1}
+	</select>
+	
+	<select id="isUserIdDupCheck">
+		SELECT *
+		FROM COMPANY_USERS
+		WHERE COMPANY_USER_ID = #{company_user_id}
+	</select>
+
+</mapper>
