@@ -3,5 +3,53 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.green.user.resume.mapper.UserResumeMapper">  
 
+<select id="getUserResumeCount">
+	SELECT
+		COUNT(*)
+	FROM
+		USER_RESUME
+</select>
+
+<select id="getUserResumeList">
+	 SELECT 
+      *
+   FROM 
+       USER_RESUME UR
+   LEFT JOIN (
+       SELECT 
+             COMPANY_RECRUIT_IDX 
+           , LISTAGG(DISTINCT SKILL_NAME, ', ') WITHIN GROUP (ORDER BY SKILL_NAME) AS SKILL_NAME
+           , LISTAGG(DISTINCT SKILL_IDX, ', ') WITHIN GROUP (ORDER BY SKILL_IDX) AS SKILL_IDX
+       FROM 
+           COMMON_COMPANY_RECRUIT_SKILL  
+           
+       <if test="skillListCheck != null ">    
+       WHERE 
+          SKILL_IDX IN
+        <foreach item="skill" index="index" collection="checkedSkillList"
+         open="(" separator="," close=")">
+           #{ skill.skill_name }
+         </foreach>
+       </if>
+       
+       GROUP BY COMPANY_RECRUIT_IDX
+   ) CCRK ON CCRK.COMPANY_RECRUIT_IDX = CR.COMPANY_RECRUIT_IDX
+   JOIN 
+       REGION R ON CR.REGION_IDX = R.REGION_IDX
+   <if test="regionListCheck != null">
+   WHERE 
+       CR.REGION_IDX IN 
+       <foreach item="region" index="index" collection="checkedRegionList"
+         open="(" separator="," close=")">
+           #{ region.region_idx }
+         </foreach>
+   </if>
+       
+   ORDER BY 
+       CR.COMPANY_RECRUIT_REGDATE DESC
+    OFFSET #{ startRow } ROWS FETCH NEXT #{ endRow } ROWS ONLY
+    
+	
+</select>
 
 </mapper>

@@ -5,4 +5,38 @@
 
 
 
+<insert id="setCompanyImage">
+ INSERT INTO COMPANY_IMAGE (
+    COMPANY_IMAGE_IDX,
+    COMPANY_USER_IDX,
+    COMPANY_IMAGE_NAME,
+    COMPANY_IMAGE_EXT,
+    COMPANY_SFILE_NAME
+	) VALUES (
+    COMPANY_IMAGE_SEQ.NEXTVAL,
+    #{company_user_idx},
+    #{company_image_name},
+    #{company_image_ext},
+    #{company_sfile_name}
+	)
+</insert>
+
+<delete id="deleteCompanyImge">
+  DELETE FROM 
+  		COMPANY_IMAGE
+	WHERE
+        COMPANY_IMAGE_IDX = #{company_image_idx}
+  
+</delete>
+
+<select id="getCompanyProfileImge">
+	SELECT
+		*
+	FROM
+		COMPANY_IMAGE
+	WHERE
+		COMPANY_IMAGE_IDX = #{company_image_idx}
+
+</select>
+
 </mapper>
