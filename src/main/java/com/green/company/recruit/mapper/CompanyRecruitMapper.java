@@ -16,11 +16,15 @@ public interface CompanyRecruitMapper {
 
 	List<HashMap<String, String>> getCompanyHomeRecruiteList();
 
+
 	List<HashMap<String, String>> getCompanyRecruiteSkillStackList(@Param("skill_stack") String skill_stack);
 
 	List<HashMap<String, Object>> getCompanyRecruiteList(CompanyUserVo companyUserVo);
 
 	int setCompanyRecruitInsert(HashMap<String, Object> map);
+
+
+	List<HashMap<String, String>> getCompanyRecruiteSkillStackList();
 
 
 }
