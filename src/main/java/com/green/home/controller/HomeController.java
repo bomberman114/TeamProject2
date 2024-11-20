@@ -6,6 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.servlet.ModelAndView;
 
 import com.green.company.recruit.mapper.CompanyRecruitMapper;
@@ -17,12 +20,18 @@ public class HomeController {
 	private CompanyRecruitMapper companyRecruitMapper;
 
 	@RequestMapping("/")
-	public ModelAndView home() {
+
+	public ModelAndView home(@RequestParam(name = "skill_stack",required =false) String skill_stack) {
 		ModelAndView mv = new ModelAndView();
-		/*
-		List<HashMap<String, String>> companyHomeRecruiteList = companyRecruitMapper.getCompanyHomeRecruiteList();
-		List<HashMap<String, String>> companyRecruiteSkillStackList = companyRecruitMapper.getCompanyRecruiteSkillStackList();
-		*/
+		
+		skill_stack = "백엔드";
+		
+		//List<HashMap<String, String>> companyHomeRecruiteList = companyRecruitMapper.getCompanyHomeRecruiteList();
+		//List<HashMap<String, String>> companyRecruiteSkillStackList = companyRecruitMapper.getCompanyRecruiteSkillStackList(skill_stack);
+		
+		//mv.addObject("companyHomeRecruiteList", companyHomeRecruiteList);
+		//mv.addObject("companyRecruiteSkillStackList", companyRecruiteSkillStackList);
+
 		mv.setViewName("home");
 		return mv;
 	}

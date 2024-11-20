@@ -4,47 +4,233 @@
 <mapper namespace="com.green.company.recruit.mapper.CompanyRecruitMapper">  
 
 <select id="getCompanyHomeRecruiteList">
-	SELECT 
+	 SELECT 
       *
-   FROM 
+   FROM  
+        COMPANY_IMAGE CI
+    JOIN
+        COMPANY_USERS CU
+    ON  
+        CI.COMPANY_USER_IDX = CU.COMPANY_USER_IDX
+    JOIN
        COMPANY_RECRUIT CR
+    ON
+        CU.COMPANY_USER_IDX = CR.COMPANY_USER_IDX
    LEFT JOIN (
        SELECT 
-           COMPANY_RECRUIT_IDX, 
-           LISTAGG(DISTINCT SKILL_NAME, ', ') WITHIN GROUP (ORDER BY SKILL_NAME) AS SKILL_NAME
-       FROM 
-           COMMON_COMPANY_RECRUIT_SKILL    
-  
-       GROUP BY COMPANY_RECRUIT_IDX
-   ) CCRK ON CCRK.COMPANY_RECRUIT_IDX = CR.COMPANY_RECRUIT_IDX
+             CCRK.COMPANY_RECRUIT_IDX
+           , LISTAGG(DISTINCT CCRK.SKILL_IDX, ', ') WITHIN GROUP (ORDER BY CCRK.SKILL_IDX) AS SKILL_IDX
+           , LISTAGG(DISTINCT S.SKILL_NAME, ', ') WITHIN GROUP (ORDER BY S.SKILL_NAME) AS SKILL_NAME
+       FROM
+           COMMON_COMPANY_RECRUIT_SKILL CCRK
+        JOIN
+            SKILLS S
+        ON
+            CCRK.SKILL_IDX = S.SKILL_IDX
+         
+          <if test="skillListCheck != null ">    
+       WHERE 
+          CCRK.SKILL_IDX IN
+        <foreach item="skill" index="index" collection="skillListCheck"
+         open="(" separator="," close=")">
+           #{ skill.skill_idx }
+         </foreach>
+       </if>
+       
+       GROUP BY 
+       	COMPANY_RECRUIT_IDX ) CCRK 
+       ON 
+       	CCRK.COMPANY_RECRUIT_IDX = CR.COMPANY_RECRUIT_IDX
    JOIN 
        REGION R ON CR.REGION_IDX = R.REGION_IDX
-
+         <if test="regionListCheck != null">
+   WHERE 
+       CR.REGION_IDX IN 
+       <foreach item="region" index="index" collection="regionListCheck"
+         open="(" separator="," close=")">
+           #{ region.region_idx }
+         </foreach>
+         AND
+   </if>
+       
    ORDER BY 
-       CR.VIEWS DESC
+       CR.COMPANY_RECRUIT_REGDATE DESC
+    OFFSET
+    	1
+    	  
+    	ROWS FETCH NEXT 
+    	20
+    		 ROWS ONLY
     
 </select>
 
 <select id="getCompanyRecruiteSkillStackList">
-	SELECT 
+	 SELECT 
       *
-   FROM 
+   FROM  
+        COMPANY_IMAGE CI
+    JOIN
+        COMPANY_USERS CU
+    ON  
+        CI.COMPANY_USER_IDX = CU.COMPANY_USER_IDX
+    JOIN
        COMPANY_RECRUIT CR
+    ON
+        CU.COMPANY_USER_IDX = CR.COMPANY_USER_IDX
    LEFT JOIN (
        SELECT 
-           COMPANY_RECRUIT_IDX, 
-           LISTAGG(DISTINCT SKILL_NAME, ', ') WITHIN GROUP (ORDER BY SKILL_NAME) AS SKILL_NAME
-       FROM 
-           COMMON_COMPANY_RECRUIT_SKILL    
-  
-       GROUP BY COMPANY_RECRUIT_IDX
-   ) CCRK ON CCRK.COMPANY_RECRUIT_IDX = CR.COMPANY_RECRUIT_IDX
+             CCRK.COMPANY_RECRUIT_IDX
+           , LISTAGG(DISTINCT CCRK.SKILL_IDX, ', ') WITHIN GROUP (ORDER BY CCRK.SKILL_IDX) AS SKILL_IDX
+           , LISTAGG(DISTINCT S.SKILL_NAME, ', ') WITHIN GROUP (ORDER BY S.SKILL_NAME) AS SKILL_NAME
+       FROM
+           COMMON_COMPANY_RECRUIT_SKILL CCRK
+        JOIN
+            SKILLS S
+        ON
+            CCRK.SKILL_IDX = S.SKILL_IDX
+         
+         WHERE
+         	S.SKILL_STACK = #{skill_stack}
+       
+       GROUP BY 
+       	COMPANY_RECRUIT_IDX ) CCRK 
+       ON 
+       	CCRK.COMPANY_RECRUIT_IDX = CR.COMPANY_RECRUIT_IDX
    JOIN 
        REGION R ON CR.REGION_IDX = R.REGION_IDX
 
    ORDER BY 
-       CR.VIEWS DESC
+       CR.COMPANY_RECRUIT_REGDATE DESC
+    OFFSET
+    	1
+    	ROWS FETCH NEXT 
+    	10
+    		 ROWS ONLY
     
 </select>
+
+<select id="getCompanyRecruiteList">
+SELECT
+    CR.COMPANY_RECRUIT_IDX,
+    CR.COMPANY_USER_IDX,
+    CR.COMPANY_NAME,
+    CR.RECRUIT_TITLE,
+    CR.COMPANY_JOB,
+    CR.COMMON_DUTY_IDX,
+    CR.NEED_COMPANY_RECRUIT_CAREER,
+    CR.MAIN_WORK_CONTENT1,
+    CR.MAIN_WORK_CONTENT2,
+    CR.MAIN_WORK_CONTENT3,
+    CR.QUALIFICATION1,
+    CR.QUALIFICATION2,
+    CR.QUALIFICATION3,
+    CR.PREFERENTIAL_TREATMENT1,
+    CR.PREFERENTIAL_TREATMENT2,
+    CR.PREFERENTIAL_TREATMENT3,
+    CR.EDUCATION_STATUS_IDX,
+    CR.GETMAN,
+    CR.REGION_IDX,
+    CR.COMPANY_ADDRESS,
+    CR.COMPANY_INFO,
+    CR.APPLICATION_DEADLINE,
+    CR.COMPANY_ESTABLISH,
+    CR.COMPANY_RECRUIT_REGDATE,
+    CR.COMPANY_RECRUIT_VIEWS,
+    COUNT(A.APPLICATION_IDX) AS APPLICATION_COUNT
+FROM
+    COMPANY_RECRUIT CR
+LEFT JOIN
+    APPLICATIONS A ON CR.COMPANY_RECRUIT_IDX = A.COMPANY_RECRUIT_IDX
+WHERE
+    CR.COMPANY_USER_IDX = 1
+GROUP BY
+    CR.COMPANY_RECRUIT_IDX,
+    CR.COMPANY_USER_IDX,
+    CR.COMPANY_NAME,
+    CR.RECRUIT_TITLE,
+    CR.COMPANY_JOB,
+    CR.COMMON_DUTY_IDX,
+    CR.NEED_COMPANY_RECRUIT_CAREER,
+    CR.MAIN_WORK_CONTENT1,
+    CR.MAIN_WORK_CONTENT2,
+    CR.MAIN_WORK_CONTENT3,
+    CR.QUALIFICATION1,
+    CR.QUALIFICATION2,
+    CR.QUALIFICATION3,
+    CR.PREFERENTIAL_TREATMENT1,
+    CR.PREFERENTIAL_TREATMENT2,
+    CR.PREFERENTIAL_TREATMENT3,
+    CR.EDUCATION_STATUS_IDX,
+    CR.GETMAN,
+    CR.REGION_IDX,
+    CR.COMPANY_ADDRESS,
+    CR.COMPANY_INFO,
+    CR.APPLICATION_DEADLINE,
+    CR.COMPANY_ESTABLISH,
+    CR.COMPANY_RECRUIT_REGDATE,
+    CR.COMPANY_RECRUIT_VIEWS
+ORDER BY 
+    CR.COMPANY_RECRUIT_REGDATE DESC
+
+</select>
+
+<insert id="setCompanyRecruitInsert">
+    <selectKey keyProperty="company_recruit_idx" resultType="int" order="BEFORE">
+        SELECT COMPANY_RECRUIT_SEQ.NEXTVAL FROM DUAL
+    </selectKey>
+    
+ INSERT INTO COMPANY_RECRUIT (
+     COMPANY_RECRUIT_IDX
+   , COMPANY_USER_IDX
+   , COMPANY_NAME
+   , RECRUIT_TITLE
+   , COMPANY_JOB
+   , COMMON_DUTY_IDX
+   , MAIN_WORK_CONTENT1
+   , MAIN_WORK_CONTENT2
+   , MAIN_WORK_CONTENT3
+   , QUALIFICATION1
+   , QUALIFICATION2
+   , QUALIFICATION3
+   , PREFERENTIAL_TREATMENT1
+   , PREFERENTIAL_TREATMENT2
+   , PREFERENTIAL_TREATMENT3
+   , EDUCATION_STATUS_IDX
+   , GETMAN
+   , REGION_IDX
+   , COMPANY_ADDRESS
+   , COMPANY_INFO
+   , APPLICATION_DEADLINE
+   , COMPANY_ESTABLISH
+   , COMPANY_RECRUIT_REGDATE
+   , COMPANY_RECRUIT_VIEWS
+) VALUES (
+      COMPANY_RECRUIT_SEQ.NEXTVAL
+    , #{company_user_idx}
+    , #{company_name}
+    , #{recruit_title}
+    , #{company_job}
+    , #{common_duty_idx}
+    , #{main_work_content1}
+    , #{main_work_content2}
+    , #{main_work_content3}
+    , #{qualification1}
+    , #{qualification2}
+    , #{qualification3}
+    , #{preferential_treatment1}
+    , #{preferential_treatment2}
+    , #{preferential_treatment3}
+    , #{education_status_idx}
+    , #{getman}
+    , #{region_idx}
+    , #{company_address}
+    , #{company_info}
+    , #{application_deadline}
+    , #{company_establish}
+    , SYSDATE
+    , 0
+)
+
+</insert>
 
 </mapper>
