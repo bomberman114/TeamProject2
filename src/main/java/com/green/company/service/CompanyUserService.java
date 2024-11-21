@@ -12,6 +12,13 @@ public interface CompanyUserService {
 
 	void setProfileUpdate(HashMap<String, Object> map, MultipartFile[] profileImge);
 
+	void saveUser(HashMap<String, Object> map);
+
+	CompanyUserVo login(String userid, String passwd);
+
+	Boolean isUserIdDupCheck(String userId);
+
+	Boolean isUserExist(String userId, String userPd);
 
 	void deleteProfileImge(HashMap<String, Object> map);
 

@@ -175,9 +175,7 @@ ORDER BY
 </select>
 
 <insert id="setCompanyRecruitInsert">
-    <selectKey keyProperty="company_recruit_idx" resultType="int" order="BEFORE">
-        SELECT COMPANY_RECRUIT_SEQ.NEXTVAL FROM DUAL
-    </selectKey>
+   
     
  INSERT INTO COMPANY_RECRUIT (
      COMPANY_RECRUIT_IDX
@@ -212,15 +210,50 @@ ORDER BY
     , #{company_job}
     , #{common_duty_idx}
     , #{main_work_content1}
+    <if test="main_work_content2 != null">
     , #{main_work_content2}
+    </if>
+    <if test="main_work_content3 != null">
     , #{main_work_content3}
+    </if>
+     <if test="main_work_content2 == null">
+    , null
+    </if>
+    <if test="main_work_content3 == null">
+    , null
+    </if>
     , #{qualification1}
+     <if test="qualification2 != null">
     , #{qualification2}
+    </if>
+    <if test="qualification3 != null">
     , #{qualification3}
+    </if>
+     <if test="qualification2 == null">
+    , null
+    </if>
+    <if test="qualification3 == null">
+    , null
+    </if>
     , #{preferential_treatment1}
+     <if test="preferential_treatment2 != null">
     , #{preferential_treatment2}
+    </if>
+    <if test="preferential_treatment3 != null">
     , #{preferential_treatment3}
+    </if>
+     <if test="preferential_treatment2 == null">
+    , null
+    </if>
+    <if test="preferential_treatment3 == null">
+    , null
+    </if>
+    <if test="education_status_idx != null">
     , #{education_status_idx}
+    </if>
+    <if test="education_status_idx == null">
+    , null
+    </if>
     , #{getman}
     , #{region_idx}
     , #{company_address}
@@ -232,5 +265,17 @@ ORDER BY
 )
 
 </insert>
+
+<select id="getCompanyRecruitIdx">
+SELECT
+	COMPANY_RECRUIT_IDX
+FROM
+	COMPANY_RECRUIT
+WHERE 
+	COMPANY_USER_IDX = #{company_user_idx}
+ORDER BY 
+         COMPANY_RECRUIT_IDX DESC
+      FETCH FIRST 1 ROW ONLY
+</select>
 
 </mapper>

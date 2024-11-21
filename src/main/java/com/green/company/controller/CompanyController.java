@@ -80,28 +80,19 @@ public class CompanyController {
 
 	@RequestMapping("/CompanyMypage")
     public ModelAndView companyMypage (HttpSession session) {
-        CompanyUserVo companyUserLogin = (CompanyUserVo) session.getAttribute("companyUserLogin");
+        CompanyUserVo companyUserVo = (CompanyUserVo) session.getAttribute("companylogin");
         ModelAndView mv = new ModelAndView();
+        HashMap<String, Object> companyMap = companyUserService.getCompanyUserData(companyUserVo);
        //String company_id = companyUserLogin.getCompany_user_id();
         
       //CompanyUserVo companyUserVo = companyUserMapper.getInfoUser(companyUserLogin.getCompany_user_id());
-      //  mv.addObject("companyUserVo", companyUserVo);
-        mv.setViewName("/company/companyMypage/companyMypage");
+        System.out.println("companyMap:" + companyMap);
+        mv.addObject("companyMap", companyMap);
+        mv.setViewName("/company/companyUsers/companyMyPage");
         
         return mv;
     }
 	
-	@RequestMapping("/Mypage")
-	public ModelAndView mypage(HttpSession session) {
-		ModelAndView mv = new ModelAndView();
-		CompanyUserVo companyUserVo = (CompanyUserVo) session.getAttribute("CompanyUserLogin");
-		HashMap<String, Object> companyMap = companyUserService.getCompanyUserData(companyUserVo);
-		
-		mv.addObject("companyMap", companyMap);
-		mv.setViewName("/");
-		return mv;
-		
-	}
 	
 	@RequestMapping("/MypageProfileUpdate")
 	public ModelAndView MypageProfile(@RequestParam HashMap<String, Object> map ,
@@ -110,7 +101,7 @@ public class CompanyController {
 		companyUserService.deleteProfileImge(map);
 		companyUserService.setProfileUpdate(map, profileImge);
 		
-		mv.setViewName("redirect:/");
+		mv.setViewName("redirect:/Company/CompanyMypage");
 		return mv;
 		
 	}

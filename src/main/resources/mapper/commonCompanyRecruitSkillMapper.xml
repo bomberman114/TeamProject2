@@ -10,7 +10,7 @@
          close      = "SELECT * FROM DUAL"
          separator  = " " >
         INTO  COMMON_COMPANY_RECRUIT_SKILL VALUES (
-            GET_FILENUM()    
+            ( SELECT NVL(MAX(COMMON_COMPANY_RECRUIT_SKILL_IDX), 0) FROM COMMON_COMPANY_RECRUIT_SKILL ) + #{i} + 1  
            , #{ skill.skill_idx }
          , #{ company_recruit_idx }  
         )

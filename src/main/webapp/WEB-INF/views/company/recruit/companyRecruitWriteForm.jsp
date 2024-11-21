@@ -148,7 +148,6 @@ body {
 				.querySelector('[name="recruit_title"]');
 		const common_duty_idxEl = document
 				.querySelector('[name="common_duty_idx"]');
-		const skillEl = document.querySelector('[name="skill"]');
 		const getmanEl = document.querySelector('[name="getman"]');
 		const application_deadlineEl = document
 				.querySelector('[name="application_deadline"]');
@@ -162,6 +161,9 @@ body {
 		const company_addressEl = document
 				.querySelector('[name="company_address"]');
 		const company_infoEl = document.querySelector('[name="company_info"]');
+		
+		const skillStackEl = document.querySelector('#skillStack');
+		const skillEl = document.querySelector('#skill');
 
 		const recruitWriteEl = document.querySelector('#recruitWrite');
 		
@@ -188,6 +190,16 @@ body {
 				skillEl.focus();
 				return false;
 			}
+			 if ( skillStackEl.value == "") {
+			      alert("개발 분야를 선택해주세요.");
+			      skillStackEl.focus();
+			      return false;
+			    }
+			    if (skillEL.value == "") {
+			        alert("기술 스택을 선택해주세요.");
+			        skillEL.focus();
+			        return false;
+			    }
 			if (getmanEl.value == "") {
 				alert("모집인원을 입력하세요.");
 				getmanEl.focus();
@@ -233,7 +245,6 @@ body {
 			return true;
 		};
 		
-		        const skillStackEl = document.getElementById('skillStack');
 		        skillStackEl.onchange = function(){
 		        	//alert("123");
 				let skillStack = skillStackEl.value;		       
@@ -356,13 +367,22 @@ body {
 				<div class="title">채용공고 제목</div>
 				<input type="text" class="title" name="recruit_title" placeholder="채용공고 제목을 입력해주세요."> 
 				<input type="hidden" name="company_user_idx" value="${companyUserVo.company_user_idx}">
-				<input type="text" name="company_name" value="${companyUserVo.company_name}" >
+				<input type="text" name="company_name" value="${companyUserVo.company_name}" readonly>
 				<div class="form-group">
 					<label for="job">직무</label>
 					 <select id="job" name="common_duty_idx">
 						<option value="">직무를 선택해주세요.</option>
 						<c:forEach var="commonDutyList" items="${commonDutyList}">
 							<option value="${commonDutyList.common_duty_idx }">${commonDutyList.common_duty_name }</option>
+						</c:forEach>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="job">학력</label>
+					 <select id="job" name="education_status_idx">
+						<option value="">학력를 선택해주세요.</option>
+						<c:forEach var="educationStatuList" items="${educationStatuList}">
+							<option value="${educationStatuList.education_status_idx }">${educationStatuList.education_status_type }</option>
 						</c:forEach>
 					</select>
 				</div>
@@ -388,13 +408,17 @@ body {
 					<input type="number" id="recruitment" name="getman" placeholder="모집인원을 입력해주세요.">
 				</div>
 				<div class="form-group">
+					<label for="recruitment">모집부문</label> 
+					<input type="text" id="company_job" name="company_job" placeholder="모집부문을 입력해주세요.">
+				</div>
+				<div class="form-group">
 					<label for="deadline">마감일</label> 
 					<input type="date" id="deadline" name="application_deadline">
 				</div>
 				<div class="form-group">
 					<label for="deadline">회사 설립일</label> 
-					<input type="date" id="company_establish" name="company_establish" 
-					value="${companyUserVos.company_establish }">
+					<input type="text" id="company_establish" name="company_establish" 
+					value="${companyUserVo.company_establish }" readonly>
 				</div>
 				<div class="form-group">
 			    <label for="main-task">주요업무</label>

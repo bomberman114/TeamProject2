@@ -9,7 +9,6 @@
     <link rel="icon" href="/images/favicon.ico" />
     <link rel="stylesheet" href="/css/reset.css" />
     <link rel="stylesheet" href="/css/style.css" />
-
     <script src="/js/headerMain.js" defer></script>
 </head>
 <body>
@@ -299,7 +298,6 @@
 	  </div>
 	</main>
 	<%@include file="/WEB-INF/includes/footer.jsp" %>
-
 </body>
 </html>
 
