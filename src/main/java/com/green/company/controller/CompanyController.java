@@ -83,21 +83,35 @@ public class CompanyController {
         CompanyUserVo companyUserVo = (CompanyUserVo) session.getAttribute("companylogin");
         ModelAndView mv = new ModelAndView();
         HashMap<String, Object> companyMap = companyUserService.getCompanyUserData(companyUserVo);
-       //String company_id = companyUserLogin.getCompany_user_id();
+        HashMap<String, Integer> applicationStatusIdx = companyUserMapper.getCompanyApplicationStatusIdxList(companyUserVo);
+        System.out.println("applicationStatusIdx:" + applicationStatusIdx);
         
-      //CompanyUserVo companyUserVo = companyUserMapper.getInfoUser(companyUserLogin.getCompany_user_id());
-        System.out.println("companyMap:" + companyMap);
+        mv.addObject("applicationStatusIdx", applicationStatusIdx);
         mv.addObject("companyMap", companyMap);
         mv.setViewName("/company/companyUsers/companyMyPage");
         
         return mv;
     }
 	
+	@RequestMapping("/CompanyMypageUpdateForm")
+	public ModelAndView companyMypageUpdateForm (HttpSession session) {
+		ModelAndView mv = new ModelAndView();
+		CompanyUserVo companyUserVo = (CompanyUserVo) session.getAttribute("companylogin");
+		HashMap<String, Object> companyUserProfile = companyUserService.getCompanyUserData(companyUserVo);
+		 mv.addObject("companyUserVo", companyUserVo);
+		 mv.addObject("companyUserProfile", companyUserProfile);
+	     mv.setViewName("/company/companyUsers/companyMypageUpdateForm");
+		return mv;
+	}
+	
 	
 	@RequestMapping("/MypageProfileUpdate")
-	public ModelAndView MypageProfile(@RequestParam HashMap<String, Object> map ,
+	public ModelAndView MypageProfile(HttpSession session,
+									  @RequestParam HashMap<String, Object> map ,
 									  @RequestParam(value="profileImge")  MultipartFile[]   profileImge) {
 		ModelAndView mv = new ModelAndView();
+		CompanyUserVo companyUserVo = (CompanyUserVo) session.getAttribute("companylogin");
+		map.put("companyUserVo", companyUserVo);
 		companyUserService.deleteProfileImge(map);
 		companyUserService.setProfileUpdate(map, profileImge);
 		

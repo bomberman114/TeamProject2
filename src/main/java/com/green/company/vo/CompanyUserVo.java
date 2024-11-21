@@ -5,7 +5,7 @@ public class CompanyUserVo {
 	private String company_user_id; // 기업회원 아이디
 	private String company_user_passwd; // 기업회원 비밀번호
 	private String company_user_name; // 기업회원 이름
-	private String company_user_phone; // 기업회원 연락처
+	private String company_phone; // 기업회원 연락처
 	private String company_name; // 기업이름
 	private String company_bcode; // 사업자 등록 번호
 	private String company_boss_name; // 회사 대표자명
@@ -18,7 +18,7 @@ public class CompanyUserVo {
 	}
 
 	public CompanyUserVo(int company_user_idx, String company_user_id, String company_user_passwd,
-			String company_user_name, String company_user_phone, String company_name, String company_bcode,
+			String company_user_name, String company_phone, String company_name, String company_bcode,
 			String company_boss_name, String company_email, String company_user_email, String company_regdate,
 			String company_establish) {
 		super();
@@ -26,7 +26,7 @@ public class CompanyUserVo {
 		this.company_user_id = company_user_id;
 		this.company_user_passwd = company_user_passwd;
 		this.company_user_name = company_user_name;
-		this.company_user_phone = company_user_phone;
+		this.company_phone = company_phone;
 		this.company_name = company_name;
 		this.company_bcode = company_bcode;
 		this.company_boss_name = company_boss_name;
@@ -68,12 +68,12 @@ public class CompanyUserVo {
 		this.company_user_name = company_user_name;
 	}
 
-	public String getCompany_user_phone() {
-		return company_user_phone;
+	public String getCompany_phone() {
+		return company_phone;
 	}
 
-	public void setCompany_user_phone(String company_user_phone) {
-		this.company_user_phone = company_user_phone;
+	public void setCompany_phone(String company_phone) {
+		this.company_phone = company_phone;
 	}
 
 	public String getCompany_name() {
@@ -136,7 +136,7 @@ public class CompanyUserVo {
 	public String toString() {
 		return "CompanyUserVo [company_user_idx=" + company_user_idx + ", company_user_id=" + company_user_id
 				+ ", company_user_passwd=" + company_user_passwd + ", company_user_name=" + company_user_name
-				+ ", company_user_phone=" + company_user_phone + ", company_name=" + company_name + ", company_bcode="
+				+ ", company_phone=" + company_phone + ", company_name=" + company_name + ", company_bcode="
 				+ company_bcode + ", company_boss_name=" + company_boss_name + ", company_email=" + company_email
 				+ ", company_user_email=" + company_user_email + ", company_regdate=" + company_regdate
 				+ ", company_establish=" + company_establish + "]";
