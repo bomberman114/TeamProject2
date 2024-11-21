@@ -30,7 +30,6 @@ SET
     , COMPANY_BOSS_NAME = #{company_boss_name}
     , COMPANY_EMAIL = #{company_email}
     , COMPANY_USER_EMAIL = #{company_user_email}
-    , COMPANY_REGDATE = #{company_regdate}
     , COMPANY_ESTABLISH = #{company_establish}
 WHERE
         COMPANY_USER_IDX = #{company_user_idx}
@@ -76,6 +75,21 @@ WHERE
 		SELECT *
 		FROM COMPANY_USERS
 		WHERE COMPANY_USER_ID = #{company_user_id}
+	</select>
+	
+	<select id="getCompanyApplicationStatusIdxList">
+	SELECT 
+    COUNT(CASE WHEN A.application_status_idx = 1 THEN 1 END) AS application_status_idx1,
+    COUNT(CASE WHEN A.application_status_idx = 2 THEN 1 END) AS application_status_idx2,
+    COUNT(CASE WHEN A.application_status_idx = 3 THEN 1 END) AS application_status_idx3,
+    COUNT(CASE WHEN A.application_status_idx = 4 THEN 1 END) AS application_status_idx4
+FROM
+    company_recruit CR
+LEFT JOIN
+    applications A ON CR.company_recruit_idx = A.company_recruit_idx
+WHERE
+    CR.COMPANY_USER_IDX = #{company_user_idx}
+	
 	</select>
 
 

@@ -73,8 +73,9 @@ public class CompanyRecruitController {
 		// List<HashMap<String, Object>> companyRecruitList =
 		// companyRecruitMapper.getCompanyRecruiteList(companyUserVo);
 		List<HashMap<String, Object>> companyRecruitList = companyRecruitService.getCompanyRecruiteList(companyUserVo);
-
-		mv.setViewName("");
+		System.out.println("companyRecruitList:" + companyRecruitList);
+		mv.addObject("companyRecruitList", companyRecruitList);
+		mv.setViewName("/company/recruit/companyRecruitList");
 		return mv;
 
 	}
@@ -87,7 +88,7 @@ public class CompanyRecruitController {
 
 		List<HashMap<String, Object>> companyRecruitDeadList = companyRecruitService
 				.getCompanyRecruiteDeadList(companyUserVo);
-
+		
 		mv.setViewName("");
 		return mv;
 

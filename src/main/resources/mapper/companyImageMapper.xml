@@ -15,9 +15,9 @@
 	) VALUES (
     COMPANY_IMAGE_SEQ.NEXTVAL,
     #{company_user_idx},
-    #{company_image_name},
-    #{company_image_ext},
-    #{company_sfile_name}
+    #{fileList[0].company_image_name},
+    #{fileList[0].company_image_ext},
+    #{fileList[0].company_sfile_name}
 	)
 </insert>
 
@@ -25,7 +25,7 @@
   DELETE FROM 
   		COMPANY_IMAGE
 	WHERE
-        COMPANY_IMAGE_IDX = #{company_image_idx}
+         COMPANY_USER_IDX = #{company_user_idx}
   
 </delete>
 
@@ -35,8 +35,17 @@
 	FROM
 		COMPANY_IMAGE
 	WHERE
-		COMPANY_IMAGE_IDX = #{company_image_idx}
+		COMPANY_USER_IDX = #{companyUserVo.company_user_idx}
 
+</select>
+
+<select id="setCompanyImageCountCheck">
+	SELECT
+		COUNT(*)
+	FROM
+		COMPANY_IMAGE
+	WHERE
+		 COMPANY_USER_IDX = #{ companyUserVo.company_user_idx}
 </select>
 
 </mapper>
