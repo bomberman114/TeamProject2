@@ -51,5 +51,4 @@ public class UsersServiceImpl implements UsersService {
 		UserVo vo = userMapper.findById(user_idx);
 		return vo;
 	}
-
 }

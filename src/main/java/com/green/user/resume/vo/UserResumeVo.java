@@ -14,27 +14,28 @@ public class UserResumeVo {
 	private String    region_address;        //주소
 	private String    user_resume_regdate;   //이력서 등록일
 	private int       user_resume_views;     //이력서 조회수
+	private int       user_resume_career_type;     //신입 경력 구분
 	
 	public UserResumeVo() {	
 	}
 
 	public UserResumeVo(int user_resume_idx, String user_title, int user_idx, int common_duty_idx, String user_gender,
 			String user_name, String user_birth, String user_phone, String user_email, int region_idx,
-			String region_address, String user_resume_regdate, int user_resume_views) {
-		super();
-		this.user_resume_idx = user_resume_idx;
-		this.user_title = user_title;
-		this.user_idx = user_idx;
-		this.common_duty_idx = common_duty_idx;
-		this.user_gender = user_gender;
-		this.user_name = user_name;
-		this.user_birth = user_birth;
-		this.user_phone = user_phone;
-		this.user_email = user_email;
-		this.region_idx = region_idx;
-		this.region_address = region_address;
-		this.user_resume_regdate = user_resume_regdate;
-		this.user_resume_views = user_resume_views;
+			String region_address, String user_resume_regdate, int user_resume_views, int user_resume_career_type) {
+		this.user_resume_idx     	  = user_resume_idx;
+		this.user_title          	  = user_title;
+		this.user_idx            	  = user_idx;
+		this.common_duty_idx     	  = common_duty_idx;
+		this.user_gender         	  = user_gender;
+		this.user_name           	  = user_name;
+		this.user_birth          	  = user_birth;
+		this.user_phone          	  = user_phone;
+		this.user_email          	  = user_email;
+		this.region_idx          	  = region_idx;
+		this.region_address           = region_address;
+		this.user_resume_regdate      = user_resume_regdate;
+		this.user_resume_views        = user_resume_views;
+		this.user_resume_career_type  = user_resume_career_type;
 	}
 
 	public int getUser_resume_idx() {
@@ -141,15 +142,22 @@ public class UserResumeVo {
 		this.user_resume_views = user_resume_views;
 	}
 
+	public int getUser_resume_career_type() {
+		return user_resume_career_type;
+	}
+
+	public void setUser_resume_career_type(int user_resume_career_type) {
+		this.user_resume_career_type = user_resume_career_type;
+	}
+
 	@Override
 	public String toString() {
 		return "UserResumeVo [user_resume_idx=" + user_resume_idx + ", user_title=" + user_title + ", user_idx="
 				+ user_idx + ", common_duty_idx=" + common_duty_idx + ", user_gender=" + user_gender + ", user_name="
 				+ user_name + ", user_birth=" + user_birth + ", user_phone=" + user_phone + ", user_email=" + user_email
 				+ ", region_idx=" + region_idx + ", region_address=" + region_address + ", user_resume_regdate="
-				+ user_resume_regdate + ", user_resume_views=" + user_resume_views + "]";
+				+ user_resume_regdate + ", user_resume_views=" + user_resume_views + ", user_resume_career_type="
+				+ user_resume_career_type + "]";
 	}
-	
-	
 
 }

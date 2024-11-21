@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.green.common.duty.mapper.CommonDutyMapper">  
-
-   <select id="getCommonDutyList">
-   SELECT
-   *
-   FROM
-   	COMMON_DUTY
-   </select>
-
+<mapper namespace="com.green.skills.stack.mapper.SkillStackMapper">  
+   
+ 	<select id="getSkillStackList">
+ 		SELECT
+ 			*
+ 		FROM
+ 			SKILL_STACK
+ 	</select>
+ 	
+ 	
+  
   
 </mapper>
 

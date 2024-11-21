@@ -1,6 +1,7 @@
 package com.green.company.vo;
 
 public class CompanyUserVo {
+	
 	private int    company_user_idx;         // 기업회원 idx
 	private String company_user_id;         // 기업회원 아이디
 	private String company_user_passwd;     // 기업회원 비밀번호

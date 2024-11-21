@@ -3,7 +3,19 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.green.user.resume.skill.mapper.CommonUserResumeSkillMapper">  
 
-  
+  <insert id="setCommonUserResumeSkill">
+	  <foreach collection="list" item ="skill" 
+         index      = "i"
+         open       = "INSERT ALL"
+         close      = "SELECT * FROM DUAL"
+         separator  = " " >
+        INTO  COMMON_USER_RESUME_SKILL VALUES (
+            ( SELECT NVL(MAX(COMMON_USER_RESUME_SKILL_IDX), 0) FROM COMMON_USER_RESUME_SKILL ) + #{i} + 1  
+           , #{ skill }
+         , (SELECT MAX(USER_RESUME_IDX) FROM USER_RESUME)
+        )
+       </foreach>
+</insert>
   
 </mapper>
 

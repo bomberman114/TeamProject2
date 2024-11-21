@@ -106,7 +106,4 @@ public class UserVo {
 				+ user_phone + ", user_email=" + user_email + ", user_regdate=" + user_regdate + "]";
 	}
 
-	
-	
-	
 }

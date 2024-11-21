@@ -14,9 +14,9 @@ public interface UsersService {
 
 	Boolean isUserExist(String userId, String userPd);
 
+
 	void updateUser(HashMap<String, Object> map);
 
 	UserVo findById(int user_idx);
-
 
 }

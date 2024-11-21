@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.green.company.mapper.CompanyUserMapper">
+
   <insert id="saveUser">
 		INSERT INTO COMPANY_USERS   (
 	    COMPANY_USER_IDX,
@@ -40,5 +41,42 @@
 		FROM COMPANY_USERS
 		WHERE COMPANY_USER_ID = #{company_user_id}
 	</select>
+
+
+
+	<select id="getCompanyUserData">
+	SELECT 
+		*
+	FROM
+		COMPANY_USERS CU
+	LEFT JOIN
+		COMPANY_IMAGE CI
+	ON
+		CU.COMPANY_USER_IDX = CI.COMPANY_USER_IDX
+	WHERE
+		 CU.COMPANY_USER_IDX = #{ company_user_idx }
+
+	</select>
+	
+	<update id="setUpdateCompanyProfile">
+	  
+      
+    UPDATE COMPANY_USERS
+SET
+   	  COMPANY_USER_NAME = #{company_user_name}
+    , COMPANY_PHONE = #{company_phone}
+    , COMPANY_NAME = #{company_name}
+    , COMPANY_BCODE = #{company_bcode}
+    , COMPANY_BOSS_NAME = #{company_boss_name}
+    , COMPANY_EMAIL = #{company_email}
+    , COMPANY_USER_EMAIL = #{company_user_email}
+    , COMPANY_REGDATE = #{company_regdate}
+    , COMPANY_ESTABLISH = #{company_establish}
+WHERE
+        COMPANY_USER_IDX = #{company_user_idx}
+    
+	
+	</update>
+
 
 </mapper>

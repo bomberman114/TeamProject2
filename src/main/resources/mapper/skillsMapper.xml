@@ -9,7 +9,14 @@
  		FROM
  			SKILLS
  	</select>
- 	
+
+ 	<select id="getSeletedSkillStackSkillList">
+ 	SELECT
+ 			*
+ 		FROM
+ 			SKILLS
+ 		WHERE SKILL_STACK_IDX = #{skill_stack_idx}
+ 	</select>
  	
   
   

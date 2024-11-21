@@ -3,4 +3,25 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.green.user.career.mapper.UserCareerMapper">
 
+	<insert id="saveResumeCareer">
+		INSERT INTO user_career      (
+	    user_career_idx,
+	    user_resume_idx,
+	    user_career_status,
+	    user_wooked_company_name,
+	    user_career_contente,
+	    user_wooked_year_start,
+	    user_wooked_year_end       ) 
+    VALUES                       (
+	    user_career_idx,
+	    user_resume_idx,
+	    user_career_status,
+	    user_wooked_company_name,
+	    user_career_contente,
+	    user_wooked_year_start,
+	    user_wooked_year_end       )
+	
+	</insert>
+
+
 </mapper>

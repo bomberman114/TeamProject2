@@ -15,7 +15,13 @@
   <body>
     <%@include file="/WEB-INF/includes/headerUser.jsp" %>
     <main class="write-form">
-      <form action="/Resume/Write" method="post">
+      <form action="/Users/MyPage/Resume/Write" method="post">
+        <input type="hidden" name="user_idx" value="${vo.user_idx}">
+        <input type="hidden" name="user_gender" value="${vo.user_gender}">
+        <input type="hidden" name="user_name" value="${vo.user_name}">
+        <input type="hidden" name="user_birth" value="${vo.user_birth}">
+        <input type="hidden" name="user_phone" value="${vo.user_phone}">
+        <input type="hidden" name="user_email" value="${vo.user_email}">
         <div class="inner">
           <div class="resume-container">
             <div class="resume-title">
@@ -23,6 +29,7 @@
                 type="text"
                 name="user_title"
                 placeholder="이력서 제목을 입력해주세요."
+                required="required"
               />
             </div>
             <div class="resume-content">
@@ -32,9 +39,9 @@
                   <div class="user-util">
                     <h3>
                       ${vo.user_name}
-                      <select>
-                        <option>신입</option>
-                        <option>경력</option>
+                      <select name="user_resume_career_type">
+                        <option value="nonExp">신입</option>
+                        <option value="exp">경력</option>
                       </select>
                     </h3>
                     <a href="/Users/UpdateForm">계정정보 설정</a>
@@ -61,10 +68,22 @@
               </div>
               <ul class="resume-details">
                 <li>
+                  <p>지역</p>
+                  <select class="write-input" name="region_idx" required>
+                    <option style="display: none;" value="">지역를 선택해주세요.</option>
+                    <c:forEach var="item" items="${regionList}">
+                    	<option value="${item.region_idx}">${item.region_name}</option>
+                    </c:forEach>
+                  </select>
+                  <input class="write-input" type="text" name="region_address" required="required" placeholder="상세 주소를 입력해주세요." style="margin-top : 8px">
+                </li>
+                <li>
                   <p>직무</p>
-                  <select class="write-input" name="duty_idx" required>
+                  <select class="write-input" name="common_duty_idx" required>
                     <option style="display: none;" value="">직무를 선택해주세요.</option>
-                    <option>집 좀 보내주소</option>
+                    <c:forEach var="item" items="${dutyList }">
+                    	<option value="${item.common_duty_idx}">${item.common_duty_name}</option>
+                    </c:forEach>
                   </select>
                 </li>
                 <li class="stack-input-li">
@@ -78,18 +97,14 @@
                     <div class="search-stack-list">
                       <div class="stack-inner">
                         <ul class="stack-type">
-                          <li>프론트엔드</li>
-                          <li>백엔드</li>
-                          <li>데이터베이스</li>
-                          <li>모바일</li>
+                          <c:forEach var="item" items="${stackList}">
+                    				<li data-stackId="${item.skill_stack_idx }">${item.skill_stack_name }</li>
+                    			</c:forEach>
                         </ul>
                         <ul class="stack-list">
-                          <li>React</li>
-                          <li>자바</li>
-                          <li>뷰</li>
-                          <li>앵귤러</li>
-                          <li>집가고 싶다</li>
-                          <li>React</li>
+                          <c:forEach var="item" items="${initialSkillList}">
+                    				<li data-skillidx="${item.skill_idx }">${item.skill_name }</li>
+                    			</c:forEach>
                         </ul>
                       </div>
                     </div>
@@ -99,27 +114,29 @@
                   <p class="punder">학력</p>
                   <div class="edu-inner">
                     <div>
-                      <select name="" id="" required>
-                        <option value="">학력 구분</option>
-                        <option>고등학교 졸업</option>
+                      <select name="user_education_status" required>
+                      	<option style="display: none;" value="">학력 구분</option>
+                        <c:forEach var="item" items="${eduList}">
+		                    	<option value="${item.education_status_idx}">${item.education_status_type}</option>
+		                    </c:forEach>	
                       </select>
                     </div>
                     <span><img src="/images/icon/space-bar.png" alt=""></span>
-                    <input type="text" placeholder="학교명을 입력해주세요.">
+                    <input type="text" name="user_school_name" placeholder="학교명을 입력해주세요.">
                   </div>
                 </li>
                 <li class="career-li">
                   <p class="punder">경력(업무경험)</p>
                   <div class="career-inner">
                     <div class="date-input">
-                      <input type="text" name="career_startdate" maxlength="6" placeholder="YYYYMM" disabled>
+                      <input type="date" name="user_wooked_year_start" disabled>
                       <span>~</span>
-                      <input type="text" name="career_enddate" maxlength="6" placeholder="YYYYMM" disabled>
+                      <input type="date" name="user_wooked_year_end" disabled>
                     </div>
                     <span><img src="/images/icon/space-bar.png" alt=""></span>
                     <div class="career-info">
-                      <input type="text" placeholder="회사명을 입력해주세요." required disabled>
-                      <textarea placeholder="주요업무 및 성과를 입력해주세요." oninput="handleResizeHeight(this)" disabled></textarea>
+                      <input type="text" name="user_wooked_company_name" placeholder="회사명을 입력해주세요." required disabled>
+                      <textarea name="user_career_contente" placeholder="주요업무 및 성과를 입력해주세요." oninput="handleResizeHeight(this)" disabled></textarea>
                     </div>
                   </div>
                 </li>
@@ -127,10 +144,11 @@
                   <p class="punder">자기소개서</p>
                   <input
                     type="text"
+                    name = "user_resume_intro_title"
                     placeholder="자기소개서 제목을 입력해주세요"
                     required
                   />
-                  <textarea placeholder="내용을 입력해주세요." oninput="handleResizeHeight(this)" rows="4"></textarea>
+                  <textarea name="user_resume_intro_content" placeholder="내용을 입력해주세요." oninput="handleResizeHeight(this)" rows="4"></textarea>
                 </li>
               </ul>
             </div>
@@ -147,7 +165,7 @@
             </ul>
             <div class="write-btn-container">
               <button class="write-btn">저장하기</button>
-              <a href="">취소하기</a>
+              <a href="/Users/MyPage/Resume/List">취소하기</a>
             </div>
           </aside>
         </div>
@@ -155,12 +173,13 @@
     </main>
     <script>
       const $searchInput = document.querySelector(".search-stack-input");
-      const $stackList = document.querySelector(".search-stack-list");
-      const $stackItem = document.querySelectorAll(".stack-list li");
-      const $selectList = document.querySelector(".select-stack-list");
+      const $stackList   = document.querySelector(".search-stack-list");
+      const $stackItem   = document.querySelectorAll(".stack-list li");
+      const $selectList  = document.querySelector(".select-stack-list");
 
-      let stackNameArr = [];
-      let stackIdxArr = [];
+      let selectSkill = {};
+      let selectSkillList = [];
+      console.log($stackItem)
 
       $searchInput.addEventListener("click", (e) => {
         e.stopPropagation();
@@ -175,26 +194,29 @@
       });
 
       $stackItem.forEach((item) => {
-        item.addEventListener("click", () => {
-          stackNameArr.push(item.textContent);
-          stackNameArr = new Set(stackNameArr);
-          stackNameArr = Array.from(stackNameArr);
-          displaySelectStack(stackNameArr, $selectList);
+        item.addEventListener("click", (e) => {
+        	selectSkill = {"skill_idx" : e.target.dataset.skillidx , "skill_name" : item.textContent}
+
+          selectSkillList.push(selectSkill);
+        	selectSkillList =  [ ...new Map(selectSkillList.map((obj) => [obj["skill_idx"], obj])).values() ];
+        	console.log(selectSkillList)
+        	
+          displaySelectStack(selectSkillList, $selectList);
         });
       });
 
       function displaySelectStack(arr, output) {
         let listInner = "";
         arr.forEach((a,i) => {
-          listInner += `<li>${a} <img src="/images/icon/stack-remove.png" alt="스택 제거" onclick="removeStack(${i})"></li>`;
+          listInner += `<li data-skillidx=`+ a.skill_idx+ `>`+a.skill_name+`<img src="/images/icon/stack-remove.png" alt="스택 제거" onclick="removeStack(`+ i +`)"></li>`;
         });
         output.innerHTML = listInner;
       }
 
       function removeStack(index){
         console.log(index)
-        stackNameArr.splice(index,1);
-        displaySelectStack(stackNameArr, $selectList);
+        selectSkillList.splice(index,1);
+        displaySelectStack(selectSkillList, $selectList);
       }
 
       const $textareas = document.querySelectorAll("textarea");
@@ -208,7 +230,7 @@
         const $careerLi = document.querySelector(".career-li")
         const $careerInput = document.querySelectorAll(".career-li input, .career-li textarea ")
         console.log($careerInput)
-        if(e.target.value == "신입"){
+        if(e.target.value == "nonExp"){
           $careerLi.style.display = "none"
           $careerInput.forEach(input=>{
             input.disabled = true;
@@ -221,15 +243,15 @@
           })
         }
       })
-
+      
       const $form = document.querySelector("form");
       $form.addEventListener("submit",(e)=>{
         e.preventDefault();
-        stackNameArr.forEach((stack)=>{
+        selectSkillList.forEach(skill=>{
           let stackInput = document.createElement("input")
           stackInput.type  = "hidden";
           stackInput.name  = "skill_idx";
-          stackInput.value = stack
+          stackInput.value = skill.skill_idx
           $form.append(stackInput);
         })
         $form.submit()

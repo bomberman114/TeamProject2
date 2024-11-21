@@ -1346,6 +1346,7 @@ footer {
   & input,textarea{
     width: 100%;
     border: none;
+    padding : 12px;
   }
     & input{
       font-size: 20px;
