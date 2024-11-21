@@ -58,19 +58,4 @@ public class UserMyPageController {
 		return "redirect:/Users/MyPage/Home";
 	}
 	
-	@RequestMapping("/Resume/List")
-	public ModelAndView resumeList(
-			HttpServletRequest request, HttpServletResponse responese) {
-		
-		HttpSession session = request.getSession();
-		UserVo vo  = (UserVo) session.getAttribute("userLogin");
-		
-		ModelAndView mv = new ModelAndView();
-		mv.addObject("vo",vo);
-		mv.setViewName("/users/resume/personalResumeList");
-		return mv;
-	}
-	
-	
-	
 }

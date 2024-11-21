@@ -19,7 +19,7 @@
         <div class="resume-list-container">
           <div class="add-btn-contianer">
             <h2>이력서관리</h2>
-            <a href="#">이력서 추가</a>
+            <a href="/Users/MyPage/Resume/WriteForm">이력서 추가</a>
           </div>
           <div class="resume-list">
             <div class="resume-item">

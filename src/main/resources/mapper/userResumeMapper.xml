@@ -2,6 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.green.user.resume.mapper.UserResumeMapper">  
-
+	<select id="findUser">
+		SELECT *
+		FROM   USERS
+		WHERE  USER_IDX = #{user_idx}
+	</select>
 
 </mapper>
