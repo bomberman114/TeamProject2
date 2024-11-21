@@ -21,10 +21,12 @@ public interface CompanyRecruitMapper {
 
 	List<HashMap<String, Object>> getCompanyRecruiteList(CompanyUserVo companyUserVo);
 
-	int setCompanyRecruitInsert(HashMap<String, Object> map);
+	void setCompanyRecruitInsert(HashMap<String, Object> map);
 
 
 	List<HashMap<String, String>> getCompanyRecruiteSkillStackList();
+
+	int getCompanyRecruitIdx(CompanyUserVo companyUserVo);
 
 
 }

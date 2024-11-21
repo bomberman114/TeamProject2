@@ -10,6 +10,6 @@ import com.green.skills.vo.SkillVo;
 @Mapper
 public interface CommonCompanyRecruitSkillMapper {
 
-	void setCommonCompanyRecruitSkill(@Param("company_recruit_idx") int company_recruit_idx, List<SkillVo> checkedSkillList);
+	void setCommonCompanyRecruitSkill(@Param("company_recruit_idx") int company_recruit_idx,@Param("checkedSkillList") List<SkillVo> checkedSkillList);
 
 }
