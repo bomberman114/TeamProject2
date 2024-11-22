@@ -4,6 +4,7 @@
 <mapper namespace="com.green.user.career.mapper.UserCareerMapper">
 
 	<insert id="saveResumeCareer">
+<<<<<<< HEAD
 		INSERT INTO USER_CAREER                            (
 	    USER_CAREER_IDX,
 	    USER_RESUME_IDX,
@@ -29,6 +30,26 @@
 		       USER_WOOKED_YEAR_END     = #{user_wooked_year_end}
 		WHERE  USER_RESUME_IDX          = #{user_resume_idx}
 	</update>
+=======
+		INSERT INTO user_career      (
+	    user_career_idx,
+	    user_resume_idx,
+	    user_career_status,
+	    user_wooked_company_name,
+	    user_career_contente,
+	    user_wooked_year_start,
+	    user_wooked_year_end       ) 
+    VALUES                       (
+	    user_career_idx,
+	    user_resume_idx,
+	    user_career_status,
+	    user_wooked_company_name,
+	    user_career_contente,
+	    user_wooked_year_start,
+	    user_wooked_year_end       )
+	
+	</insert>
+>>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 
 
 </mapper>

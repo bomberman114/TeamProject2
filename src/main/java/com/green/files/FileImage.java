@@ -24,6 +24,7 @@ public class FileImage {
 		// uploadfiles 에 넘어온 파일들을 저장
 		public static void save(
 				HashMap<String, Object> map, 
+<<<<<<< HEAD
 				MultipartFile[] profileImge) {
 			// 저장될 경로를 가져온다
 			String  uploadPath = String.valueOf( map.get("uploadPath") );
@@ -37,6 +38,29 @@ public class FileImage {
 			
 			// 파일별로 반북
 			for (MultipartFile uploadfile : profileImge) {
+=======
+				MultipartFile[] uploadfiles) {
+			String companyProfile = "companyProfile";
+			String userResumeProfile = "userResumeProfile";
+			// 저장될 경로를 가져온다
+			String  uploadPath = String.valueOf( map.get("uploadPath") );
+			  // 파일 목록 리스트 선언
+		    List<CompanyImageVo> companyImageList = null;
+		    List<UserResumeImageVo> userResumeImageList = null;
+
+		    if (map.get("companyProfile").equals(companyProfile)) {
+		        companyImageList = new ArrayList<>();
+		    }
+		    if (map.get("userResumeProfile").equals(userResumeProfile)) {
+		        userResumeImageList = new ArrayList<>();
+		    };
+		    
+			
+			// 파일들을 저장하고 Files table 에 저장할 정보를 map 에 담는다 
+			
+			// 파일별로 반북
+			for (MultipartFile uploadfile : uploadfiles) {
+>>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 				if( uploadfile.isEmpty() )
 					continue;
 				
@@ -80,12 +104,20 @@ public class FileImage {
 				} // try catch end 
 				
 				// 저장된 파일들의 정보를 map 에  List 방식으로 저장 -> pdsServiceImpl 에 전달 
+<<<<<<< HEAD
 				if(map.get("companyProfile") != null ) {
+=======
+				if(map.get("companyProfile").equals(companyProfile)) {
+>>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 					CompanyImageVo  companyImageVo = new CompanyImageVo(0, 0, fileName, fileExt, saveName2);
 					companyImageList.add( companyImageVo );
 				};
 				
+<<<<<<< HEAD
 				if(map.get("userResumeProfile") != null ) {
+=======
+				if(map.get("userResumeProfile").equals(userResumeProfile)) {
+>>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 					UserResumeImageVo userResumeImageVo = new UserResumeImageVo(0, 0, fileName, fileExt, saveName2);
 					userResumeImageList.add(userResumeImageVo);
 				};
@@ -94,10 +126,17 @@ public class FileImage {
 			
 			// 돌려줄 정보 map 저장
 			  // 조건에 따라 해당 리스트를 map에 추가
+<<<<<<< HEAD
 		    if (!companyImageList.isEmpty()) {
 		        map.put("fileList", companyImageList);
 		    }  
 		    if (!userResumeImageList.isEmpty()) {
+=======
+		    if (companyImageList != null) {
+		        map.put("fileList", companyImageList);
+		    }  
+		    if (userResumeImageList != null) {
+>>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 		        map.put("fileList", userResumeImageList);
 		    }
 		}

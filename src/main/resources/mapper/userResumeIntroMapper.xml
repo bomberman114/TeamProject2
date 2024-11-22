@@ -14,6 +14,7 @@
     #{user_resume_intro_content},
     (SELECT MAX(USER_RESUME_IDX) FROM USER_RESUME))
 	</insert>
+<<<<<<< HEAD
 	
 	<update id="updateResumeIntro">
 		UPDATE USER_RESUME_INTRO
@@ -21,4 +22,6 @@
 		       USER_RESUME_INTRO_CONTENT = #{user_resume_intro_content}
 		WHERE  USER_RESUME_IDX           = #{user_resume_idx}
 	</update>
+=======
+>>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 </mapper>

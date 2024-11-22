@@ -1,5 +1,6 @@
 package com.green.users.resume.service.impl;
 
+<<<<<<< HEAD
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +12,15 @@ import org.springframework.stereotype.Service;
 import com.green.skills.vo.SkillVo;
 import com.green.user.career.mapper.UserCareerMapper;
 import com.green.user.education.mapper.UserEducationMapper;
+=======
+import java.util.HashMap;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.green.user.career.mapper.UserCareerMapper;
+>>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 import com.green.user.resume.intro.mapper.UserResumeIntroMapper;
 import com.green.user.resume.mapper.UserResumeMapper;
 import com.green.user.resume.skill.mapper.CommonUserResumeSkillMapper;
@@ -30,6 +40,7 @@ public class UserResumeServiceImpl implements UsersResumeService {
 	private UserCareerMapper userCareerMapper;	
 	
 	@Autowired
+<<<<<<< HEAD
 	private UserEducationMapper userEducationMapper;
 	
 	@Autowired
@@ -38,6 +49,11 @@ public class UserResumeServiceImpl implements UsersResumeService {
 	
 	
 	
+=======
+	private UserResumeIntroMapper userResumeIntroMapper;
+	
+	
+>>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 	@Override
 	public UserVo findUser(UserVo vo) {
 		UserVo userVo = userResumeMapper.findUser(vo);
@@ -47,7 +63,10 @@ public class UserResumeServiceImpl implements UsersResumeService {
 	@Override
 	public void saveResume(HashMap<String, Object> map, List<Integer> resumeSkills) {
 		userResumeMapper.saveResume(map);
+<<<<<<< HEAD
 		userEducationMapper.saveResumeEducation(map);
+=======
+>>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 		userResumeIntroMapper.saveResumeIntro(map);
 		if(resumeSkills != null) {
 			commonUserResumeSkillMapper.setCommonUserResumeSkill(resumeSkills);			
@@ -60,6 +79,7 @@ public class UserResumeServiceImpl implements UsersResumeService {
 
 	@Override
 	public List<HashMap<String, Object>> findResumeAll(UserVo vo) {
+<<<<<<< HEAD
 	    List<HashMap<String, Object>> resumeList = userResumeMapper.findResumeAll(vo);
 	    for (HashMap<String, Object> resume : resumeList) {
 	        String skillString      = String.valueOf(resume.get("SKILLS"));
@@ -104,4 +124,10 @@ public class UserResumeServiceImpl implements UsersResumeService {
 	}
 
 
+=======
+		List<HashMap<String, Object>> resumeList = userResumeMapper.findResumeAll(vo);
+		return resumeList;
+	}
+
+>>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 }

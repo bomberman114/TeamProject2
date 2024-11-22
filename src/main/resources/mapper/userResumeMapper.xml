@@ -35,6 +35,7 @@
 	    #{region_address}          )
 	</insert>
 
+<<<<<<< HEAD
 	<select id="findResumeAll">
 		SELECT UR.USER_RESUME_IDX,
        USER_TITLE,
@@ -114,6 +115,11 @@
 				 REGION_ADDRESS  = #{region_address}
   WHERE  USER_RESUME_IDX = #{user_resume_idx}
 	</update>
+=======
+
+
+
+>>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 
 
 

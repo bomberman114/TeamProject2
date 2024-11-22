@@ -4,9 +4,13 @@ package com.green.company.recruit.service.impl;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+<<<<<<< HEAD
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+=======
+import java.util.List;
+>>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +31,7 @@ public class CompanyRecruitServiceImpl implements CompanyRecruitService {
 	public List<HashMap<String, Object>> getCompanyRecruiteList(CompanyUserVo companyUserVo) {
 		List<HashMap<String, Object>> companyRecruitList = companyRecruitMapper.getCompanyRecruiteList(companyUserVo);
 		// 현재 날짜 구하기
+<<<<<<< HEAD
 		
 		// 지난 공고 제거
 		companyRecruitList.removeIf(recruit -> isPastDeadline(recruit, now));
@@ -37,6 +42,12 @@ public class CompanyRecruitServiceImpl implements CompanyRecruitService {
 		};
 		
 		
+=======
+
+		// 지난 공고 제거
+		companyRecruitList.removeIf(recruit -> isPastDeadline(recruit, now));
+
+>>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 		return companyRecruitList;
 	}
 
@@ -47,18 +58,22 @@ public class CompanyRecruitServiceImpl implements CompanyRecruitService {
 
 	    // 마감일이 지나지 않은 항목을 제거하여, 마감일이 지난 항목만 남김
 	    companyRecruiteDeadList.removeIf(recruit -> !isPastDeadline(recruit, now));
+<<<<<<< HEAD
 	    
 	    for(int i = 0; i < companyRecruiteDeadList.size(); i++) {
 			String companyRecruitRegdate = String.valueOf(companyRecruiteDeadList.get(i).get("COMPANY_RECRUIT_REGDATE"));
 			String formattedEstablishDate = formatDate(companyRecruitRegdate);
 			companyRecruiteDeadList.get(i).put("COMPANY_RECRUIT_REGDATE", formattedEstablishDate);
 		};
+=======
+>>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 
 	    return companyRecruiteDeadList;
 	}
 	
 	// 마감일이 현재 날짜를 넘었는지 확인하는 메서드
 		private boolean isPastDeadline(HashMap<String, Object> recruit, LocalDate now) {
+<<<<<<< HEAD
 			// 2024-11-07 00:00:00.0
 			String applicationDeadlineStr = String.valueOf(recruit.get("APPLICATION_DEADLINE"));
 			String companyRecruitRegdate = String.valueOf(recruit.get("COMPANY_RECRUIT_REGDATE"));
@@ -82,6 +97,16 @@ public class CompanyRecruitServiceImpl implements CompanyRecruitService {
 
 		    // LocalDate를 한글 형식으로 변환
 		    return date.format(koreanFormatter);
+=======
+			String applicationDeadlineStr = String.valueOf(recruit.get("APPLICATION_DEADLINE"));
+
+			// 마감일을 LocalDate로 변환
+			LocalDate applicationDeadline = LocalDate.parse(applicationDeadlineStr,
+					DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+
+			// 마감일이 현재 날짜보다 이전인 경우 true 반환
+			return applicationDeadline.isBefore(now);
+>>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 		}
 
 }

@@ -67,16 +67,24 @@ public class CompanyController {
         CompanyUserVo companyUserVo = (CompanyUserVo) session.getAttribute("companylogin");
         ModelAndView mv = new ModelAndView();
         HashMap<String, Object> companyMap = companyUserService.getCompanyUserData(companyUserVo);
+<<<<<<< HEAD
         HashMap<String, Integer> applicationStatusIdx = companyUserMapper.getCompanyApplicationStatusIdxList(companyUserVo);
         System.out.println("applicationStatusIdx:" + applicationStatusIdx);
         
         mv.addObject("applicationStatusIdx", applicationStatusIdx);
+=======
+       //String company_id = companyUserLogin.getCompany_user_id();
+        
+      //CompanyUserVo companyUserVo = companyUserMapper.getInfoUser(companyUserLogin.getCompany_user_id());
+        System.out.println("companyMap:" + companyMap);
+>>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
         mv.addObject("companyMap", companyMap);
         mv.setViewName("/company/companyUsers/companyMyPage");
         
         return mv;
     }
 	
+<<<<<<< HEAD
 	@RequestMapping("/CompanyMypageUpdateForm")
 	public ModelAndView companyMypageUpdateForm (HttpSession session) {
 		ModelAndView mv = new ModelAndView();
@@ -96,6 +104,13 @@ public class CompanyController {
 		ModelAndView mv = new ModelAndView();
 		CompanyUserVo companyUserVo = (CompanyUserVo) session.getAttribute("companylogin");
 		map.put("companyUserVo", companyUserVo);
+=======
+	
+	@RequestMapping("/MypageProfileUpdate")
+	public ModelAndView MypageProfile(@RequestParam HashMap<String, Object> map ,
+									  @RequestParam(value="profileImge")  MultipartFile[]   profileImge) {
+		ModelAndView mv = new ModelAndView();
+>>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 		companyUserService.deleteProfileImge(map);
 		companyUserService.setProfileUpdate(map, profileImge);
 		

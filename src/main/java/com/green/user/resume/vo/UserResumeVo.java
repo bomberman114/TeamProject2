@@ -1,6 +1,7 @@
 package com.green.user.resume.vo;
 
 public class UserResumeVo {
+<<<<<<< HEAD
 	private int       user_resume_idx;         //이력서 번호
 	private String    user_title;              //개인 회원 이력서 제목
 	private int       user_idx;                //개인 회원 번호
@@ -15,13 +16,33 @@ public class UserResumeVo {
 	private String    user_resume_regdate;     //이력서 등록일
 	private int       user_resume_views;       //이력서 조회수
 	private String    user_resume_career_type; //신입 경력 구분
+=======
+	private int       user_resume_idx;       //이력서 번호
+	private String    user_title;            //개인 회원 이력서 제목
+	private int       user_idx;              //개인 회원 번호
+	private int 	  common_duty_idx;       //직무
+	private String    user_gender;           //성별
+	private String    user_name;             //개인 회원 이름
+	private String    user_birth;            //개인 회원 생일
+	private String    user_phone;            //개인 회원 번호
+	private String    user_email;            //개인 회원 메일
+	private int       region_idx;            //지역 번호
+	private String    region_address;        //주소
+	private String    user_resume_regdate;   //이력서 등록일
+	private int       user_resume_views;     //이력서 조회수
+	private int       user_resume_career_type;     //신입 경력 구분
+>>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 	
 	public UserResumeVo() {	
 	}
 
 	public UserResumeVo(int user_resume_idx, String user_title, int user_idx, int common_duty_idx, String user_gender,
 			String user_name, String user_birth, String user_phone, String user_email, int region_idx,
+<<<<<<< HEAD
 			String region_address, String user_resume_regdate, int user_resume_views, String user_resume_career_type) {
+=======
+			String region_address, String user_resume_regdate, int user_resume_views, int user_resume_career_type) {
+>>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 		this.user_resume_idx     	  = user_resume_idx;
 		this.user_title          	  = user_title;
 		this.user_idx            	  = user_idx;
@@ -142,11 +163,19 @@ public class UserResumeVo {
 		this.user_resume_views = user_resume_views;
 	}
 
+<<<<<<< HEAD
 	public String getUser_resume_career_type() {
 		return user_resume_career_type;
 	}
 
 	public void setUser_resume_career_type(String user_resume_career_type) {
+=======
+	public int getUser_resume_career_type() {
+		return user_resume_career_type;
+	}
+
+	public void setUser_resume_career_type(int user_resume_career_type) {
+>>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 		this.user_resume_career_type = user_resume_career_type;
 	}
 

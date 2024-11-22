@@ -1,5 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<<<<<<< HEAD
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+=======
+>>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -137,15 +140,24 @@ padding-bottom: 10px;
 			</nav>
 			<div class="ms-auto d-flex align-items-center">
 			<img src="/images/icon/BellBell.png" alt="알람" />&nbsp;
+<<<<<<< HEAD
 				</a> <span class="me-3">기업회원님</span> 
+=======
+				</a> <span class="me-3">개인회원님</span> 
+>>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 				<span>잡집사 홈</span>
 			</div>
 		</header>
 
 		<div class="row">
 			<aside class="col-md-3 text-center">
+<<<<<<< HEAD
 				<div class="profile-img"><img class="profile-img" alt="" src="<c:url value='${companyMap.COMPANY_SFILE_NAME}'/>"></div>
 				<a href="/Company/CompanyMypageUpdateForm" class="p1">계정 정보 설정</a>
+=======
+				<div class="profile-img"><img alt="" src="${companyMap.COMPANY_SFILE_NAME}"></div>
+				<p class="p1">계정 정보 설정</p>
+>>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 				<p class="p1">계정 탈퇴</p>
 			</aside>
 
@@ -174,6 +186,7 @@ padding-bottom: 10px;
 				<h3 class="section-title">나의 현황</h3>
 				<div class="status-box">
 					<div>
+<<<<<<< HEAD
 						신규지원자 
 						<span>
 							${applicationStatusIdx.APPLICATION_STATUS_IDX1}
@@ -196,6 +209,18 @@ padding-bottom: 10px;
 						<span>
 							${applicationStatusIdx.APPLICATION_STATUS_IDX4}
 						</span>
+=======
+						신규지원자 <span>0</span>
+					</div>
+					<div>
+						서류통과 <span>0</span>
+					</div>
+					<div>
+						최종합격 <span>0</span>
+					</div>
+					<div>
+						불합격 <span>0</span>
+>>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 					</div>
 				</div>
 			</main>

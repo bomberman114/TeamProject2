@@ -3,7 +3,10 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.green.search.mapper.SearchMapper">  
 
+<<<<<<< HEAD
 	
+=======
+>>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 
 </mapper>
 

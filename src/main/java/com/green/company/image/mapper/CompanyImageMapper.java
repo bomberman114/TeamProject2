@@ -23,7 +23,10 @@ public interface CompanyImageMapper {
 
 	void setCompanyImage(HashMap<String, Object> map);
 
+<<<<<<< HEAD
 
 	int setCompanyImageCountCheck(HashMap<String, Object> map);
 
+=======
+>>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 }

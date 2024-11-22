@@ -1,7 +1,10 @@
 package com.green.company.mapper;
 
 import java.util.HashMap;
+<<<<<<< HEAD
 import java.util.List;
+=======
+>>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -22,7 +25,10 @@ public interface CompanyUserMapper {
 
 	Object isUserIdDupCheck(String userId);
 
+<<<<<<< HEAD
 	HashMap<String, Integer> getCompanyApplicationStatusIdxList(CompanyUserVo companyUserVo);
 
+=======
+>>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 }
 	
