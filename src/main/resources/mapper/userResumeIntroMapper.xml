@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.green.user.resume.intro.mapper.UserResumeIntroMapper">
+	<insert id="saveResumeIntro">
+	INSERT INTO user_resume_intro (
+    user_resume_intro_idx,
+    user_resume_intro_title,
+    user_resume_intro_content,
+    user_resume_idx             ) 
+  VALUES (
+    USER_RESUME_INTRO_SEQ.NEXTVAL,
+    #{user_resume_intro_title},
+    #{user_resume_intro_content},
+    (SELECT MAX(USER_RESUME_IDX) FROM USER_RESUME))
+	</insert>
+	
+	<update id="updateResumeIntro">
+		UPDATE USER_RESUME_INTRO
+		SET    USER_RESUME_INTRO_TITLE   = #{user_resume_intro_title},
+		       USER_RESUME_INTRO_CONTENT = #{user_resume_intro_content}
+		WHERE  USER_RESUME_IDX           = #{user_resume_idx}
+	</update>
+</mapper>

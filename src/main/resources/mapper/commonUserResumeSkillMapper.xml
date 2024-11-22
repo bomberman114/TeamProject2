@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.green.user.resume.skill.mapper.CommonUserResumeSkillMapper">  
+
+  <insert id="setCommonUserResumeSkill">
+	  <foreach collection="list" item ="skill" 
+         index      = "i"
+         open       = "INSERT ALL"
+         close      = "SELECT * FROM DUAL"
+         separator  = " " >
+        INTO  COMMON_USER_RESUME_SKILL VALUES (
+            ( SELECT NVL(MAX(COMMON_USER_RESUME_SKILL_IDX), 0) FROM COMMON_USER_RESUME_SKILL ) + #{i} + 1  
+           , #{ skill }
+         , (SELECT MAX(USER_RESUME_IDX) FROM USER_RESUME)
+        )
+       </foreach>
+</insert>
+
+<select id="skillsfindById"> 
+    SELECT
+    	COMMON_USER_RESUME_SKILL_IDX,
+    	CURS.SKILL_IDX,
+    	SKILL_NAME
+		FROM
+    	COMMON_USER_RESUME_SKILL CURS JOIN SKILLS S ON CURS.SKILL_IDX = S.SKILL_IDX
+		WHERE  USER_RESUME_IDX = #{user_resume_idx} 
+</select>
+
+ 	<delete id="removeCommonUserResumeSkill">
+ 		DELETE FROM COMMON_USER_RESUME_SKILL
+		WHERE USER_RESUME_IDX = #{user_resume_idx}
+ 	</delete> 
+  
+  <insert id="updateCommonUserResumeSkill">
+	  <foreach collection="resumeSkills" item ="skill" 
+         index      = "i"
+         open       = "INSERT ALL"
+         close      = "SELECT * FROM DUAL"
+         separator  = " " >
+        INTO  COMMON_USER_RESUME_SKILL VALUES (
+            ( SELECT NVL(MAX(COMMON_USER_RESUME_SKILL_IDX), 0) FROM COMMON_USER_RESUME_SKILL ) + #{i} + 1  
+           , #{ skill }
+         , #{resumeIdx}
+        )
+       </foreach>
+	</insert>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

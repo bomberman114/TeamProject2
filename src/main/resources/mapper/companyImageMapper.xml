@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.green.company.image.mapper.CompanyImageMapper">
+
+<insert id="setCompanyImage">
+ INSERT INTO COMPANY_IMAGE (
+    COMPANY_IMAGE_IDX,
+    COMPANY_USER_IDX,
+    COMPANY_IMAGE_NAME,
+    COMPANY_IMAGE_EXT,
+    COMPANY_SFILE_NAME
+	) VALUES (
+    COMPANY_IMAGE_SEQ.NEXTVAL,
+    #{company_user_idx},
+    #{fileList[0].company_image_name},
+    #{fileList[0].company_image_ext},
+    #{fileList[0].company_sfile_name}
+	)
+</insert>
+
+<delete id="deleteCompanyImge">
+  DELETE FROM 
+  		COMPANY_IMAGE
+	WHERE
+         COMPANY_USER_IDX = #{company_user_idx}
+  
+</delete>
+
+<select id="getCompanyProfileImge">
+	SELECT
+		*
+	FROM
+		COMPANY_IMAGE
+	WHERE
+		COMPANY_USER_IDX = #{companyUserVo.company_user_idx}
+
+</select>
+
+<select id="setCompanyImageCountCheck">
+	SELECT
+		COUNT(*)
+	FROM
+		COMPANY_IMAGE
+	WHERE
+		 COMPANY_USER_IDX = #{ companyUserVo.company_user_idx}
+</select>
+
+</mapper>
