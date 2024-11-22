@@ -417,8 +417,8 @@ body {
 				</div>
 				<div class="form-group">
 					<label for="deadline">회사 설립일</label> 
-					<input type="text" id="company_establish" name="company_establish" 
-					value="${companyUserVo.company_establish }" readonly>
+					<input type="date" id="company_establish" name="company_establish" 
+					value="${companyUserVo.company_establish }" readonly="readonly">
 				</div>
 				<div class="form-group">
 			    <label for="main-task">주요업무</label>

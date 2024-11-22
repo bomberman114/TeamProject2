@@ -70,17 +70,13 @@ h2 {
 	margin: 20px 0;
 	font-size: 18px;
 }
-
-.tabs span {
-	margin-right: 20px;
-	cursor: pointer;
-	padding: 5px 10px;
-	border-radius: 5px;
-}
-
 .tabs .active {
 	background-color: #007bff;
 	color: white;
+}
+.tabs span {
+	margin-right: 20px;
+	cursor: pointer;
 }
 
 .job-list {
@@ -147,23 +143,22 @@ h2 {
 		<div class="container">
 			<h2>채용공고 관리</h2>
 			<div class="tabs">
-				<span class="active"><a href="/CompanyRecruit/RecruitList">전체</a></span>
-				<span>
-					<a href="/CompanyRecruit/DeadRecruittList">마감된 공고</a>
-				</span>
+				<span><a href="/CompanyRecruit/RecruitList">전체</a></span> 
+				<span class="active"><a href="/CompanyRecruit/DeadRecruittList">마감된 공고</a></span>
 			</div>
 			<div class="job-list">
-				<c:forEach var="companyRecruitList" items="${companyRecruitList}">
+				<c:forEach var="companyRecruitDeadList" items="${companyRecruitDeadList}">
 				<div class="job-card">
-					<h3>${companyRecruitList.RECRUIT_TITLE }</h3>
+					<h3>${companyRecruitDeadList.RECRUIT_TITLE }</h3>
 					<p>공고 수정</p>
 					<p class="delete">공고 삭제</p>
-					<p>지원자 ${companyRecruitList.APPLICATION_COUNT }명</p>
-					<p>${companyRecruitList.COMPANY_RECRUIT_REGDATE } 등록</p>
+					<p>지원자 ${companyRecruitDeadList.APPLICATION_COUNT }명</p>
+					<p>${companyRecruitDeadList.COMPANY_RECRUIT_REGDATE } 등록</p>
 				</div>
 				</c:forEach>
+				
 			</div>
-			<a href="/CompanyRecruit/RecruitWriteForm" class="add-button">채용공고 추가</a>
+			<button class="add-button">채용공고 추가</button>
 		</div>
 	</main>
 </body>

@@ -1,6 +1,8 @@
 package com.green.company.controller;
 
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -258,6 +260,9 @@ public class CompanyController {
 		String 		  passwd = requset.getParameter("company_user_passwd");
 		CompanyUserVo vo     = companyUserService.login(userid,passwd);
 		System.out.println(vo);
+		 LocalDate companyEstablishFormat = LocalDate.parse(vo.getCompany_establish().substring(0, 10),
+					DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		 vo.setCompany_establish(String.valueOf(companyEstablishFormat));
 		HttpSession session = requset.getSession();
 		session.setAttribute("companylogin", vo);
 		return "redirect:/";
