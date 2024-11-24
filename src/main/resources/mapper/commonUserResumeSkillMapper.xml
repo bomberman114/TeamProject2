@@ -16,16 +16,16 @@
         )
        </foreach>
 </insert>
-<<<<<<< HEAD
 
 <select id="skillsfindById"> 
     SELECT
-    	COMMON_USER_RESUME_SKILL_IDX,
-    	CURS.SKILL_IDX,
-    	SKILL_NAME
-		FROM
-    	COMMON_USER_RESUME_SKILL CURS JOIN SKILLS S ON CURS.SKILL_IDX = S.SKILL_IDX
-		WHERE  USER_RESUME_IDX = #{user_resume_idx} 
+      COMMON_USER_RESUME_SKILL_IDX,
+      CURS.SKILL_IDX,
+      SKILL_NAME
+	FROM
+      COMMON_USER_RESUME_SKILL CURS JOIN SKILLS S ON CURS.SKILL_IDX = S.SKILL_IDX
+	WHERE    USER_RESUME_IDX = #{user_resume_idx}
+	ORDER BY COMMON_USER_RESUME_SKILL_IDX ASC
 </select>
 
  	<delete id="removeCommonUserResumeSkill">
@@ -46,9 +46,7 @@
         )
        </foreach>
 	</insert>
-=======
-  
->>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
+
 </mapper>
 
 

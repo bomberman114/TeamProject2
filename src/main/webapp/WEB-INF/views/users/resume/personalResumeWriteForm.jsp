@@ -11,10 +11,7 @@
     <link rel="stylesheet" href="/css/reset.css" />
     <link rel="stylesheet" href="/css/style.css" />
     <script src="/js/headerSubmenu.js" defer></script>
-<<<<<<< HEAD
     <script src="/js/inputForm.js" defer></script>
-=======
->>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
   </head>
   <body>
     <%@include file="/WEB-INF/includes/headerUser.jsp" %>
@@ -48,11 +45,7 @@
                         <option value="exp">경력</option>
                       </select>
                     </h3>
-<<<<<<< HEAD
                     <a href="/Users/MyPage/UpdateForm">계정정보 설정</a>
-=======
-                    <a href="/Users/UpdateForm">계정정보 설정</a>
->>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
                   </div>
                   <ul>
                     <li>
@@ -122,11 +115,7 @@
                   <p class="punder">학력</p>
                   <div class="edu-inner">
                     <div>
-<<<<<<< HEAD
-                      <select name="education_status_idx" required>
-=======
-                      <select name="user_education_status" required>
->>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
+			          <select name="education_status_idx" required>
                       	<option style="display: none;" value="">학력 구분</option>
                         <c:forEach var="item" items="${eduList}">
 		                    	<option value="${item.education_status_idx}">${item.education_status_type}</option>
@@ -141,15 +130,9 @@
                   <p class="punder">경력(업무경험)</p>
                   <div class="career-inner">
                     <div class="date-input">
-<<<<<<< HEAD
                       <input type="text" placeholder="YYYYMM" name="user_wooked_year_start" disabled oninput="formatBirthNumber(this)" maxlength="6">
                       <span>~</span>
                       <input type="text" placeholder="YYYYMM" name="user_wooked_year_end" disabled oninput="formatBirthNumber(this)" maxlength="6">
-=======
-                      <input type="date" name="user_wooked_year_start" disabled>
-                      <span>~</span>
-                      <input type="date" name="user_wooked_year_end" disabled>
->>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
                     </div>
                     <span><img src="/images/icon/space-bar.png" alt=""></span>
                     <div class="career-info">
@@ -172,7 +155,7 @@
             </div>
           </div>
           <aside>
-<<<<<<< HEAD
+
           	<div class="aside-inner">
 	            <h3>이력서 작성</h3>
 	            <p>입력항목</p>
@@ -189,21 +172,6 @@
 	              <a href="/Users/MyPage/Resume/List">취소하기</a>
 	            </div>  	
           	</div>
-=======
-            <h3>이력서 작성</h3>
-            <p>입력항목</p>
-            <ul>
-              <li><span>*</span>직무</li>
-              <li><span></span>기술스택</li>
-              <li><span>*</span>학력</li>
-              <li><span></span>경력</li>
-              <li><span>*</span>자기소개서</li>
-            </ul>
-            <div class="write-btn-container">
-              <button class="write-btn">저장하기</button>
-              <a href="/Users/MyPage/Resume/List">취소하기</a>
-            </div>
->>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
           </aside>
         </div>
       </form>
@@ -229,7 +197,6 @@
           $stackList.style.display = "none";
         }
       });
-<<<<<<< HEAD
       
       const $skillListInner  = document.querySelector(".stack-list")
 
@@ -247,9 +214,6 @@
     	});
       
       /*
-=======
-
->>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
       $stackItem.forEach((item) => {
         item.addEventListener("click", (e) => {
         	selectSkill = {"skill_idx" : e.target.dataset.skillidx , "skill_name" : item.textContent}
@@ -261,10 +225,7 @@
           displaySelectStack(selectSkillList, $selectList);
         });
       });
-<<<<<<< HEAD
       */
-=======
->>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 
       function displaySelectStack(arr, output) {
         let listInner = "";
@@ -317,7 +278,6 @@
         })
         $form.submit()
       })
-<<<<<<< HEAD
       
       const $searchStackList = document.querySelectorAll(".stack-type li")
 
@@ -357,8 +317,6 @@
 	    return result;
 	}
       
-=======
->>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
     </script>
   </body>
 </html>

@@ -37,7 +37,7 @@ public class CompanyRecruitController {
 
 	@Autowired
 	private CommonCompanyRecruitSkillMapper commonCompanyRecruitSkillMapper;
-	
+
 	@Autowired
 	private CompanyRecruitService companyRecruitService;
 
@@ -58,10 +58,9 @@ public class CompanyRecruitController {
 
 	@Autowired
 	private CommonDutyMapper commonDutyMapper;
-	
+
 	@Autowired
 	private EducationStatusMapper educationStatusMapper;
-	
 
 	// 회사가 자기들 채용공고 보기
 	@RequestMapping("/RecruitList")
@@ -71,14 +70,9 @@ public class CompanyRecruitController {
 		// List<HashMap<String, Object>> companyRecruitList =
 		// companyRecruitMapper.getCompanyRecruiteList(companyUserVo);
 		List<HashMap<String, Object>> companyRecruitList = companyRecruitService.getCompanyRecruiteList(companyUserVo);
-<<<<<<< HEAD
 		System.out.println("companyRecruitList:" + companyRecruitList);
 		mv.addObject("companyRecruitList", companyRecruitList);
 		mv.setViewName("/company/recruit/companyRecruitList");
-=======
-
-		mv.setViewName("");
->>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 		return mv;
 
 	}
@@ -91,11 +85,6 @@ public class CompanyRecruitController {
 
 		List<HashMap<String, Object>> companyRecruitDeadList = companyRecruitService
 				.getCompanyRecruiteDeadList(companyUserVo);
-<<<<<<< HEAD
-		
-=======
-
->>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 		mv.setViewName("");
 		return mv;
 
@@ -104,9 +93,7 @@ public class CompanyRecruitController {
 	@RequestMapping("/ReceivedResumes")
 	public ModelAndView receivedResumes() {
 		ModelAndView mv = new ModelAndView();
-
 		return mv;
-
 	}
 
 	@RequestMapping("/RecruitWriteForm")
@@ -117,9 +104,9 @@ public class CompanyRecruitController {
 		List<RegionVo> regionList = regionMapper.getRegionList();
 		List<CommonDutyVo> commonDutyList = commonDutyMapper.getCommonDutyList();
 		List<SkillStackVo> skillStackList = skillStackMapper.getSkillStackList();
-		List<EducationStatusVo> educationStatuList =  educationStatusMapper.getEducationStatuList();
-		//System.out.println("companyUserVo:" + companyUserVo);
-		
+		List<EducationStatusVo> educationStatuList = educationStatusMapper.getEducationStatuList();
+		// System.out.println("companyUserVo:" + companyUserVo);
+
 		mv.addObject("companyUserVo", companyUserVo);
 		mv.addObject("educationStatuList", educationStatuList);
 		mv.addObject("skillStackList", skillStackList);
@@ -144,18 +131,21 @@ public class CompanyRecruitController {
 				SkillVo skillVo = new SkillVo();
 				skillVo.setSkill_idx(Integer.parseInt(skills[i]));
 				checkedSkillList.add(skillVo);
-			};
-		};
+			}
+			;
+		}
+		;
 		if (skills == null) {
 			checkedSkillList = null;
-		};
-		//System.out.println(map);
-		//System.out.println(checkedSkillList);
-		 companyRecruitMapper.setCompanyRecruitInsert(map);
-		 int company_recruit_idx = companyRecruitMapper.getCompanyRecruitIdx(companyUserVo);
-		//System.out.println("company_recruit_idx:" + company_recruit_idx);
-		commonCompanyRecruitSkillMapper.setCommonCompanyRecruitSkill(company_recruit_idx ,checkedSkillList);
-		
+		}
+		;
+		// System.out.println(map);
+		// System.out.println(checkedSkillList);
+		companyRecruitMapper.setCompanyRecruitInsert(map);
+		int company_recruit_idx = companyRecruitMapper.getCompanyRecruitIdx(companyUserVo);
+		// System.out.println("company_recruit_idx:" + company_recruit_idx);
+		commonCompanyRecruitSkillMapper.setCommonCompanyRecruitSkill(company_recruit_idx, checkedSkillList);
+
 		mv.setViewName(null);
 		return mv;
 	}

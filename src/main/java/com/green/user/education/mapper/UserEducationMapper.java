@@ -1,24 +1,16 @@
 package com.green.user.education.mapper;
 
-<<<<<<< HEAD
 import java.util.HashMap;
 
 import org.apache.ibatis.annotations.Mapper;
-
-import com.green.user.education.vo.UserEducationVo;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface UserEducationMapper {
-
-	void saveResumeEducation(HashMap<String, Object> map);
 
 	void updateResumeEducation(HashMap<String, Object> map);
 
-=======
-import org.apache.ibatis.annotations.Mapper;
+	void saveResumeEducation(HashMap<String, Object> map);
 
-@Mapper
-public interface UserEducationMapper {
 
->>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 }

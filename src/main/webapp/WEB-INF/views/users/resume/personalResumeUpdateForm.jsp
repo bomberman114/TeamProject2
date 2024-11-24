@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
@@ -44,8 +43,16 @@
                     <h3>
                       ${vo.USER_NAME}
                       <select name="user_resume_career_type">
-                        <option value="nonExp">신입</option>
-                        <option value="exp">경력</option>
+                      	<c:choose>
+                      		<c:when test="${vo.CAREER_TYPE eq 'exp'}">
+                      			<option value="">신입</option>
+                        		<option value="exp" selected="selected">경력</option>
+                      		</c:when>
+                      		<c:otherwise>
+                      			<option value="" selected="selected">신입</option>
+                        		<option value="exp" >경력</option>
+                      		</c:otherwise>
+                      	</c:choose>
                       </select>
                     </h3>
                     <a href="/Users/MyPage/UpdateForm">계정정보 설정</a>
@@ -92,7 +99,7 @@
                   <p>직무</p>
                   <select class="write-input" name="common_duty_idx" required>
                     <option style="display: none;" value="">직무를 선택해주세요.</option>
-                    <c:forEach var="item" items="${dutyList }">
+                    <c:forEach var="item" items="${dutyList}">
                     		<c:choose>
                     		<c:when test="${vo.COMMON_DUTY_NAME eq item.common_duty_name}">
                     			<option value="${item.common_duty_idx}" selected="selected">${item.common_duty_name}</option>    
@@ -107,7 +114,7 @@
                 <li class="stack-input-li">
                   <p>기술스택(업무 툴/스킬)</p>
                   <ul class="select-stack-list">
-                  	<c:forEach var="skill" items="${selectedSkills }" varStatus="status">
+                  	<c:forEach var="skill" items="${selectedSkills}" varStatus="status">
                   		<li data-skillidx="${skill.SKILL_IDX}">${skill.SKILL_NAME}<img src="/images/icon/stack-remove.png" alt="스택 제거" onclick="removeStack(${status.index})"></li>
                   	</c:forEach>
                   </ul>
@@ -120,13 +127,13 @@
                       <div class="stack-inner">
                         <ul class="stack-type">
                           <c:forEach var="item" items="${stackList}">
-                    				<li data-stackId="${item.skill_stack_idx }">${item.skill_stack_name }</li>
-                    			</c:forEach>
+                    				<li data-stackId="${item.skill_stack_idx}">${item.skill_stack_name}</li>
+                    	  </c:forEach>
                         </ul>
                         <ul class="stack-list">
                           <c:forEach var="item" items="${initialSkillList}">
-                    				<li data-skillidx="${item.skill_idx }">${item.skill_name }</li>
-                    			</c:forEach>
+                    				<li data-skillidx="${item.skill_idx}">${item.skill_name}</li>
+                    	  </c:forEach>
                         </ul>
                       </div>
                     </div>
@@ -136,8 +143,8 @@
                   <p class="punder">학력</p>
                   <div class="edu-inner">
                     <div>
-                      <select name="education_status_idx" required>
- 												  <c:forEach var="item" items="${eduList }">
+                      <select name="education_status_idx" required="required">
+ 							<c:forEach var="item" items="${eduList }">
 		                    		<c:choose>
 			                    		<c:when test="${vo.EDUCATION_STATUS_TYPE eq item.education_status_type}">
 			                    			<option value="${item.education_status_idx}" selected="selected">${item.education_status_type}</option>    
@@ -150,24 +157,45 @@
                       </select>
                     </div>
                     <span><img src="/images/icon/space-bar.png" alt=""></span>
-                    <input type="text" name="user_school_name" placeholder="학교명을 입력해주세요." value="${vo.USER_SCHOOL_NAME}">
+                    <input type="text" name="user_school_name" placeholder="학교명을 입력해주세요." value="${vo.USER_SCHOOL_NAME}" required="required">
                   </div>
                 </li>
-                <li class="career-li">
-                  <p class="punder">경력(업무경험)</p>
-                  <div class="career-inner">
-                    <div class="date-input">
-                      <input type="text" placeholder="YYYYMM" name="user_wooked_year_start" disabled oninput="formatBirthNumber(this)" maxlength="6">
-                      <span>~</span>
-                      <input type="text" placeholder="YYYYMM" name="user_wooked_year_end" disabled oninput="formatBirthNumber(this)" maxlength="6">
-                    </div>
-                    <span><img src="/images/icon/space-bar.png" alt=""></span>
-                    <div class="career-info">
-                      <input type="text" name="user_wooked_company_name" placeholder="회사명을 입력해주세요." required disabled>
-                      <textarea name="user_career_contente" placeholder="주요업무 및 성과를 입력해주세요." oninput="handleResizeHeight(this)" disabled></textarea>
-                    </div>
-                  </div>
-                </li>
+                <c:choose>
+              		<c:when test="${vo.CAREER_TYPE eq 'exp'}">
+              			<li class="career-li" style="display: block">
+		                  <p class="punder">경력(업무경험)</p>
+		                  <div class="career-inner">
+		                    <div class="date-input">
+		                      <input type="text" placeholder="YYYYMM" name="user_wooked_year_start" value="${vo.USER_WOOKED_YEAR_START}"  oninput="formatBirthNumber(this)" maxlength="6">
+		                      <span>~</span>
+		                      <input type="text" placeholder="YYYYMM" name="user_wooked_year_end" value="${vo.USER_WOOKED_YEAR_END}"   oninput="formatBirthNumber(this)" maxlength="6">
+		                    </div>
+		                    <span><img src="/images/icon/space-bar.png" alt="여백바"></span>
+		                    <div class="career-info">
+		                      <input type="text" name="user_wooked_company_name" placeholder="회사명을 입력해주세요." value="${vo.USER_WOOKED_COMPANY_NAME}"   required >
+		                      <textarea name="user_career_contente" placeholder="주요업무 및 성과를 입력해주세요."  oninput="handleResizeHeight(this)" >${vo.USER_CAREER_CONTENTE}</textarea>
+		                    </div>
+		                  </div>
+		                </li>
+              		</c:when>
+              		<c:otherwise>
+            			<li class="career-li">
+		                  <p class="punder">경력(업무경험)</p>
+		                  <div class="career-inner">
+		                    <div class="date-input">
+		                      <input type="text" placeholder="YYYYMM" name="user_wooked_year_start" disabled oninput="formatBirthNumber(this)" maxlength="6">
+		                      <span>~</span>
+		                      <input type="text" placeholder="YYYYMM" name="user_wooked_year_end" disabled oninput="formatBirthNumber(this)" maxlength="6">
+		                    </div>
+		                    <span><img src="/images/icon/space-bar.png" alt="여백바"></span>
+		                    <div class="career-info">
+		                      <input type="text" name="user_wooked_company_name" placeholder="회사명을 입력해주세요." required disabled>
+		                      <textarea name="user_career_contente" placeholder="주요업무 및 성과를 입력해주세요." oninput="handleResizeHeight(this)" disabled></textarea>
+		                    </div>
+		                  </div>
+		                </li>
+              		</c:otherwise>
+              	</c:choose>
                 <li class="intro-inner">
                   <p class="punder">자기소개서</p>
                   <input
@@ -285,10 +313,12 @@
         const $careerLi = document.querySelector(".career-li")
         const $careerInput = document.querySelectorAll(".career-li input, .career-li textarea ")
         console.log($careerInput)
-        if(e.target.value == "nonExp"){
+        console.log(e.target.value )
+        if(e.target.value == ""){
           $careerLi.style.display = "none"
           $careerInput.forEach(input=>{
             input.disabled = true;
+            input.required = false;
           })
         }else{
           $careerLi.style.display = "block"
@@ -353,26 +383,3 @@
     </script>
   </body>
 </html>
-=======
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"  %>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>이력서 수정</title>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Jua&family=Poor+Story&display=swap" rel="stylesheet"> 
-    <link rel="icon" type="image/png" href="https://github.com/bomberman114/TeamProject1/blob/develop/src/main/resources/static/img/apple-touch-icon.png" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <style>
-       
-    </style>
-</head>
-<body>
-   
-</body>
-</html>
-                                
->>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69

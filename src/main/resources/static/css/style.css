@@ -853,12 +853,13 @@ footer {
 /* 유저 마이페이지 이력서 리스트 */
 .user-resume {
   background: #f5f5f5;
-  height: 100%;
   padding-top: 40px;
+  height : 100%;
 
   & .resume-list-container {
     border-radius: 12px;
     background: #fff;
+    min-height : 300px;
     padding: 40px;
 
     & .add-btn-contianer {
@@ -887,7 +888,6 @@ footer {
   & .resume-list {
     margin-top: 24px;
     display: grid;
-<<<<<<< HEAD
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
     & .resume-item {
@@ -896,14 +896,6 @@ footer {
       gap: 32px;
       flex-direction: column;
       justify-content : space-between;
-=======
-    grid-template-columns: repeat(3, auto);
-    gap: 20px;
-    & .resume-item {
-      display: flex;
-      gap: 32px;
-      flex-direction: column;
->>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
       background: #f5f5f5;
       padding: 20px;
       border-radius: 12px;
@@ -935,13 +927,9 @@ footer {
 
         & .resume-item-top-skill {
           display: flex;
-<<<<<<< HEAD
           gap : 6px;
 					flex-wrap : wrap;
 					overflow : hidden;
-=======
-
->>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
           & li {
             padding: 6px 10px;
             font-size: 14px;
@@ -1242,14 +1230,7 @@ footer {
                 line-height: 50px;
                 padding-left: 24px;
               }
-<<<<<<< HEAD
               
-=======
-
-              & li:hover {
-                background: #f5f5f5;
-              }
->>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
               & .stack-inner {
                 display: flex;
                 width: 100%;
@@ -1260,15 +1241,11 @@ footer {
               & .stack-type {
                 & li {
                   width: 160px;
-                }
-<<<<<<< HEAD
-                
+                }  
 	              & .stack-active{
 	              	background: var(--main-color);
 	              	color: #fff ;
 	              }
-=======
->>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
               }
               & .stack-list {
                 overflow-y: auto;
@@ -1279,12 +1256,9 @@ footer {
                   width: 240px;
                   color: #333;
                 }
-<<<<<<< HEAD
                  & li:hover {
                 background: #f5f5f5;
               }
-=======
->>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
               }
             }
 
@@ -1306,7 +1280,6 @@ footer {
       }
     }
 
-<<<<<<< HEAD
 		& aside{
 			width : 340px;
 		}
@@ -1314,19 +1287,11 @@ footer {
     & .aside-inner {
       width: 340px;
       position : fixed;
-=======
-    & aside {
-      width: 340px;
->>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
       padding: 0 40px 40px;
       background: #fff;
       border-radius: 12px;
       min-height: 0;
-<<<<<<< HEAD
       height: auto;
-=======
-      height: 500px;
->>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 
       & h3 {
         font-size: 36px;
@@ -1409,14 +1374,15 @@ footer {
     }
 }
 
-<<<<<<< HEAD
 /* 유저 이력서 뷰 */
 .view-flex{
 	display: flex;
 	align-items: center;
 	
 	& p{
-	width : 120px}
+	width : 120px;
+	margin-bottom : 0 !important;
+	}
 	
 	& li:first-child, h3{
 		font-size : 20px;
@@ -1439,17 +1405,10 @@ footer {
   font-weight: 500
 }
 
-
-@media screen and (max-width: 1020px) {
-	.resume-list{
+@media screen and (max-width: 1000px) {
+  .resume-list{
 		grid-template-columns: repeat(2, 1fr) !important;
 	}
-	
-=======
-
-
-@media screen and (max-width: 1000px) {
->>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
   .search-div {
     width: 368px !important;
   }

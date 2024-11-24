@@ -35,7 +35,6 @@
 	    #{region_address}          )
 	</insert>
 
-<<<<<<< HEAD
 	<select id="findResumeAll">
 		SELECT UR.USER_RESUME_IDX,
        USER_TITLE,
@@ -47,7 +46,7 @@
 		FROM USER_RESUME UR LEFT JOIN (
 		                                SELECT 
 		                                  USER_RESUME_IDX,
-		                                  LISTAGG(DISTINCT S.SKILL_Name, ', ') AS SKILLS
+		                                  LISTAGG(DISTINCT S.SKILL_Name, ', ') WITHIN GROUP (ORDER BY COMMON_USER_RESUME_SKILL_IDX)  AS SKILLS
 		                                FROM COMMON_USER_RESUME_SKILL CURS JOIN SKILLS S ON CURS.SKILL_IDX = S.SKILL_IDX
 		                                GROUP BY CURS.USER_RESUME_IDX
 		                               ) SKILLS_SUBQUERY   ON UR.USER_RESUME_IDX      = SKILLS_SUBQUERY.USER_RESUME_IDX
@@ -93,7 +92,7 @@
 		LEFT JOIN (
 		    SELECT 
 		        USER_RESUME_IDX,
-		        LISTAGG(DISTINCT S.SKILL_Name, ', ') AS SKILLS
+		        LISTAGG(DISTINCT S.SKILL_Name, ', ') WITHIN GROUP (ORDER BY COMMON_USER_RESUME_SKILL_IDX) AS SKILLS
 		    FROM COMMON_USER_RESUME_SKILL CURS 
 		    JOIN SKILLS S ON CURS.SKILL_IDX = S.SKILL_IDX
 		    GROUP BY CURS.USER_RESUME_IDX
@@ -115,13 +114,11 @@
 				 REGION_ADDRESS  = #{region_address}
   WHERE  USER_RESUME_IDX = #{user_resume_idx}
 	</update>
-=======
 
-
-
->>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
-
-
+	<delete id="deleteResume">
+		DELETE USER_RESUME
+		WHERE  USER_RESUME_IDX = #{user_resume_idx}
+	</delete>
 
 
 

@@ -13,15 +13,9 @@
 	) VALUES (
     COMPANY_IMAGE_SEQ.NEXTVAL,
     #{company_user_idx},
-<<<<<<< HEAD
-    #{fileList[0].company_image_name},
-    #{fileList[0].company_image_ext},
-    #{fileList[0].company_sfile_name}
-=======
     #{company_image_name},
     #{company_image_ext},
     #{company_sfile_name}
->>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 	)
 </insert>
 
@@ -29,11 +23,8 @@
   DELETE FROM 
   		COMPANY_IMAGE
 	WHERE
-<<<<<<< HEAD
          COMPANY_USER_IDX = #{company_user_idx}
-=======
-        COMPANY_IMAGE_IDX = #{company_image_idx}
->>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
+         COMPANY_IMAGE_IDX = #{company_image_idx}
   
 </delete>
 
@@ -43,7 +34,6 @@
 	FROM
 		COMPANY_IMAGE
 	WHERE
-<<<<<<< HEAD
 		COMPANY_USER_IDX = #{companyUserVo.company_user_idx}
 
 </select>
@@ -57,10 +47,4 @@
 		 COMPANY_USER_IDX = #{ companyUserVo.company_user_idx}
 </select>
 
-=======
-		COMPANY_IMAGE_IDX = #{company_image_idx}
-
-</select>
-
->>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 </mapper>

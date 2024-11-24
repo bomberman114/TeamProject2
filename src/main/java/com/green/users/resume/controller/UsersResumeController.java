@@ -1,6 +1,5 @@
 package com.green.users.resume.controller;
 
-<<<<<<< HEAD
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -10,13 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
-=======
-import java.util.HashMap;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
->>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -31,15 +23,7 @@ import com.green.skills.mapper.SkillsMapper;
 import com.green.skills.stack.mapper.SkillStackMapper;
 import com.green.skills.stack.vo.SkillStackVo;
 import com.green.skills.vo.SkillVo;
-<<<<<<< HEAD
-import com.green.user.career.mapper.UserCareerMapper;
-import com.green.user.education.mapper.UserEducationMapper;
-import com.green.user.resume.intro.mapper.UserResumeIntroMapper;
 import com.green.user.resume.skill.mapper.CommonUserResumeSkillMapper;
-=======
-import com.green.user.education.vo.UserEducationVo;
-import com.green.user.resume.vo.UserResumeVo;
->>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 import com.green.users.resume.service.UsersResumeService;
 import com.green.users.vo.UserVo;
 
@@ -69,32 +53,20 @@ public class UsersResumeController {
 	@Autowired
 	private RegionMapper regionMapper;
 	
-<<<<<<< HEAD
 	@Autowired
 	private CommonUserResumeSkillMapper commonUserResumeSkillMapper;
 	
-	
-	
-=======
->>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
+
 	@RequestMapping("/List")
 	public ModelAndView resumeList(
 			HttpServletRequest request, HttpServletResponse responese) {
 		
 		HttpSession session = request.getSession();
 		UserVo vo           = (UserVo) session.getAttribute("userLogin");
-<<<<<<< HEAD
 		List<HashMap<String, Object>> resumeList = usersResumeService.findResumeAll(vo);
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("vo",vo);
 		mv.addObject("resumeList",resumeList);
-=======
-		/*List<HashMap<String, Object>> resumeList = usersResumeService.findResumeAll(vo);*/
-		
-		ModelAndView mv = new ModelAndView();
-		mv.addObject("vo",vo);
-		/*mv.addObject("resumeList",resumeList);*/
->>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 		mv.setViewName("/users/resume/personalResumeList");
 		return mv;
 	}
@@ -124,7 +96,6 @@ public class UsersResumeController {
 		return mv;
 	}
 	
-<<<<<<< HEAD
 	@RequestMapping("/SkillFindById")
 	public ResponseEntity<HashMap<String, List<SkillVo>>> skillFindById(@RequestBody Map<String,String> map){
 			String stackId = String.valueOf(map.get("stackId"));
@@ -134,14 +105,12 @@ public class UsersResumeController {
 			return ResponseEntity.ok(res);
 		}
 	
-=======
->>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
+
 	@RequestMapping("/Write")
 	public String resumeWrite(
 			@RequestParam HashMap<String, Object> map,
 			@RequestParam(required = false, value="skill_idx") List<Integer> resumeSkills
 			) {
-<<<<<<< HEAD
 		usersResumeService.saveResume(map,resumeSkills);
 		return "redirect:/Users/MyPage/Resume/List";
 	}
@@ -159,13 +128,13 @@ public class UsersResumeController {
 	    }else {
 	    	vo.put("CAREER_TYPE",null);
 	    }
-		System.out.println(vo);
+
         String skillString      = String.valueOf(vo.get("SKILLS"));
         if(skillString == "null") {skillString = "";}
-        System.out.println(skillString);
+
         String[] resumeSkillArr = skillString.split(",");
 		vo.put("SKILLS", Arrays.asList(resumeSkillArr));
-
+		System.out.println(vo);
 		mv.addObject("vo",vo);
 		mv.setViewName("/users/resume/personalResumeOneView");
 		return mv;
@@ -182,7 +151,11 @@ public class UsersResumeController {
 		List<SkillVo> initialSkillList    		     = skillsMapper.getSeletedSkillStackSkillList(1);
 		List<EducationStatusVo> eduList   			 = educationStatusMapper.getEducationStatuList();
 		List<HashMap<String, Object>> selectedSkills = commonUserResumeSkillMapper.skillsfindById(map);
-		System.out.println(vo);
+	    if(vo.get("CARRER_YEAR") != null || vo.get("CARRER_MONTH") != null ) {
+	    	vo.put("CAREER_TYPE","exp");
+	    }else {
+	    	vo.put("CAREER_TYPE",null);
+	    }
 		ModelAndView mv = new ModelAndView();
 
 		mv.addObject("vo",vo);
@@ -205,13 +178,12 @@ public class UsersResumeController {
 		return "redirect:/Users/MyPage/Resume/OneView?user_resume_idx=" + String.valueOf(map.get("user_resume_idx"));
 	}
 	
-	
-	
-=======
-		System.out.println(map);
-		System.out.println(resumeSkills);
-		usersResumeService.saveResume(map,resumeSkills);
+	@RequestMapping("/Delete")
+	public String resumeDelete(
+			@RequestParam HashMap<String, Object> map
+			) {
+		usersResumeService.deleteResume(map);
 		return "redirect:/Users/MyPage/Resume/List";
 	}
->>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
+	
 }

@@ -22,7 +22,6 @@
             <a href="/Users/MyPage/Resume/WriteForm">이력서 추가</a>
           </div>
           <div class="resume-list">
-<<<<<<< HEAD
           	<c:forEach var="resume" items="${resumeList}">
 	            <div class="resume-item">
 	              <div class="resume-item-top">
@@ -31,7 +30,7 @@
 	                  <img src="/images/icon/util-btn.png" alt="이력서 메뉴" />
 	                  <ul class="resume-submenu">
 	                    <li><a href="/Users/MyPage/Resume/UpdateForm?user_resume_idx=${resume.USER_RESUME_IDX}">이력서 수정</a></li>
-	                    <li><a href="#">이력서 삭제</a></li>
+	                    <li><a href="/Users/MyPage/Resume/Delete?user_resume_idx=${resume.USER_RESUME_IDX}">이력서 삭제</a></li>
 	                  </ul>
 	                </div>
 	                <p>${resume.EDUCATION_STATUS_TYPE}<c:if test="${not empty resume.CARRER_YEAR or not empty resume.CARRER_MONTH}">, 경력</c:if>
@@ -54,28 +53,6 @@
 	              </div>
 	            </div>
           	</c:forEach>
-=======
-            <div class="resume-item">
-              <div class="resume-item-top">
-                <div>
-                  <h4>이력서 제목</h4>
-                  <img src="/images/icon/util-btn.png" alt="이력서 메뉴" />
-                  <ul class="resume-submenu">
-                    <li><a href="#">이력서 수정</a></li>
-                    <li><a href="#">이력서 삭제</a></li>
-                  </ul>
-                </div>
-                <p>학력, 경력</p>
-                <ul class="resume-item-top-skill">
-                  <li>기술스택</li>
-                </ul>
-              </div>
-              <div class="resume-item-bottom">
-                <p>입사 지원 내역 <span>0건</span></p>
-                <p>2024.11.10 등록</p>
-              </div>
-            </div>
->>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
           </div>
         </div>
       </div>
@@ -107,11 +84,6 @@
           })
         }
       })
-
-<<<<<<< HEAD
-      console.log("${resumeList}")
-=======
->>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
     </script>
   </body>
 </html>

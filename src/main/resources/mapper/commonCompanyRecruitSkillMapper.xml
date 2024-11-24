@@ -16,12 +16,7 @@
         )
        </foreach>
 </insert>
-<<<<<<< HEAD
-=======
 
-  
-  
->>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 </mapper>
 
 

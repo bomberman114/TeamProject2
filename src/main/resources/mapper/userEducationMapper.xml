@@ -3,18 +3,17 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.green.user.education.mapper.UserEducationMapper">  
 
-<<<<<<< HEAD
 	<insert id="saveResumeEducation">
 		INSERT INTO user_education (
-	    user_education_idx,
-	    user_resume_idx,
-	    education_status_idx,
-	    user_school_name         ) 
-		VALUES                     (
-	    USER_EDUCATION_STATUS_SEQ.NEXTVAL,
-	    (SELECT MAX(user_resume_idx) FROM USER_RESUME),
-	    #{education_status_idx},
-	    #{user_school_name}         )
+		    user_education_idx,
+		    user_resume_idx,
+		    education_status_idx,
+		    user_school_name        ) 
+		VALUES                      (
+		    USER_EDUCATION_STATUS_SEQ.NEXTVAL,
+		    (SELECT MAX(user_resume_idx) FROM USER_RESUME),
+		    #{education_status_idx},
+		    #{user_school_name}     )
 	</insert>
 	
 	<update id="updateResumeEducation">
@@ -23,8 +22,5 @@
 		       USER_SCHOOL_NAME     = #{user_school_name}
 		WHERE  USER_RESUME_IDX      = #{user_resume_idx}
 	</update>
-
-=======
->>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
 
 </mapper>

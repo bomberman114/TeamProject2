@@ -41,7 +41,6 @@
 		FROM COMPANY_USERS
 		WHERE COMPANY_USER_ID = #{company_user_id}
 	</select>
-<<<<<<< HEAD
 	
 	<select id="getCompanyApplicationStatusIdxList">
 	SELECT 
@@ -57,10 +56,6 @@ WHERE
     CR.COMPANY_USER_IDX = #{company_user_idx}
 	
 	</select>
-=======
->>>>>>> 2e351f5ebeccc2194ee41f374e30dce8fb498c69
-
-
 
 	<select id="getCompanyUserData">
 	SELECT 
