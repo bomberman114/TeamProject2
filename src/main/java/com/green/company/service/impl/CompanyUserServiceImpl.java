@@ -38,15 +38,12 @@ public class CompanyUserServiceImpl implements CompanyUserService {
 
 	@Override
 	public CompanyUserVo login(String userid, String passwd) {
-
 		CompanyUserVo user = companyUserMapper.login(userid, passwd);
-
 		return user;
 	}
 
 	@Override
 	public Boolean isUserIdDupCheck(String userId) {
-
 		Boolean result = companyUserMapper.isUserIdDupCheck(userId) != null ? true : false;
 
 		return result;
@@ -58,7 +55,6 @@ public class CompanyUserServiceImpl implements CompanyUserService {
 		return result;
 	}
 
-	
 	public String fileNemeReplace(String fileName) {
 		fileName = fileName.replace("\\", "/");
 		String path = "/img/commonImage/";
@@ -77,33 +73,25 @@ public class CompanyUserServiceImpl implements CompanyUserService {
 		return date.format(koreanFormatter);
 	}
 	
+
 	@Override
 	public HashMap<String, Object> getCompanyUserData(CompanyUserVo companyUserVo) {
 		HashMap<String, Object> getCompanyUserData = companyUserMapper.getCompanyUserData(companyUserVo);
-		
+
 		String companySfileName = String.valueOf(getCompanyUserData.get("COMPANY_SFILE_NAME"));
 		companySfileName = fileNemeReplace(companySfileName);
 		getCompanyUserData.put("COMPANY_SFILE_NAME", companySfileName);
-		
-		//2024-11-07 00:00:00.0
+
+		// 2024-11-07 00:00:00.0
 		String companyEstablish = String.valueOf(getCompanyUserData.get("COMPANY_ESTABLISH"));
-		
-		  // 입력 문자열에서 날짜 부분만 추출
-        LocalDate companyEstablishFormat = LocalDate.parse(companyEstablish.substring(0, 10),
-                DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-        // 한글 형식의 포맷터 생성
-        DateTimeFormatter koreanFormatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일", Locale.KOREAN);
+		String formattedEstablishDate = formatDate(companyEstablish);
 
-        // LocalDate를 한글 형식으로 변환
-        String formattedDate = companyEstablishFormat.format(koreanFormatter);
-		
-		companyEstablish = formattedDate;
-		
-		getCompanyUserData.put("COMPANY_ESTABLISH", companyEstablish);
-		
+		getCompanyUserData.put("COMPANY_ESTABLISH", formattedEstablishDate);
+
 		return getCompanyUserData;
 	}
+
 
 
 	@Override
@@ -111,22 +99,14 @@ public class CompanyUserServiceImpl implements CompanyUserService {
 		map.put("uploadPath", uploadPath);
 		String companyProfile = "companyProfile";
 		map.put("companyProfile", companyProfile);
-		System.out.println("setProfileUpdate map:" + map);
 		FileImage.save(map, profileImge);
-		System.out.println("setProfileUpdate map후:" + map);
+		System.out.println("setProfileUpdate map후:"+map);
 
 		if (map.get("fileList") != null) {
 			int companyImageCountCheck = companyImageMapper.setCompanyImageCountCheck(map);
 			if (companyImageCountCheck == 0) {
 				companyImageMapper.setCompanyImage(map);
-			}
-			;
-		}
-		;
-		FileImage.save(map, profileImge);
-
-		if (map.get("fileList") != null) {
-			companyImageMapper.setCompanyImage(map);
+			};
 		};
 		companyUserMapper.setUpdateCompanyProfile(map);
 

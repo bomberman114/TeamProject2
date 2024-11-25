@@ -121,10 +121,6 @@
 	</delete>
 
 
-
-
-
-
 <!-- 기업회원 =========================================== -->
 <select id="getUserResumeCount">
 	SELECT
@@ -140,38 +136,99 @@
        USER_RESUME UR
    LEFT JOIN (
        SELECT 
-             COMPANY_RECRUIT_IDX 
-           , LISTAGG(DISTINCT SKILL_IDX, ', ') WITHIN GROUP (ORDER BY SKILL_IDX) AS SKILL_IDX
+             CURS.USER_RESUME_IDX 
+           , LISTAGG(DISTINCT S.SKILL_NAME, ', ') WITHIN GROUP (ORDER BY S.SKILL_NAME) AS SKILL_NAME
+           , LISTAGG(DISTINCT S.SKILL_IDX, ', ') WITHIN GROUP (ORDER BY S.SKILL_IDX) AS SKILL_IDX
        FROM 
-           COMMON_COMPANY_RECRUIT_SKILL  
-           
-       <if test="skillListCheck != null ">    
-       WHERE 
-          SKILL_IDX IN
-        <foreach item="skill" index="index" collection="checkedSkillList"
-         open="(" separator="," close=")">
-           #{ skill.skill_idx }
-         </foreach>
-       </if>
-       
-       GROUP BY COMPANY_RECRUIT_IDX
-   ) CCRK ON CCRK.COMPANY_RECRUIT_IDX = CR.COMPANY_RECRUIT_IDX
+           COMMON_USER_RESUME_SKILL  CURS
+    JOIN SKILLS S ON CURS.SKILL_IDX = S.SKILL_IDX
+     
+        GROUP BY USER_RESUME_IDX
+   )  CCRK ON CCRK.USER_RESUME_IDX = UR.USER_RESUME_IDX
    JOIN 
-       REGION R ON CR.REGION_IDX = R.REGION_IDX
-   <if test="regionListCheck != null">
-   WHERE 
-       CR.REGION_IDX IN 
+       REGION R ON UR.REGION_IDX = R.REGION_IDX
+  
+    JOIN
+        COMMON_DUTY CD
+    ON  
+        UR.COMMON_DUTY_IDX = CD.COMMON_DUTY_IDX
+    <if test="checkedCommonDutyList != null">
+  WHERE
+  	UR.COMMON_DUTY_IDX IN 
+  	 <foreach item="commonDuty" index="index" collection="checkedCommonDutyList"
+         open="(" separator="," close=")">
+           #{ commonDuty.common_duty_idx }
+         </foreach>
+    </if>
+    
+     <if test="checkedRegionList != null">
+   OR 
+       UR.REGION_IDX IN 
        <foreach item="region" index="index" collection="checkedRegionList"
          open="(" separator="," close=")">
            #{ region.region_idx }
          </foreach>
-   </if>
-       
+   </if>    
+   
+       <if test="checkedSkillListToTypeString != null ">    
+       OR 
+           CCRK.SKILL_IDX IN
+        <foreach item="skill_idx" index="index" collection="checkedSkillListToTypeString"
+         open="(" separator="," close=")">
+           #{ skill_idx }
+         </foreach>
+       </if>
+   
    ORDER BY 
-       CR.COMPANY_RECRUIT_REGDATE DESC
+        UR.USER_RESUME_REGDATE DESC
     OFFSET #{ startRow } ROWS FETCH NEXT #{ endRow } ROWS ONLY
     
 	
 </select>
+
+<select id="getuserResumeMap">
+    SELECT *
+		FROM USER_RESUME UR 
+		LEFT JOIN (
+		    SELECT 
+		        USER_RESUME_IDX,
+		        LISTAGG(DISTINCT S.SKILL_NAME, ', ') AS SKILLS
+		    FROM COMMON_USER_RESUME_SKILL CURS 
+		    JOIN SKILLS S ON CURS.SKILL_IDX = S.SKILL_IDX
+		    GROUP BY CURS.USER_RESUME_IDX
+		) SKILLS_SUBQUERY ON UR.USER_RESUME_IDX = SKILLS_SUBQUERY.USER_RESUME_IDX
+		LEFT JOIN USER_CAREER UC ON UR.USER_RESUME_IDX = UC.USER_RESUME_IDX
+		LEFT JOIN USER_EDUCATION UE ON UR.USER_RESUME_IDX = UE.USER_RESUME_IDX
+		LEFT JOIN USER_RESUME_INTRO RI ON UR.USER_RESUME_IDX = RI.USER_RESUME_IDX
+		LEFT JOIN COMMON_DUTY CD ON UR.COMMON_DUTY_IDX = CD.COMMON_DUTY_IDX
+		LEFT JOIN EDUCATION_STATUS ES ON ES.EDUCATION_STATUS_IDX = UE.EDUCATION_STATUS_IDX
+		LEFT JOIN REGION R ON UR.REGION_IDX = R.REGION_IDX
+        LEFT JOIN USER_RESUME_IMAGE URI
+        ON
+            UR.USER_RESUME_IDX = URI.USER_RESUME_IDX
+         LEFT JOIN
+            APPLICATIONS A
+        ON
+            UR.USER_RESUME_IDX = A.USER_RESUME_IDX
+        LEFT JOIN 
+            APPLICATION_STATUS APS
+        ON
+            A.APPLICATION_STATUS_IDX = APS.APPLICATION_STATUS_IDX
+		WHERE UR.USER_RESUME_IDX = #{user_resume_idx}
+		<if test="company_recruit_idx!=null">
+		AND A.COMPANY_RECRUIT_IDX = #{company_recruit_idx}
+		</if>
+        
+        
+</select>
+
+<update id="updateUserResumeApply">
+UPDATE APPLICATIONS
+SET
+    APPLICATION_STATUS_IDX = #{application_status_idx}
+WHERE
+        APPLICATION_IDX = #{application_idx}
+
+</update>
 
 </mapper>

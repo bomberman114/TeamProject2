@@ -169,6 +169,7 @@ header {
 }
 
 /* header 로그인 메뉴 */
+
 .logined {
   align-items: center;
 
@@ -1414,6 +1415,62 @@ footer {
 	margin-top: 60px;
 }
 
+.apply-form{
+  & .inner{
+    & aside{
+      width: 285px ;
+    }
+    & .aside-inner{
+      width:285px;
+      padding: 0;
+      & li{
+        padding: 0 20px;
+
+        & h3 {
+          font-size: 24px;
+          font-weight: 700;
+          padding: 0;
+          border: 0;
+          margin: 24px 0 30px;
+        }
+
+        & .applyall-btn{
+          width: 100%;
+          height: 50px;
+          border: solid 1px #333;
+          font-weight: 700;
+          background: none;
+          font-size: 16px;
+          border-radius: 4px;
+          margin-bottom: 30px;
+        }
+      }
+      & > li:nth-child(2){
+        padding: 20px 20px;
+        display: flex;
+        align-items: center;
+        border-top: solid 1px #D7DCE5;
+        border-bottom: solid 1px #D7DCE5;
+
+
+      }
+    }
+
+    & .apply-container{
+      width: calc(100% - 305px);
+      background: #fff;
+
+      & .apply-content{
+        & .apply-status{
+          & ul{
+            display: flex;
+            
+          }
+        }
+      }
+    }
+  }
+}
 
 
 @media screen and (max-width: 1000px) {

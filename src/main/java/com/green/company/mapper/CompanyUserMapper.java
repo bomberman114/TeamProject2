@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.green.company.recruit.vo.CompanyRecruitVo;
 import com.green.company.vo.CompanyUserVo;
 
 
@@ -22,5 +23,8 @@ public interface CompanyUserMapper {
 	Object isUserIdDupCheck(String userId);
 
 	HashMap<String, Integer> getCompanyApplicationStatusIdxList(CompanyUserVo companyUserVo);
+
+	HashMap<String, Integer> getCheckCompanyApplicationStatusIdxMap(CompanyRecruitVo companyRecruitVo);
+
 }
 	

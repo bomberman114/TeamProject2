@@ -13,9 +13,9 @@
 	) VALUES (
     COMPANY_IMAGE_SEQ.NEXTVAL,
     #{company_user_idx},
-    #{company_image_name},
-    #{company_image_ext},
-    #{company_sfile_name}
+    #{fileList[0].company_image_name},
+    #{fileList[0].company_image_ext},
+    #{fileList[0].company_sfile_name}
 	)
 </insert>
 
@@ -24,7 +24,7 @@
   		COMPANY_IMAGE
 	WHERE
          COMPANY_USER_IDX = #{company_user_idx}
-         COMPANY_IMAGE_IDX = #{company_image_idx}
+
   
 </delete>
 

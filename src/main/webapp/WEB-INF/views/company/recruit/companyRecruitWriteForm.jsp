@@ -361,6 +361,7 @@ body {
 </script>
 </head>
 <body>
+  <%@include file="/WEB-INF/includes/headerCompanyUser.jsp" %>
 	<form action="/CompanyRecruit/RecruitWrite" method="get" id="recruitWrite">
 		<div class="container">
 			<div class="form-section">
@@ -417,8 +418,8 @@ body {
 				</div>
 				<div class="form-group">
 					<label for="deadline">회사 설립일</label> 
-					<input type="text" id="company_establish" name="company_establish" 
-					value="${companyUserVo.company_establish }" readonly>
+					<input type="date" id="company_establish" name="company_establish" 
+					value="${companyUserVo.company_establish }" readonly="readonly">
 				</div>
 				<div class="form-group">
 			    <label for="main-task">주요업무</label>
@@ -441,7 +442,7 @@ body {
 				<div class="form-group">
 					<label for="location">근무지역</label> <select id="location"
 						name="region_idx">
-						<option>지역 선택</option>
+						<option value="">지역 선택</option>
 						<c:forEach var="regionList" items="${regionList}">
 							<option value="${regionList.region_idx }">${regionList.region_name }</option>
 						</c:forEach>

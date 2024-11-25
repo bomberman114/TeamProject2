@@ -8,6 +8,8 @@ import com.green.users.vo.UserVo;
 
 public interface UsersResumeService {
 
+	HashMap<String, Object> getuserResumeMap(HashMap<String, Object> map);
+
 	UserVo findUser(UserVo vo);
 
 	void saveResume(HashMap<String, Object> map, List<Integer> resumeSkills);
@@ -21,4 +23,5 @@ public interface UsersResumeService {
 	void updateResume(HashMap<String, Object> map, List<Integer> resumeSkills);
 
 	void deleteResume(HashMap<String, Object> map);
+
 }

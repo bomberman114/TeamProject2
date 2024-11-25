@@ -2,7 +2,7 @@ package com.green.company.vo;
 
 public class CompanyUserVo {
 
-	
+
 	private int    company_user_idx;        // 기업회원 idx
 	private String company_user_id;         // 기업회원 아이디
 	private String company_user_passwd;     // 기업회원 비밀번호
@@ -36,15 +36,6 @@ public class CompanyUserVo {
 	}
 
 
-	@Override
-	public String toString() {
-		return "CompanyUserVo [company_user_idx=" + company_user_idx + ", company_user_id=" + company_user_id + ", company_user_passwd=" + company_user_passwd
-				+ ", company_user_name=" + company_user_name + ", company_user_phone=" + company_user_phone
-				+ ", company_bcode=" + company_bcode + ", company_boss_name=" + company_boss_name + ", company_email="
-				+ company_email + ", company_user_email=" + company_user_email + ", company_regdate=" + company_regdate
-				+ ", company_establish=" + company_establish + "]";
-	}
-
 	public int getCompany_user_idx() {
 		return company_user_idx;
 	}
@@ -54,85 +45,118 @@ public class CompanyUserVo {
 		this.company_user_idx = company_user_idx;
 	}
 
+
 	public String getCompany_user_id() {
 		return company_user_id;
 	}
+
 
 	public void setCompany_user_id(String company_user_id) {
 		this.company_user_id = company_user_id;
 	}
 
+
 	public String getCompany_user_passwd() {
 		return company_user_passwd;
 	}
+
 
 	public void setCompany_user_passwd(String company_user_passwd) {
 		this.company_user_passwd = company_user_passwd;
 	}
 
+
 	public String getCompany_user_name() {
 		return company_user_name;
 	}
+
 
 	public void setCompany_user_name(String company_user_name) {
 		this.company_user_name = company_user_name;
 	}
 
+
 	public String getCompany_user_phone() {
 		return company_user_phone;
 	}
+
 
 	public void setCompany_user_phone(String company_user_phone) {
 		this.company_user_phone = company_user_phone;
 	}
 
+
 	public String getCompany_bcode() {
 		return company_bcode;
 	}
+
 
 	public void setCompany_bcode(String company_bcode) {
 		this.company_bcode = company_bcode;
 	}
 
+
 	public String getCompany_boss_name() {
 		return company_boss_name;
 	}
+
 
 	public void setCompany_boss_name(String company_boss_name) {
 		this.company_boss_name = company_boss_name;
 	}
 
+
 	public String getCompany_email() {
 		return company_email;
 	}
+
 
 	public void setCompany_email(String company_email) {
 		this.company_email = company_email;
 	}
 
+
 	public String getCompany_user_email() {
 		return company_user_email;
 	}
+
 
 	public void setCompany_user_email(String company_user_email) {
 		this.company_user_email = company_user_email;
 	}
 
+
 	public String getCompany_regdate() {
 		return company_regdate;
 	}
+
 
 	public void setCompany_regdate(String company_regdate) {
 		this.company_regdate = company_regdate;
 	}
 
+
 	public String getCompany_establish() {
 		return company_establish;
 	}
 
+
 	public void setCompany_establish(String company_establish) {
 		this.company_establish = company_establish;
 	}
+
+
+	@Override
+	public String toString() {
+		return "CompanyUserVo [company_user_idx=" + company_user_idx + ", company_user_id=" + company_user_id
+				+ ", company_user_passwd=" + company_user_passwd + ", company_user_name=" + company_user_name
+				+ ", company_user_phone=" + company_user_phone + ", company_bcode=" + company_bcode
+				+ ", company_boss_name=" + company_boss_name + ", company_email=" + company_email
+				+ ", company_user_email=" + company_user_email + ", company_regdate=" + company_regdate
+				+ ", company_establish=" + company_establish + "]";
+	}
+
+	
 	
 	
 }

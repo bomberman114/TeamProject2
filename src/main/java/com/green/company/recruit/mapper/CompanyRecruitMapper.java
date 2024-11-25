@@ -20,7 +20,6 @@ public interface CompanyRecruitMapper {
 
 	List<HashMap<String, Object>> getCompanyRecruiteList(CompanyUserVo companyUserVo);
 
-	void setCompanyRecruitInsert(HashMap<String, Object> map);
 
 
 	List<HashMap<String, String>> getCompanyRecruiteSkillStackList();
@@ -30,5 +29,19 @@ public interface CompanyRecruitMapper {
 	HashMap<String, Object> getCompanyHomeRecruiteMap(CompanyRecruitVo companyRecruitVo);
 
 	List<HashMap<String, Object>> findAllHomeRecruiteList();
+
+	List<HashMap<String, Object>> getCheckcompanyRecruiteList(CompanyRecruitVo companyRecruitVo);
+
+
+
+	void setCompanyRecruitInsert(HashMap<String, Object> map);
+
+
+	HashMap<String, Object> getCompanyRecruiteMap(CompanyRecruitVo companyRecruitVo);
+
+
+	void setCompanyRecruitUpdate(HashMap<String, Object> map);
+
+
 
 }

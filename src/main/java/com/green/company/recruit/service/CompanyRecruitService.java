@@ -16,6 +16,9 @@ public interface CompanyRecruitService {
 
 	List<HashMap<String, Object>> checkedCompanyRecruitApplyUserResumeAllList(CompanyRecruitVo companyRecruitVo);
 
+
 	List<HashMap<String, Object>> findAllHomeRecruiteList();
+
+	HashMap<String, Object> getcompanyRecruitMap(CompanyRecruitVo companyRecruitVo);
 
 }
