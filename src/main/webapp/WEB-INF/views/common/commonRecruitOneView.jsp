@@ -114,12 +114,89 @@
                 <li>${companyHistory.COMPANY_YEAR}년차<span>(${companyHistory.ESTABLISH } 설립)</span></li>
               </ul>
               <button class="apply-btn">지원하기</button>
-              <p><img src="/images/icon/recruit-oneview-mark-off.png" alt="북마크 아이콘">스크랩</p>
+              <p class="bookmark-btn"><img src="/images/icon/recruit-oneview-mark-off.png" alt="북마크 아이콘">스크랩</p>
             </div>
           </aside>
         </div>
     </main>
     <%@include file="/WEB-INF/includes/footer.jsp" %>
+    <c:if test="${not empty sessionScope.userLogin}">
+    	<div class="modal-bg">
+	      <div class="modal">
+	        <div class="modal-bar">
+	          <span>입사지원</span
+	          ><img src="/images/icon/stack-remove.png" alt="" />
+	        </div>
+	        <div class="modal-content">
+	          <h4>${vo.RECRUIT_TITLE}</h4>
+	          <p>${vo.COMPANY_NAME}</p>
+	          <h5>계정정보</h5>
+	          <ul>
+	            <li>
+	              <span>이름</span>
+	              <span>${sessionScope.userLogin.user_name}</span>
+	            </li>
+	            <li>
+	              <span>이메일</span>
+	              <span>${sessionScope.userLogin.user_email}</span>
+	            </li>
+	            <li>
+	              <span>연락처</span>
+	              <span>${sessionScope.userLogin.user_phone}</span>
+	            </li>
+	          </ul>
+	          <h5>이력서 <span>총 0개</span></h5>
+	          <form action="#" method="post">
+	          <div class="modal-resume-list">
+	              <div class="modal-resume-item">
+	                <input type="radio" name="user_resume_idx" />
+	                <div>
+	                  <p class="resume-title">이력서 제목</p>
+	                  <p class="resume-info">경력,학력</p>
+	                  <p class="resume-info">기술스택</p>
+	                  <p class="resume-regdate">등록일 : 2024.10.12</p>
+	                </div>
+	              </div>
+	            </div>
+	            <button class="resume-apply-btn">지원하기</button>
+	          </form>
+	        </div>
+	      </div>
+	    </div>
+    </c:if>
+    <script>
+    
+    	const $applyBtn = document.querySelector(".apply-btn")
+    	const $bookmarkbtn = document.querySelector(".bookmark-btn")
+    	$applyBtn.addEventListener("click",()=>{
+    		if('${sessionScope.userLogin}'){
+    			const $modal = document.querySelector(".modal-bg");
+    			$modal.style.display = "block"
+    			
+    		}else{
+    			alert("로그인이 필요합니다.")
+    		}
+    	})
+    	
+      async function getUserResumeAjax(userIdx) {
+	    const res = await fetch(`/Users/GetUserResume`, {
+	        method: "POST",
+	        headers: {
+	            "Content-Type": "application/json",
+	        },
+	        body: JSON.stringify({ userIdx : userIdx)
+	    });
+	
+	    if (!res.ok) {
+	        throw new Error(`HTTP error status: ${res.status}`);
+	    }
+	
+	    const result = await res.json();
+	    console.log(result.vo)
+	    return result.vo;
+	}
+		
+    </script>
   </body>
 </html>
 
