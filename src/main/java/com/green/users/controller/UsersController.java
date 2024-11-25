@@ -113,7 +113,7 @@ public class UsersController {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("bookmarkList",bookmarkList);
 		mv.addObject("markupCount",markupCount);
-		mv.setViewName("/users/apply/personalUserApplyList");
+		mv.setViewName("/users/bookmark/personalUserbookmarkList");
 		return mv;
 	}
 	

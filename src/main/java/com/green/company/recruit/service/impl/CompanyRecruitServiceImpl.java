@@ -183,4 +183,11 @@ public class CompanyRecruitServiceImpl implements CompanyRecruitService {
 		companyRecruitMap.put("SKILLS", Arrays.asList(resumeSkillArr));
 		return companyRecruitMap;
 	}
+
+	@Override
+	public HashMap<String, Object> getCompanyHistory(int company_recruit_idx) {
+		HashMap<String, Object> map = companyRecruitMapper.getCompanyHistory(company_recruit_idx);
+		return map;
+	}
+
 }

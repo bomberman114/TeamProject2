@@ -21,4 +21,8 @@ public interface CompanyRecruitService {
 
 	HashMap<String, Object> getcompanyRecruitMap(CompanyRecruitVo companyRecruitVo);
 
+	HashMap<String, Object> getCompanyHistory(int company_recruit_idx);
+
+
+
 }

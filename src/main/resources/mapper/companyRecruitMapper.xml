@@ -241,7 +241,7 @@ ORDER BY
 
 <select id="findAllHomeRecruiteList">
 	SELECT *
-	FROM   COMPANY_RECRUIT CR JOIN  (
+	FROM   COMPANY_RECRUIT CR LEFT JOIN  (
 	                SELECT 
 	                  COMPANY_RECRUIT_IDX,
 	                  LISTAGG(DISTINCT S.SKILL_Name, ' · ') WITHIN GROUP (ORDER BY COMMON_COMPANY_RECRUIT_SKILL_IDX)  AS SKILLS
@@ -350,6 +350,13 @@ SET
 WHERE
         company_recruit_idx = #{company_recruit_idx}
  
+</select>
+
+<select id="getCompanyHistory">
+	SELECT TO_CHAR(COMPANY_ESTABLISH,'YY"년 "MM"월"') establish,
+	       FLOOR(MONTHS_BETWEEN(SYSDATE, COMPANY_ESTABLISH) / 12) COMPANY_YEAR
+	FROM   COMPANY_USERS
+	WHERE  COMPANY_USER_IDX = (select COMPANY_USER_IDX  from COMPANY_RECRUIT WHERE COMPANY_RECRUIT_IDX = #{company_recruit_idx})
 </select>
 
 </mapper>
