@@ -1,7 +1,6 @@
 package com.green.company.recruit.service.impl;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
@@ -160,6 +159,14 @@ public class CompanyRecruitServiceImpl implements CompanyRecruitService {
 		return checkedCompanyRecruitApplyUserResumeAllList;
 
 	}
+
+		@Override
+		public List<HashMap<String, Object>> findAllHomeRecruiteList() {
+			List<HashMap<String, Object>> homeRecruitList =  companyRecruitMapper.findAllHomeRecruiteList();
+
+			return homeRecruitList;
+		}
+
 
 	@Override
 	public HashMap<String, Object> getcompanyRecruitMap(CompanyRecruitVo companyRecruitVo) {

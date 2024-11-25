@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -137,7 +138,10 @@ padding-bottom: 10px;
 			</nav>
 			<div class="ms-auto d-flex align-items-center">
 			<img src="/images/icon/BellBell.png" alt="알람" />&nbsp;
-				</a> <span class="me-3">기업회원님</span> 
+			<span class="me-3">기업회원님</span> 
+			 <span class="me-3">개인회원님</span> 
+
+
 				<span>잡집사 홈</span>
 			</div>
 		</header>
@@ -160,7 +164,7 @@ padding-bottom: 10px;
 				<p>
 					<img src="/images/icon/Mail.png" alt="메일" />&nbsp;${companyMap.COMPANY_EMAIL}
 				</p>
-				</br>
+				<br/>
 				<h3>담당자:${companyMap.COMPANY_USER_NAME}</h3>
 				<p>
 					<img src="/images/icon/call.png" alt="전화" />&nbsp;${companyMap.COMPANY_PHONE}
@@ -168,15 +172,31 @@ padding-bottom: 10px;
 				<p>
 					<img src="/images/icon/Mail.png" alt="메일" />&nbsp;${companyMap.COMPANY_USER_EMAIL}
 				</p>
-				</br>
-
-
+				<br/>
 				<h3 class="section-title">나의 현황</h3>
 				<div class="status-box">
 					<div>
 						신규지원자 
 						<span>
 							${applicationStatusIdx.APPLICATION_STATUS_IDX1}
+						</span>
+					</div>
+					<div>
+						서류통과 
+						<span>
+						${applicationStatusIdx.APPLICATION_STATUS_IDX2}
+						</span>
+					</div>
+					<div>
+						최종합격 
+						<span>
+							${applicationStatusIdx.APPLICATION_STATUS_IDX3}
+						</span>
+					</div>
+					<div>
+						불합격 
+						<span>
+							${applicationStatusIdx.APPLICATION_STATUS_IDX4}
 						</span>
 					</div>
 					<div>

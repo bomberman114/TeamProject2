@@ -16,7 +16,7 @@
         )
        </foreach>
 </insert>
-  
+
   <select id="getCompanyRecruitMySkillList">
   SELECT
     CCRK.common_company_recruit_skill_idx,

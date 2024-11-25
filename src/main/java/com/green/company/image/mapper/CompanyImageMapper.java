@@ -10,18 +10,13 @@ import com.green.company.image.vo.CompanyImageVo;
 @Mapper
 public interface CompanyImageMapper {
 
-
 	void deleteProfile(HashMap<String, Object> map);
 
-
-
 	List<CompanyImageVo> getCompanyProfileImge(HashMap<String, Object> map);
-
 
 	void deleteCompanyImge(HashMap<String, Object> map);
 
 	void setCompanyImage(HashMap<String, Object> map);
-
 
 	int setCompanyImageCountCheck(HashMap<String, Object> map);
 

@@ -2,7 +2,126 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.green.user.resume.mapper.UserResumeMapper">  
+	<select id="findUser">
+		SELECT *
+		FROM   USERS
+		WHERE  USER_IDX = #{user_idx}
+	</select>
 
+	<insert id="saveResume">
+		INSERT INTO USER_RESUME (
+	    USER_RESUME_IDX,
+	    USER_TITLE,
+	    USER_IDX,
+	    COMMON_DUTY_IDX,
+	    USER_GENDER,
+	    USER_NAME,
+	    USER_BIRTH,
+	    USER_PHONE,
+	    USER_EMAIL,
+	    REGION_IDX,
+	    region_address         ) 
+    VALUES                   (
+ 			USER_RESUME_SEQ.NEXTVAL,
+	    #{user_title},
+	    #{user_idx},
+	    #{common_duty_idx},
+	    #{user_gender},
+	    #{user_name},
+	    #{user_birth},
+	    #{user_phone},
+	    #{user_email},
+	    #{region_idx},
+	    #{region_address}          )
+	</insert>
+
+	<select id="findResumeAll">
+		SELECT UR.USER_RESUME_IDX,
+       USER_TITLE,
+       SKILLS,
+       EDUCATION_STATUS_TYPE,
+       TO_CHAR(USER_RESUME_REGDATE,'YYYY.MM.DD') USER_RESUME_REGDATE,
+       FLOOR(MONTHS_BETWEEN(TO_DATE(USER_WOOKED_YEAR_END, 'YYYY-MM'),  TO_DATE(USER_WOOKED_YEAR_START, 'YYYY-MM')) / 12) CARRER_YEAR,
+       MOD(FLOOR(MONTHS_BETWEEN(TO_DATE(USER_WOOKED_YEAR_END, 'YYYY-MM'),  TO_DATE(USER_WOOKED_YEAR_START, 'YYYY-MM'))), 12) CARRER_MONTH
+		FROM USER_RESUME UR LEFT JOIN (
+		                                SELECT 
+		                                  USER_RESUME_IDX,
+		                                  LISTAGG(DISTINCT S.SKILL_Name, ', ') WITHIN GROUP (ORDER BY COMMON_USER_RESUME_SKILL_IDX)  AS SKILLS
+		                                FROM COMMON_USER_RESUME_SKILL CURS JOIN SKILLS S ON CURS.SKILL_IDX = S.SKILL_IDX
+		                                GROUP BY CURS.USER_RESUME_IDX
+		                               ) SKILLS_SUBQUERY   ON UR.USER_RESUME_IDX      = SKILLS_SUBQUERY.USER_RESUME_IDX
+		                    LEFT JOIN USER_CAREER UC       ON UR.USER_RESUME_IDX      = UC.USER_RESUME_IDX
+		                    LEFT JOIN USER_EDUCATION UE    ON UR.USER_RESUME_IDX      = UE.USER_RESUME_IDX
+		                    LEFT JOIN EDUCATION_STATUS ES  ON UE.EDUCATION_STATUS_IDX = ES.EDUCATION_STATUS_IDX
+		WHERE USER_IDX = #{user_idx}
+		ORDER BY UR.USER_RESUME_REGDATE DESC
+	</select>
+
+	<select id="selectSkillfindAllById">
+		SELECT *
+		FROM   SKILLS
+		WHERE  SKILL_STACK_IDX = #{stackId}
+	</select>
+	  
+	<select id="resumeFindById">
+		SELECT UR.USER_RESUME_IDX,
+       UR.USER_TITLE,
+       UR.USER_IDX,
+       COMMON_DUTY_NAME,
+       USER_GENDER,
+       USER_NAME,
+       USER_BIRTH,
+       USER_PHONE,
+       USER_EMAIL,
+       REGION_NAME,
+       REGION_ADDRESS,
+       USER_RESUME_REGDATE,
+       USER_RESUME_VIEWS,
+       SKILLS,
+       EDUCATION_STATUS_TYPE,
+       USER_SCHOOL_NAME,
+       USER_WOOKED_COMPANY_NAME, 
+       USER_CAREER_CONTENTE, 
+       USER_WOOKED_YEAR_START, 
+       USER_WOOKED_YEAR_END,
+       FLOOR(MONTHS_BETWEEN(TO_DATE(USER_WOOKED_YEAR_END, 'YYYY-MM'),  TO_DATE(USER_WOOKED_YEAR_START, 'YYYY-MM')) / 12) CARRER_YEAR,
+       MOD(FLOOR(MONTHS_BETWEEN(TO_DATE(USER_WOOKED_YEAR_END, 'YYYY-MM'),  TO_DATE(USER_WOOKED_YEAR_START, 'YYYY-MM'))), 12) CARRER_MONTHM,
+       USER_RESUME_INTRO_TITLE,
+       USER_RESUME_INTRO_CONTENT
+		FROM USER_RESUME UR 
+		LEFT JOIN (
+		    SELECT 
+		        USER_RESUME_IDX,
+		        LISTAGG(DISTINCT S.SKILL_Name, ', ') WITHIN GROUP (ORDER BY COMMON_USER_RESUME_SKILL_IDX) AS SKILLS
+		    FROM COMMON_USER_RESUME_SKILL CURS 
+		    JOIN SKILLS S ON CURS.SKILL_IDX = S.SKILL_IDX
+		    GROUP BY CURS.USER_RESUME_IDX
+		) SKILLS_SUBQUERY ON UR.USER_RESUME_IDX = SKILLS_SUBQUERY.USER_RESUME_IDX
+		LEFT JOIN USER_CAREER UC ON UR.USER_RESUME_IDX = UC.USER_RESUME_IDX
+		LEFT JOIN USER_EDUCATION UE ON UR.USER_RESUME_IDX = UE.USER_RESUME_IDX
+		LEFT JOIN USER_RESUME_INTRO RI ON UR.USER_RESUME_IDX = RI.USER_RESUME_IDX
+		LEFT JOIN COMMON_DUTY CD ON UR.COMMON_DUTY_IDX = CD.COMMON_DUTY_IDX
+		LEFT JOIN EDUCATION_STATUS ES ON ES.EDUCATION_STATUS_IDX = UE.EDUCATION_STATUS_IDX
+		LEFT JOIN REGION R ON UR.REGION_IDX = R.REGION_IDX
+		WHERE UR.USER_RESUME_IDX = #{user_resume_idx}
+	</select>
+
+	<update id="updateResume">
+	UPDATE USER_RESUME
+	SET    USER_TITLE      = #{user_title},
+				 COMMON_DUTY_IDX = #{common_duty_idx},
+				 REGION_IDX      = #{region_idx},
+				 REGION_ADDRESS  = #{region_address}
+  WHERE  USER_RESUME_IDX = #{user_resume_idx}
+	</update>
+
+	<delete id="deleteResume">
+		DELETE USER_RESUME
+		WHERE  USER_RESUME_IDX = #{user_resume_idx}
+	</delete>
+
+
+<!-- 기업회원 =========================================== -->
 <select id="getUserResumeCount">
 	SELECT
 		COUNT(*)

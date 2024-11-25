@@ -1,14 +1,11 @@
 package com.green.company.mapper;
 
 import java.util.HashMap;
-import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
 import com.green.company.recruit.vo.CompanyRecruitVo;
 import com.green.company.vo.CompanyUserVo;
-
-import com.green.users.vo.UserVo;
 
 
 @Mapper
@@ -27,9 +24,7 @@ public interface CompanyUserMapper {
 
 	HashMap<String, Integer> getCompanyApplicationStatusIdxList(CompanyUserVo companyUserVo);
 
-
 	HashMap<String, Integer> getCheckCompanyApplicationStatusIdxMap(CompanyRecruitVo companyRecruitVo);
-
 
 }
 	

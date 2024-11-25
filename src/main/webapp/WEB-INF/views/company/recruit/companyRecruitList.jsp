@@ -74,6 +74,8 @@ h2 {
 .tabs span {
 	margin-right: 20px;
 	cursor: pointer;
+<<<<<<< HEAD
+=======
 	padding: 5px 10px;
 	border-radius: 5px;
 }
@@ -81,6 +83,7 @@ h2 {
 .tabs .active {
 	background-color: #007bff;
 	color: white;
+>>>>>>> f3c9cc92c0f2aafd350de8091f14c88ad7d69d17
 }
 
 .job-list {
@@ -142,7 +145,6 @@ h2 {
 			</div>
 		</div>
 	</header>
-
 	<main>
 		<div class="container">
 			<h2>채용공고 관리</h2>

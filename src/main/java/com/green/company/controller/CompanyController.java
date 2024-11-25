@@ -1,6 +1,5 @@
 package com.green.company.controller;
 
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -10,18 +9,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -31,7 +24,6 @@ import com.green.common.duty.vo.CommonDutyVo;
 import com.green.company.image.mapper.CompanyImageMapper;
 import com.green.company.mapper.CompanyUserMapper;
 import com.green.company.recruit.mapper.CompanyRecruitMapper;
-import com.green.company.recruit.vo.CompanyRecruitVo;
 import com.green.company.service.CompanyUserService;
 import com.green.company.vo.CompanyUserVo;
 import com.green.paging.vo.Pagination;
@@ -42,14 +34,6 @@ import com.green.region.vo.RegionVo;
 import com.green.skills.mapper.SkillsMapper;
 import com.green.skills.vo.SkillVo;
 import com.green.user.resume.mapper.UserResumeMapper;
-
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import com.green.company.service.CompanyUserService;
-import com.green.company.vo.CompanyUserVo;
-import com.green.users.vo.UserVo;
-
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -92,7 +76,7 @@ public class CompanyController {
         HashMap<String, Object> companyMap = companyUserService.getCompanyUserData(companyUserVo);
         HashMap<String, Integer> applicationStatusIdx = companyUserMapper.getCompanyApplicationStatusIdxList(companyUserVo);
         System.out.println("applicationStatusIdx:" + applicationStatusIdx);
-        
+     
         mv.addObject("applicationStatusIdx", applicationStatusIdx);
         mv.addObject("companyMap", companyMap);
         mv.setViewName("/company/companyUsers/companyMyPage");

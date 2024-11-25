@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.green.common.company.recruit.skill.vo.CompanyRecruitSkillVo;
 import com.green.company.recruit.vo.CompanyRecruitVo;
 import com.green.skills.vo.SkillVo;
 

@@ -80,12 +80,16 @@ public class FileImage {
 				} // try catch end 
 				
 				// 저장된 파일들의 정보를 map 에  List 방식으로 저장 -> pdsServiceImpl 에 전달 
+
 				if(map.get("companyProfile") != null ) {
+
 					CompanyImageVo  companyImageVo = new CompanyImageVo(0, 0, fileName, fileExt, saveName2);
 					companyImageList.add( companyImageVo );
 				};
 				
+
 				if(map.get("userResumeProfile") != null ) {
+
 					UserResumeImageVo userResumeImageVo = new UserResumeImageVo(0, 0, fileName, fileExt, saveName2);
 					userResumeImageList.add(userResumeImageVo);
 				};

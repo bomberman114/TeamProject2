@@ -11,4 +11,5 @@ public interface EducationStatusMapper {
 
 	List<EducationStatusVo> getEducationStatuList();
 
+
 }

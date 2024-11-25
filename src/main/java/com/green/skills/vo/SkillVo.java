@@ -6,9 +6,11 @@ public class SkillVo {
 	private int skill_stack_idx; // 스킬구분
 	private String skill_name; // 스킬
 
-	public SkillVo() {
-	}
-
+	
+	
+	
+	public SkillVo() {}
+	
 	public SkillVo(int skill_idx, int skill_stack_idx, String skill_name) {
 		super();
 		this.skill_idx = skill_idx;
@@ -45,5 +47,4 @@ public class SkillVo {
 		return "SkillVo [skill_idx=" + skill_idx + ", skill_stack_idx=" + skill_stack_idx + ", skill_name=" + skill_name
 				+ "]";
 	}
-
 }

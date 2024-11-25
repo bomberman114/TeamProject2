@@ -1,4 +1,4 @@
-package com.green.company.service.Impl;
+package com.green.company.service.impl;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -45,6 +45,7 @@ public class CompanyUserServiceImpl implements CompanyUserService {
 	@Override
 	public Boolean isUserIdDupCheck(String userId) {
 		Boolean result = companyUserMapper.isUserIdDupCheck(userId) != null ? true : false;
+
 		return result;
 	}
 
@@ -60,6 +61,18 @@ public class CompanyUserServiceImpl implements CompanyUserService {
 		fileName = path + fileName;
 		return fileName;
 	}
+
+	private String formatDate(String dateStr) {
+		// 입력 문자열에서 날짜 부분만 추출
+		LocalDate date = LocalDate.parse(dateStr.substring(0, 10), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+		// 한글 형식의 포맷터 생성
+		DateTimeFormatter koreanFormatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일", Locale.KOREAN);
+
+		// LocalDate를 한글 형식으로 변환
+		return date.format(koreanFormatter);
+	}
+	
 
 	@Override
 	public HashMap<String, Object> getCompanyUserData(CompanyUserVo companyUserVo) {
@@ -78,24 +91,14 @@ public class CompanyUserServiceImpl implements CompanyUserService {
 
 		return getCompanyUserData;
 	}
-	
-	private String formatDate(String dateStr) {
-	    // 입력 문자열에서 날짜 부분만 추출
-	    LocalDate date = LocalDate.parse(dateStr.substring(0, 10), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-	    
-	    // 한글 형식의 포맷터 생성
-	    DateTimeFormatter koreanFormatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일", Locale.KOREAN);
 
-	    // LocalDate를 한글 형식으로 변환
-	    return date.format(koreanFormatter);
-	}
+
 
 	@Override
 	public void setProfileUpdate(HashMap<String, Object> map, MultipartFile[] profileImge) {
 		map.put("uploadPath", uploadPath);
 		String companyProfile = "companyProfile";
 		map.put("companyProfile", companyProfile);
-		System.out.println("setProfileUpdate map:"+map);
 		FileImage.save(map, profileImge);
 		System.out.println("setProfileUpdate map후:"+map);
 

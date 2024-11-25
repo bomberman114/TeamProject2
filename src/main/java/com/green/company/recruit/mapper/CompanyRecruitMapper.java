@@ -8,7 +8,6 @@ import org.apache.ibatis.annotations.Param;
 
 import com.green.company.recruit.vo.CompanyRecruitVo;
 import com.green.company.vo.CompanyUserVo;
-import com.green.skills.vo.SkillVo;
 
 @Mapper
 public interface CompanyRecruitMapper {
@@ -27,6 +26,9 @@ public interface CompanyRecruitMapper {
 
 	int getCompanyRecruitIdx(CompanyUserVo companyUserVo);
 
+	HashMap<String, Object> getCompanyHomeRecruiteMap(CompanyRecruitVo companyRecruitVo);
+
+	List<HashMap<String, Object>> findAllHomeRecruiteList();
 
 	List<HashMap<String, Object>> getCheckcompanyRecruiteList(CompanyRecruitVo companyRecruitVo);
 

@@ -9,7 +9,7 @@
  		FROM
  			SKILLS
  	</select>
- 	
+
  	<select id="getSeletedSkillStackSkillList">
  	SELECT
  			*

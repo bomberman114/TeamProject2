@@ -22,11 +22,11 @@
             <ul>
               <li>
                 <p>아이디</p>
-                <input type="text" name="user_id" placeholder="아이디">
+                <input type="text" name="user_id" placeholder="아이디" value="asd123">
               </li>
               <li>
                 <p>비밀번호</p>
-                <input type="text" name="user_passwd" placeholder="비밀번호">
+                <input type="text" name="user_passwd" placeholder="비밀번호" value="asd123">
                 <span class="id-dup ref"></span>
               </li>
             </ul>

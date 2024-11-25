@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.green.education.status.mapper.EducationStatusMapper">  
+
 	<select id="getEducationStatuList">
 	SELECT
     	EDUCATION_STATUS_IDX,
@@ -9,5 +10,4 @@
 	FROM
     	EDUCATION_STATUS
 	</select>
-
 </mapper>

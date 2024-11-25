@@ -41,4 +41,14 @@ public class UsersServiceImpl implements UsersService {
 		return result;
 	}
 
+	@Override
+	public void updateUser(HashMap<String, Object> map) {
+		userMapper.updateUser(map);
+	}
+
+	@Override
+	public UserVo findById(int user_idx) {
+		UserVo vo = userMapper.findById(user_idx);
+		return vo;
+	}
 }
