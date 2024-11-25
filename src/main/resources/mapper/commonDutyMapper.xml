@@ -9,6 +9,19 @@
    	COMMON_DUTY
    </select>
   
+  <select id="getCheckedCommonDutyList">
+  SELECT
+   *
+   FROM
+   	COMMON_DUTY
+   WHERE
+   	COMMON_DUTY_IDX IN
+   	<foreach item="commonDuty" index="index" collection="checkedCommonDutyList"
+         open="(" separator="," close=")">
+           #{ commonDuty.common_duty_idx }
+         </foreach>
+  
+  </select>
   
 </mapper>
 

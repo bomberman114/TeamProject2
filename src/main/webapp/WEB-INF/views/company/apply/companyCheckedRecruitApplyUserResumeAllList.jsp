@@ -141,7 +141,7 @@
                 </c:forEach>
             </div>
             <div class="resume-info">
-                <h3>지원자 정보</h3>
+                <h3>${recruitTitle}</h3>
                 <div class="application-status">
                     <h3>지원완료 (${checkedApplicationStatusIdxMap.APPLICATION_STATUS_IDX1})</h3>
                     <h3>서류통과 (${checkedApplicationStatusIdxMap.APPLICATION_STATUS_IDX2})</h3>

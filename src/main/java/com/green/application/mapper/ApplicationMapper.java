@@ -15,4 +15,5 @@ public interface ApplicationMapper {
 
 	List<HashMap<String, Object>> checkedCompanyRecruitApplyUserResumeAllList(CompanyRecruitVo companyRecruitVo);
 
+
 }

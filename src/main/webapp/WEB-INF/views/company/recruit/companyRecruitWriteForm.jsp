@@ -361,6 +361,7 @@ body {
 </script>
 </head>
 <body>
+  <%@include file="/WEB-INF/includes/headerCompanyUser.jsp" %>
 	<form action="/CompanyRecruit/RecruitWrite" method="get" id="recruitWrite">
 		<div class="container">
 			<div class="form-section">
@@ -441,7 +442,7 @@ body {
 				<div class="form-group">
 					<label for="location">근무지역</label> <select id="location"
 						name="region_idx">
-						<option>지역 선택</option>
+						<option value="">지역 선택</option>
 						<c:forEach var="regionList" items="${regionList}">
 							<option value="${regionList.region_idx }">${regionList.region_name }</option>
 						</c:forEach>

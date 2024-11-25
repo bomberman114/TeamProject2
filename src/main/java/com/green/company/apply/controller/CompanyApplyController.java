@@ -6,14 +6,21 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.green.application.mapper.ApplicationMapper;
+import com.green.application.status.mapper.ApplicationStatusMapper;
+import com.green.application.status.vo.ApplicationStatusVo;
 import com.green.company.mapper.CompanyUserMapper;
 import com.green.company.recruit.service.CompanyRecruitService;
 import com.green.company.recruit.vo.CompanyRecruitVo;
 import com.green.company.vo.CompanyUserVo;
 import com.green.user.resume.mapper.UserResumeMapper;
+import com.green.user.resume.vo.UserResumeVo;
+import com.green.users.resume.service.UsersResumeService;
+import com.green.users.resume.service.impl.UserResumeServiceImpl;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -26,12 +33,18 @@ public class CompanyApplyController {
 
 	@Autowired
 	private ApplicationMapper applicationMapper;
+	
+	@Autowired
+	private ApplicationStatusMapper applicationStatusMapper;
 
 	@Autowired
 	private CompanyRecruitService companyRecruitService;
 
 	@Autowired
 	private CompanyUserMapper companyUserMapper;
+	
+	@Autowired
+	private UsersResumeService usersResumeService;
 
 	@RequestMapping("/CompanyRecruitApplyUserResumeAllList")
 	public ModelAndView companyRecruitApplyUserResumeAllList(HttpSession session) {
@@ -70,7 +83,9 @@ public class CompanyApplyController {
 				.getCheckCompanyApplicationStatusIdxMap(companyRecruitVo);
 		
 		int companyRecruitIdx = companyRecruitVo.getCompany_recruit_idx();
+		String recruitTitle = String.valueOf(checkedCompanyRecruitApplyUserResumeList.get(0).get("RECRUIT_TITLE"));
 		
+		mv.addObject("recruitTitle", recruitTitle);
 		mv.addObject("companyRecruitIdx", companyRecruitIdx);
 		mv.addObject("checkedCompanyRecruitApplyUserResumeList", checkedCompanyRecruitApplyUserResumeList);
 		mv.addObject("companyRecruitList", companyRecruitList);
@@ -80,5 +95,38 @@ public class CompanyApplyController {
 		return mv;
 
 	}
+	
+	@RequestMapping("/CompanyApplyUserResumeView")
+	public ModelAndView companyApplyUserResumeView (@RequestParam HashMap<String, Object> map) {
+		ModelAndView mv = new ModelAndView();
+		UserResumeVo userResumeVo = new UserResumeVo();
+		userResumeVo.setUser_resume_idx(36);
+		map.put("user_resume_idx", 36);
+		map.put("company_recruit_idx", null);
+		System.out.println(map);
+		HashMap<String, Object> userResumeMap = usersResumeService.getuserResumeMap(map);
+		List<ApplicationStatusVo> applicationStatuList = applicationStatusMapper.getapplicationStatuList();
+		
+		mv.addObject("vo", userResumeMap);
+		mv.addObject("applicationStatuList", applicationStatuList);
+		mv.setViewName("/company/apply/companyApplyUserResumeView");
+		return mv;
+		
+	}
+	
+	@RequestMapping("/CompanyApplyUserResumeChangeApply")
+	public String companyApplyUserResumeChangeApply(@RequestParam HashMap<String, Object> map
+			,RedirectAttributes redirectAttributes
+			) {
+		//ModelAndView mv = new ModelAndView();
+		System.out.println(map);
+		//userResumeMapper.updateUserResumeApply(map);
+		redirectAttributes.addAllAttributes(map);
+		//mv.addObject("map", map);
+		//mv.setViewName("redirect:/CompanyApply/CompanyApplyUserResumeView");
+		return "redirect:/CompanyApply/CompanyApplyUserResumeView";
+		
+	}
+	
 
 }

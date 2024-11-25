@@ -18,6 +18,19 @@
  		WHERE SKILL_STACK_IDX = #{skill_stack_idx}
  	</select>
  	
+ 	<select id="getCheckedSkillList">
+ 	SELECT
+ 	*
+ 	FROM
+ 		SKILLS
+ 	WHERE
+ 		SKILL_IDX IN 
+  		<foreach item="skill" index="index" collection="checkedSkillList"
+         open="(" separator="," close=")">
+           #{ skill.skill_idx }
+         </foreach>
+ 	</select>
+ 	
   
   
 </mapper>
