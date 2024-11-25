@@ -392,7 +392,7 @@ footer {
           & .stack-list {
             color: #767676;
             font-size: 14px;
-            font-weight: 300;
+            
           }
         }
       }
@@ -401,7 +401,7 @@ footer {
 
   & .recruit-list {
     display: grid;
-    grid-template-columns: repeat(4, auto);
+    grid-template-columns: repeat(4, 1fr);
     gap: 40px 20px;
     & .recruit-card {
       position: relative;
@@ -443,6 +443,11 @@ footer {
           color: #767676;
           font-size: 14px;
           font-weight: 300;
+          display: flex;
+          gap : 6px;
+          white-space: nowrap;
+			    overflow: hidden;
+			    text-overflow: ellipsis;
         }
       }
     }
@@ -1404,6 +1409,13 @@ footer {
   font-size : 20px;
   font-weight: 500
 }
+
+/* 유저 스크랩 */
+.user-apply{
+	margin-top: 60px;
+}
+
+
 
 @media screen and (max-width: 1000px) {
   .resume-list{

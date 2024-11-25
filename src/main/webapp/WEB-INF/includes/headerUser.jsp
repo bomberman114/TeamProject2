@@ -8,7 +8,7 @@
         <ul class="user-nav">
           <li><a href="/Users/MyPage/Home">마이홈</a></li>
           <li><a href="/Users/MyPage/Resume/List">이력서</a></li>
-          <li><a href="#">스크랩</a></li>
+          <li><a href="/Users/Bookmark">스크랩</a></li>
           <li><a href="#">지원자관리</a></li>
           <li><a href="#">메시지</a></li>
         </ul>

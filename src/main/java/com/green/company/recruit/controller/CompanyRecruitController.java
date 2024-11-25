@@ -1,5 +1,8 @@
 package com.green.company.recruit.controller;
 
+import java.net.http.HttpRequest;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +20,7 @@ import com.green.common.duty.mapper.CommonDutyMapper;
 import com.green.common.duty.vo.CommonDutyVo;
 import com.green.company.recruit.mapper.CompanyRecruitMapper;
 import com.green.company.recruit.service.CompanyRecruitService;
+import com.green.company.recruit.vo.CompanyRecruitVo;
 import com.green.company.vo.CompanyUserVo;
 import com.green.education.status.mapper.EducationStatusMapper;
 import com.green.education.status.vo.EducationStatusVo;
@@ -37,7 +41,7 @@ public class CompanyRecruitController {
 
 	@Autowired
 	private CommonCompanyRecruitSkillMapper commonCompanyRecruitSkillMapper;
-
+	
 	@Autowired
 	private CompanyRecruitService companyRecruitService;
 
@@ -58,9 +62,10 @@ public class CompanyRecruitController {
 
 	@Autowired
 	private CommonDutyMapper commonDutyMapper;
-
+	
 	@Autowired
 	private EducationStatusMapper educationStatusMapper;
+	
 
 	// 회사가 자기들 채용공고 보기
 	@RequestMapping("/RecruitList")
@@ -70,7 +75,7 @@ public class CompanyRecruitController {
 		// List<HashMap<String, Object>> companyRecruitList =
 		// companyRecruitMapper.getCompanyRecruiteList(companyUserVo);
 		List<HashMap<String, Object>> companyRecruitList = companyRecruitService.getCompanyRecruiteList(companyUserVo);
-		System.out.println("companyRecruitList:" + companyRecruitList);
+		//System.out.println("companyRecruitList:" + companyRecruitList);
 		mv.addObject("companyRecruitList", companyRecruitList);
 		mv.setViewName("/company/recruit/companyRecruitList");
 		return mv;
@@ -78,14 +83,16 @@ public class CompanyRecruitController {
 	}
 
 	// 데드라이 지난 공고보기
-	@RequestMapping("/RecruittListDead")
+	@RequestMapping("/DeadRecruittList")
 	public ModelAndView recruittListDeadline(HttpSession session) {
 		ModelAndView mv = new ModelAndView();
 		CompanyUserVo companyUserVo = (CompanyUserVo) session.getAttribute("companylogin");
 
 		List<HashMap<String, Object>> companyRecruitDeadList = companyRecruitService
 				.getCompanyRecruiteDeadList(companyUserVo);
-		mv.setViewName("");
+		
+		mv.addObject("companyRecruitDeadList", companyRecruitDeadList);
+		mv.setViewName("/company/recruit/companyDeadRecruitList");
 		return mv;
 
 	}
@@ -93,20 +100,26 @@ public class CompanyRecruitController {
 	@RequestMapping("/ReceivedResumes")
 	public ModelAndView receivedResumes() {
 		ModelAndView mv = new ModelAndView();
+
 		return mv;
+
 	}
 
 	@RequestMapping("/RecruitWriteForm")
 	public ModelAndView recruitWriteForm(HttpSession session) {
 		ModelAndView mv = new ModelAndView();
 		CompanyUserVo companyUserVo = (CompanyUserVo) session.getAttribute("companylogin");
+		   LocalDate companyEstablishFormat = LocalDate.parse(companyUserVo.getCompany_establish().substring(0, 10),
+					DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+           
+		companyUserVo.setCompany_establish(String.valueOf(companyEstablishFormat));
 		List<SkillVo> skillList = skillsMapper.getSkillList();
 		List<RegionVo> regionList = regionMapper.getRegionList();
 		List<CommonDutyVo> commonDutyList = commonDutyMapper.getCommonDutyList();
 		List<SkillStackVo> skillStackList = skillStackMapper.getSkillStackList();
-		List<EducationStatusVo> educationStatuList = educationStatusMapper.getEducationStatuList();
-		// System.out.println("companyUserVo:" + companyUserVo);
-
+		List<EducationStatusVo> educationStatuList =  educationStatusMapper.getEducationStatuList();
+		//System.out.println("companyUserVo:" + companyUserVo);
+		
 		mv.addObject("companyUserVo", companyUserVo);
 		mv.addObject("educationStatuList", educationStatuList);
 		mv.addObject("skillStackList", skillStackList);
@@ -116,10 +129,17 @@ public class CompanyRecruitController {
 		mv.setViewName("/company/recruit/companyRecruitWriteForm");
 		return mv;
 	}
-
+	
+	@RequestMapping("/SeletedSkillStackSkillList")
+	@ResponseBody
+	public List<SkillVo> seletedSkillStackSkillList(@RequestParam(name = "skill_stack_idx") Integer skill_stack_idx) {
+		List<SkillVo> skillList = skillsMapper.getSeletedSkillStackSkillList(skill_stack_idx);
+		return skillList;
+	}
+	
 	@RequestMapping("/RecruitWrite")
 	public ModelAndView recruitWrite(HttpSession session, HttpServletRequest request,
-			@RequestParam HashMap<String, Object> map) {
+			@RequestParam HashMap<String, Object> map, CompanyRecruitVo companyRecruitVo) {
 		ModelAndView mv = new ModelAndView();
 		CompanyUserVo companyUserVo = (CompanyUserVo) session.getAttribute("companylogin");
 
@@ -131,29 +151,31 @@ public class CompanyRecruitController {
 				SkillVo skillVo = new SkillVo();
 				skillVo.setSkill_idx(Integer.parseInt(skills[i]));
 				checkedSkillList.add(skillVo);
-			}
-			;
-		}
-		;
+			};
+		};
 		if (skills == null) {
 			checkedSkillList = null;
-		}
-		;
-		// System.out.println(map);
-		// System.out.println(checkedSkillList);
-		companyRecruitMapper.setCompanyRecruitInsert(map);
-		int company_recruit_idx = companyRecruitMapper.getCompanyRecruitIdx(companyUserVo);
-		// System.out.println("company_recruit_idx:" + company_recruit_idx);
-		commonCompanyRecruitSkillMapper.setCommonCompanyRecruitSkill(company_recruit_idx, checkedSkillList);
-
-		mv.setViewName(null);
+		};
+		System.out.println(map);
+		//System.out.println(checkedSkillList);
+		 companyRecruitMapper.setCompanyRecruitInsert(map);
+		//companyRecruitMapper.setCompanyRecruitInsert(companyRecruitVo);
+		 int company_recruit_idx = companyRecruitMapper.getCompanyRecruitIdx(companyUserVo);
+		//System.out.println("company_recruit_idx:" + company_recruit_idx);
+		commonCompanyRecruitSkillMapper.setCommonCompanyRecruitSkill(company_recruit_idx ,checkedSkillList);
+		
+		mv.setViewName("");
 		return mv;
 	}
-
-	@RequestMapping("/SeletedSkillStackSkillList")
-	@ResponseBody
-	public List<SkillVo> seletedSkillStackSkillList(@RequestParam(name = "skill_stack_idx") Integer skill_stack_idx) {
-		List<SkillVo> skillList = skillsMapper.getSeletedSkillStackSkillList(skill_stack_idx);
-		return skillList;
+	
+	@RequestMapping("/CompanyRecruitUpdateForm")
+	public ModelAndView companyRecruitUpdateForm(HttpSession session, CompanyRecruitVo companyRecruitVo) {
+		ModelAndView mv = new ModelAndView();
+		CompanyUserVo companyUserVo = (CompanyUserVo) session.getAttribute("companylogin");
+		HashMap<String, Object> CompanyRecruitMap = companyRecruitMapper.getCompanyHomeRecruiteMap(companyRecruitVo);
+		
+		return mv;
 	}
+	
+
 }

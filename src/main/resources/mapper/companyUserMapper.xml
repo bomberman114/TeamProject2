@@ -32,7 +32,7 @@
 	
 	<select id="login">
 		SELECT * 
-		FROM COMPANY_USERS 
+		FROM  COMPANY_USERS 
 		WHERE COMPANY_USER_ID = #{arg0} AND COMPANY_USER_PASSWD = #{arg1}
 	</select>
 	

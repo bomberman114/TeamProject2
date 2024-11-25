@@ -54,7 +54,6 @@ public class CompanyUserServiceImpl implements CompanyUserService {
 
 	@Override
 	public Boolean isUserExist(String userId, String userPd) {
-
 		Boolean result = companyUserMapper.login(userId, userPd) != null ? true : false;
 		return result;
 	}

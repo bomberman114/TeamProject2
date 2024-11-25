@@ -1,6 +1,7 @@
 package com.green.users.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.green.user.bookmark.mapper.UsersBookmarkMapper;
+import com.green.user.bookmark.vo.UserBookmarkVo;
 import com.green.users.service.UsersService;
 import com.green.users.vo.UserVo;
 
@@ -25,6 +28,9 @@ public class UsersController {
 	
 	@Autowired
 	private UsersService usersService;
+	
+	@Autowired
+	private UsersBookmarkMapper usersBookmarkMapper;
 
 	@RequestMapping("/RegisterForm")
 	public String registerForm() {
@@ -92,5 +98,44 @@ public class UsersController {
 			HttpSession        session) {
 		session.invalidate();
 		return "redirect:/";
+	}
+	
+	
+	@RequestMapping("/Bookmark")
+	public ModelAndView personalUserApply(HttpServletRequest request) {
+		
+		
+		HttpSession                   session      = request.getSession();
+		UserVo                        vo           = (UserVo) session.getAttribute("userLogin");
+		List<HashMap<String, Object>> bookmarkList = usersBookmarkMapper.markUpRecruitList(vo.getUser_idx());
+		int                           markupCount  = usersBookmarkMapper.countById(vo.getUser_idx());
+		
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("bookmarkList",bookmarkList);
+		mv.addObject("markupCount",markupCount);
+		mv.setViewName("/users/apply/personalUserApplyList");
+		return mv;
+	}
+	
+	
+	@RequestMapping("/RecruitMarkUp")
+	public ResponseEntity<HashMap<String,UserBookmarkVo>> recruitMarkUp(
+			@RequestBody Map<String,String> map
+			) {
+		String userId    = map.get("userIdx");
+		String recruitId = map.get("recruitIdx"); 
+		UserBookmarkVo vo = usersBookmarkMapper.findById(userId,recruitId);
+		if(vo != null) {
+			int bookmarkCheck = vo.getBookmark_check();
+			vo.setBookmark_check(bookmarkCheck == 1 ? 0 : 1);
+			usersBookmarkMapper.updateBookMark(vo);
+			vo = usersBookmarkMapper.findById(userId,recruitId);
+		}else {
+			usersBookmarkMapper.saveBookMark(userId,recruitId);
+			vo = usersBookmarkMapper.findById(userId,recruitId);
+		}
+		HashMap<String,UserBookmarkVo> res = new HashMap<>();
+		res.put("bookmark", vo);
+		return ResponseEntity.ok(res);
 	}
 }

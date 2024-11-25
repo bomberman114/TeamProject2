@@ -24,8 +24,8 @@
 	        <li>모바일</li>
 	      </ul>
 	      <div class="recruit-carasel">
-	        <img class="prev-btn" src="/images/icon/carasel-left.png" alt="이전 버튼"></button>
-	        <img class="next-btn" src="/images/icon/carasel-right.png" alt="다음 버튼"></button>
+	        <img class="prev-btn" src="/images/icon/carasel-left.png" alt="이전 버튼">
+	        <img class="next-btn" src="/images/icon/carasel-right.png" alt="다음 버튼">
 	        <div class="carasel-inner">
 	          <div class="develop-recruit-list">
 	            <div class="recruit-card">
@@ -164,23 +164,97 @@
 	    </div>
 	    <h2>요즘 뜨는 공고</h2>
 	    <div class="recruit-list">
-	      <div class="recruit-card">
-	        <img class="bookmark bookoff" src="/images/icon/mark-off.png" alt="북마크">
-	        <div class="recruit-img">기업로고/직무 이미지</div>
-	        <div class="recruit-info">
-	          <div class="company-info">
-	            <p class="recruit-title">1채용 공고 제목</p>
-	            <p class="company-name">기업이름</p>
-	          </div>
-	          <ul class="stack-list">
-	            <li>React</li>
-	          </ul>
-	        </div>
-	      </div>
+			<c:forEach var="recruit" items="${companyHomeRecruiteList}">
+			    <div class="recruit-card">
+			        <c:set var="isBookmarked" value="false" />
+			        <c:if test="${not empty userBookMarkList}">
+			            <c:forEach var="markup" items="${userBookMarkList}">
+			                <c:if test="${markup.bookmark_check eq 1 and markup.company_recruit_idx eq recruit.COMPANY_RECRUIT_IDX}">
+			                    <c:set var="isBookmarked" value="true" />
+			                </c:if>
+			            </c:forEach>
+			        </c:if>
+			        <c:choose>
+			            <c:when test="${isBookmarked}">
+			                <img class="bookmark mark-up" src="/images/icon/mark-up.png" alt="북마크" data-recruitidx="${recruit.COMPANY_RECRUIT_IDX}">
+			            </c:when>
+			            <c:otherwise>
+			                <img class="bookmark mark-down" src="/images/icon/mark-off.png" alt="북마크" data-recruitidx="${recruit.COMPANY_RECRUIT_IDX}">
+			            </c:otherwise>
+			        </c:choose>
+			        <div class="recruit-img">기업로고/직무 이미지</div>
+			        <div class="recruit-info">
+			            <div class="company-info">
+			                <p class="recruit-title">${recruit.RECRUIT_TITLE}</p>
+			                <p class="company-name">${recruit.COMPANY_NAME}</p>
+			            </div>
+			            <ul class="stack-list">
+			                <c:if test="${not empty recruit.SKILLS}">
+			                        <li>${recruit.SKILLS}</li>
+			                </c:if>
+			            </ul>
+			        </div>
+			    </div>
+			</c:forEach>
 	    </div>
 	  </div>
 	</main>
 	<%@include file="/WEB-INF/includes/footer.jsp" %>
+	<script>
+		const $bookMarkUp   = document.querySelectorAll(".mark-up");
+		$bookMarkUp.forEach((item)=>{
+			item.src = "/images/icon/mark-up.png"
+		})
+		
+		const $bookMarkDown   = document.querySelectorAll(".mark-down");
+		$bookMarkDown.forEach((item)=>{
+			item.src = "/images/icon/mark-off.png"
+		})
+	
+	
+		const $bookMarkList = document.querySelectorAll(".bookmark")
+		console.log("${userBookMarkList}")
+		$bookMarkList.forEach((recruit)=>{
+			recruit.addEventListener("click",function(){
+				if("${sessionScope.userLogin}"){
+					const userIdx    = "${sessionScope.userLogin.user_idx}";
+					const recruitIdx = this.dataset.recruitidx;
+					if(this.classList[1] == "mark-down"){
+						this.classList.remove("mark-down");
+						this.classList.add("mark-up");
+						recruitBookMarkAjax(userIdx,recruitIdx);
+						this.src = "/images/icon/mark-up.png"
+					}else{
+						this.classList.remove("mark-up")
+						this.classList.add("mark-down");
+						recruitBookMarkAjax(userIdx,recruitIdx);
+						this.src = "/images/icon/mark-off.png"
+					}					
+				}else{
+					alert("로그인이 필요합니다.")
+				}
+			})
+		})
+		
+			async function recruitBookMarkAjax(userIdx, recruitIdx) {
+	    const res = await fetch(`/Users/RecruitMarkUp`, {
+	        method: "POST",
+	        headers: {
+	            "Content-Type": "application/json",
+	        },
+	        body: JSON.stringify({ userIdx : userIdx, recruitIdx : recruitIdx})
+	    });
+	
+	    if (!res.ok) {
+	        throw new Error(`HTTP error status: ${res.status}`);
+	    }
+	
+	    const result = await res.json();
+	    console.log(result.vo)
+	    return result.vo;
+	}
+		
+	</script>
 </body>
 </html>
 
