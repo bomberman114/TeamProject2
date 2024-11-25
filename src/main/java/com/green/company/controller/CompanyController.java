@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.green.common.duty.mapper.CommonDutyMapper;
+import com.green.common.duty.vo.CommonDutyVo;
 import com.green.company.image.mapper.CompanyImageMapper;
 import com.green.company.mapper.CompanyUserMapper;
 import com.green.company.recruit.mapper.CompanyRecruitMapper;
@@ -75,6 +77,9 @@ public class CompanyController {
 	private RegionMapper regionMapper;
 	
 	@Autowired
+	private CommonDutyMapper commonDutyMapper;
+	
+	@Autowired
 	private CompanyUserService companyUserService;
 	
 
@@ -122,12 +127,12 @@ public class CompanyController {
 		
 	}
 	
-	@RequestMapping("/searchResumes")
+	@RequestMapping("/SearchResumes")
 	public ModelAndView searchResumes(HttpSession session, HttpServletRequest request,
 			@RequestParam(value = "nowpage", required = false) Integer nowpage,
 			@RequestParam(value = "pageSize", required = false) Integer pageSize) {
 		ModelAndView mv = new ModelAndView();
-		CompanyUserVo companyUserVo = (CompanyUserVo) session.getAttribute("CompanyUserLogin");
+		CompanyUserVo companyUserVo = (CompanyUserVo) session.getAttribute("companylogin");
 		
 		if (nowpage == null && pageSize == null) {
 			nowpage = 1;
@@ -136,18 +141,27 @@ public class CompanyController {
 		
 		List<SkillVo> skillList = skillsMapper.getSkillList();
 		List<RegionVo> regionList = regionMapper.getRegionList();
+		List<CommonDutyVo> commonDutyList =  commonDutyMapper.getCommonDutyList();
 
 		Map<String, String[]> map = request.getParameterMap();
 		String[] skills = map.get("skill_idx");
 		String[] regions = map.get("region_idx");
+		String[] commonDutys = map.get("common_duty_idx");
 		List<SkillVo> checkedSkillList = new ArrayList<>();
 		List<RegionVo> checkedRegionList = new ArrayList<>();
+		List<CommonDutyVo> checkedCommonDutyList = new ArrayList<>();
+		List<String> checkedSkillListToTypeString = new ArrayList<>();
+	     for(int i =0; i < checkedSkillList.size(); i++) {
+	    	 checkedSkillListToTypeString.add(skills[i]);
+	     };
 		if (skills != null) {
 			for (int i = 0; i < skills.length; i++) {
 				SkillVo skillVo = new SkillVo();
 				skillVo.setSkill_idx(Integer.parseInt(skills[i]));
 				checkedSkillList.add(skillVo);
+				checkedSkillListToTypeString.add(skills[i]);
 			};
+			checkedSkillList = skillsMapper.getCheckedSkillList(checkedSkillList);
 		};
 		if (regions != null) {
 
@@ -156,14 +170,31 @@ public class CompanyController {
 				regionVo.setRegion_idx(Integer.parseInt(regions[i]));
 				checkedRegionList.add(regionVo);
 			};
+			checkedRegionList = regionMapper.getCheckedRegionList(checkedRegionList);
 
+		};
+		if (commonDutys != null) {
+			
+			for (int i = 0; i < commonDutys.length; i++) {
+				CommonDutyVo commonDutyVo = new CommonDutyVo();
+				commonDutyVo.setCommon_duty_idx(Integer.parseInt(commonDutys[i]));
+				checkedCommonDutyList.add(commonDutyVo);
+			};
+			checkedCommonDutyList = commonDutyMapper.getCheckedCommonDutyList(checkedCommonDutyList);
+			
 		};
 		if (skills == null) {
 			checkedSkillList = null;
+			checkedSkillListToTypeString = null;
+			
 		};
 		if (regions == null) {
 			checkedRegionList = null;
 
+		};
+		if (commonDutys == null) {
+			checkedCommonDutyList = null;
+			
 		};
 		int resumesCount = 0;
 		resumesCount = userResumeMapper.getUserResumeCount();
@@ -175,7 +206,7 @@ public class CompanyController {
 	          // Collections.emptyList() : 자료는 없는 빈 리스트를 채운다
 	       }
 	       
-	       SearchVo  searchVo = new SearchVo();
+	      SearchVo  searchVo = new SearchVo();
 	      searchVo.setPage(nowpage);   // 현재 페이지 정보
 	      searchVo.setRecordSize(pageSize);   // 페이지당 10개
 	      searchVo.setPageSize(10);    // paging.jsp 에 출력할 페이지번호수  
@@ -186,22 +217,29 @@ public class CompanyController {
 	       int      startRow      =  searchVo.getOffset();
 	       int      endRow        =  searchVo.getRecordSize();
 	       
+	     System.out.println("checkedSkillListToTypeString:"+checkedSkillListToTypeString);
+	     
 	       List<HashMap<String, Object>> userResumeList =  
 	               userResumeMapper.getUserResumeList(   
-	                                                  checkedSkillList
+	            		   							  checkedSkillListToTypeString
 	                                                , checkedRegionList
+	                                                , checkedCommonDutyList
 	                                                , startRow
 	                                                , endRow );
-	       
+	       System.out.println("userResumeList:" + userResumeList);
+	       System.out.println("checkedSkillList:"+checkedSkillList);
+	       mv.addObject("commonDutyList", commonDutyList);
+	       mv.addObject("pagination", pagination);
 	       mv.addObject("regionList", regionList);
 	       mv.addObject("skillList", skillList);
+	       mv.addObject("checkedCommonDutyList", checkedCommonDutyList);
 	       mv.addObject("checkedRegionList", checkedRegionList);
 	       mv.addObject("checkedSkillList", checkedSkillList);
 	       mv.addObject("nowpage", nowpage);
 	       mv.addObject("pageSize", pageSize);
 	       mv.addObject("endRow", endRow);
 	       mv.addObject("userResumeList", userResumeList);
-	       mv.setViewName("/company/");
+	       mv.setViewName("/company/companyJoboffer/companySearchUserResumeList");
 	       
 		return mv;
 

@@ -31,11 +31,15 @@ public interface CompanyRecruitMapper {
 	List<HashMap<String, Object>> getCheckcompanyRecruiteList(CompanyRecruitVo companyRecruitVo);
 
 
-	HashMap<String, Object> getCompanyHomeRecruiteMap(CompanyRecruitVo companyRecruitVo);
 
 	void setCompanyRecruitInsert(HashMap<String, Object> map);
 
-	//void setCompanyRecruitInsert(CompanyRecruitVo companyRecruitVo);
+
+	HashMap<String, Object> getCompanyRecruiteMap(CompanyRecruitVo companyRecruitVo);
+
+
+	void setCompanyRecruitUpdate(HashMap<String, Object> map);
+
 
 
 }

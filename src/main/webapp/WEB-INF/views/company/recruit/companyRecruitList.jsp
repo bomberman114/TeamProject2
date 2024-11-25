@@ -156,7 +156,7 @@ h2 {
 				<c:forEach var="companyRecruitList" items="${companyRecruitList}">
 				<div class="job-card">
 					<h3>${companyRecruitList.RECRUIT_TITLE }</h3>
-					<p>공고 수정</p>
+					<p><a href="/CompanyRecruit/CompanyRecruitUpdateForm?company_recruit_idx=${companyRecruitList.COMPANY_RECRUIT_IDX}">공고 수정</a></p>
 					<p class="delete">공고 삭제</p>
 					<p>지원자 ${companyRecruitList.APPLICATION_COUNT }명</p>
 					<p>${companyRecruitList.COMPANY_RECRUIT_REGDATE } 등록</p>

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -158,5 +159,21 @@ public class CompanyRecruitServiceImpl implements CompanyRecruitService {
 		};
 		return checkedCompanyRecruitApplyUserResumeAllList;
 
+	}
+
+	@Override
+	public HashMap<String, Object> getcompanyRecruitMap(CompanyRecruitVo companyRecruitVo) {
+		HashMap<String, Object> companyRecruitMap = companyRecruitMapper.getCompanyRecruiteMap(companyRecruitVo);
+		String applicationDeadline = String.valueOf(companyRecruitMap.get("APPLICATION_DEADLINE"));
+		applicationDeadline = formatDate(applicationDeadline);
+		companyRecruitMap.put("APPLICATION_DEADLINE", applicationDeadline);
+		String skillString = String.valueOf(companyRecruitMap.get("SKILL_NAME"));
+		if (skillString == "null") {
+			skillString = "";
+		}
+		//System.out.println(skillString);
+		String[] resumeSkillArr = skillString.split(",");
+		companyRecruitMap.put("SKILLS", Arrays.asList(resumeSkillArr));
+		return companyRecruitMap;
 	}
 }

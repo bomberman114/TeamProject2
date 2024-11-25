@@ -14,4 +14,6 @@ public interface SkillsMapper {
 
 	List<SkillVo> getSeletedSkillStackSkillList(@Param("skill_stack_idx") Integer skill_stack_idx);
 
+	List<SkillVo> getCheckedSkillList(@Param("checkedSkillList") List<SkillVo> checkedSkillList);
+
 }

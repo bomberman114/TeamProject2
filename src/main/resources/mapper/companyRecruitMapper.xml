@@ -237,5 +237,103 @@ ORDER BY
       FETCH FIRST 1 ROW ONLY
 </select>
 
+<select id="getCompanyRecruiteMap">
+   SELECT 
+      *
+   FROM  
+       COMPANY_RECRUIT CR
+   LEFT JOIN (
+       SELECT 
+             CCRK.COMPANY_RECRUIT_IDX
+           , LISTAGG(DISTINCT CCRK.SKILL_IDX, ', ') WITHIN GROUP (ORDER BY CCRK.SKILL_IDX) AS SKILL_IDX
+           , LISTAGG(DISTINCT S.SKILL_NAME, ', ') WITHIN GROUP (ORDER BY S.SKILL_NAME) AS SKILL_NAME
+       FROM
+           COMMON_COMPANY_RECRUIT_SKILL CCRK
+        JOIN
+            SKILLS S
+        ON
+            CCRK.SKILL_IDX = S.SKILL_IDX
+       GROUP BY 
+       	COMPANY_RECRUIT_IDX ) CCRKS
+       ON 
+       	CCRKS.COMPANY_RECRUIT_IDX = CR.COMPANY_RECRUIT_IDX
+   JOIN 
+       REGION R ON CR.REGION_IDX = R.REGION_IDX
+    JOIN
+        COMMON_DUTY CD
+    ON
+        CR.COMMON_DUTY_IDX = CD.COMMON_DUTY_IDX
+    JOIN
+        EDUCATION_STATUS ES
+    ON
+        CR.EDUCATION_STATUS_IDX = ES.EDUCATION_STATUS_IDX
+    WHERE
+    CR.COMPANY_RECRUIT_IDX = #{company_recruit_idx} 
+   
+
+</select>
+
+<select id="setCompanyRecruitUpdate">
+  UPDATE COMPANY_RECRUIT
+SET
+	recruit_title = #{recruit_title},
+	company_job = #{company_job},
+	common_duty_idx = #{common_duty_idx},
+	main_work_content1 = #{main_work_content1},
+	main_work_content2 = 
+	<if test="main_work_content2 != null">
+	#{main_work_content2},
+	</if>
+	<if test="main_work_content2 == null">
+	null,
+	</if>
+	main_work_content3 = 
+	<if test="main_work_content3 != null">
+	#{main_work_content3},
+	</if>
+	<if test="main_work_content3 == null">
+	null,
+	</if>
+	qualification1 = #{qualification1},
+	qualification2 = 
+	<if test="qualification2 != null">
+	#{qualification2},
+	</if>
+	<if test="qualification2 == null">
+	null,
+	</if>
+	qualification3 = 
+	<if test="qualification3 != null">
+	#{qualification3},
+	</if>
+	<if test="qualification3 == null">
+	null,
+	</if>
+	preferential_treatment1 = #{preferential_treatment1},
+	preferential_treatment2 = 
+	<if test="preferential_treatment2 != null">
+	#{preferential_treatment2},
+	</if>
+	<if test="preferential_treatment2 == null">
+	null,
+	</if>
+	preferential_treatment3 = 
+	<if test="preferential_treatment3 != null">
+	#{preferential_treatment3},
+	</if>
+	<if test="preferential_treatment3 == null">
+	null,
+	</if>
+	education_status_idx = #{education_status_idx},
+	getman = #{getman},
+	region_idx = #{region_idx},
+	company_address = #{company_address},
+	company_info = #{company_info},
+	application_deadline = #{application_deadline},
+	company_establish = #{company_establish}
+WHERE
+        company_recruit_idx = #{company_recruit_idx}
+ 
+</select>
 
 </mapper>

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -172,6 +174,28 @@ body {
          // 오늘부터 가능하도록 설정 (채용공고기간)
          const applicationDeadlineEl = document.querySelector('[name=application_deadline]');
          applicationDeadlineEl.setAttribute("min", today);
+         
+      // X 버튼 클릭 시 해당 스킬 항목 삭제
+         document.querySelectorAll('#selected-skills-list li button').forEach(button => {
+             button.onclick = function(event) {
+                 event.preventDefault(); // 기본 동작 방지
+                 const listItem = button.closest('li'); // 해당 버튼의 가장 가까운 li 요소 찾기
+                 const hiddenInput = document.querySelector(`#hidden-skill-${listItem.dataset.skillId}`);
+                 const option = document.querySelector(`#skill option[value="${listItem.dataset.skillId}"]`);
+
+                 // 선택 해제 및 요소 삭제
+                 if (option) {
+                     option.selected = false; // select에서 선택 해제
+                 }
+                 if (listItem) {
+                     listItem.remove(); // 목록에서 li 제거
+                 }
+                 if (hiddenInput) {
+                     hiddenInput.remove(); // 숨겨진 input 요소 제거
+                 }
+             };
+         });
+
 
 		recruitWriteEl.onsubmit = function() {
 
@@ -185,11 +209,7 @@ body {
 				common_duty_idxEl.focus();
 				return false;
 			}
-			if (skillEl.value == "") {
-				alert("기술 스택을 입력하세요.");
-				skillEl.focus();
-				return false;
-			}
+		/*
 			 if ( skillStackEl.value == "") {
 			      alert("개발 분야를 선택해주세요.");
 			      skillStackEl.focus();
@@ -200,6 +220,7 @@ body {
 			        skillEL.focus();
 			        return false;
 			    }
+			    */
 			if (getmanEl.value == "") {
 				alert("모집인원을 입력하세요.");
 				getmanEl.focus();
@@ -361,19 +382,22 @@ body {
 </script>
 </head>
 <body>
-	<form action="/CompanyRecruit/RecruitWrite" method="get" id="recruitWrite">
+	<form action="/CompanyRecruit/CompanyRecruitUpdate" method="get" id="recruitWrite">
 		<div class="container">
 			<div class="form-section">
 				<div class="title">채용공고 제목</div>
-				<input type="text" class="title" name="recruit_title" placeholder="채용공고 제목을 입력해주세요."> 
+				<input type="text" class="title" name="recruit_title" placeholder="채용공고 제목을 입력해주세요." value="${companyRecruitMap.RECRUIT_TITLE}"> 
 				<input type="hidden" name="company_user_idx" value="${companyUserVo.company_user_idx}">
+				<input type="hidden" name="company_recruit_idx" value="${companyRecruitMap.COMPANY_RECRUIT_IDX}">
 				<input type="text" name="company_name" value="${companyUserVo.company_name}" readonly>
 				<div class="form-group">
 					<label for="job">직무</label>
 					 <select id="job" name="common_duty_idx">
 						<option value="">직무를 선택해주세요.</option>
 						<c:forEach var="commonDutyList" items="${commonDutyList}">
-							<option value="${commonDutyList.common_duty_idx }">${commonDutyList.common_duty_name }</option>
+							<option value="${commonDutyList.common_duty_idx }"
+								<c:if test="${ commonDutyList.common_duty_idx eq companyRecruitMap.COMMON_DUTY_IDX }">selected</c:if>
+								>${commonDutyList.common_duty_name }</option>
 						</c:forEach>
 					</select>
 				</div>
@@ -382,7 +406,9 @@ body {
 					 <select id="job" name="education_status_idx">
 						<option value="">학력를 선택해주세요.</option>
 						<c:forEach var="educationStatuList" items="${educationStatuList}">
-							<option value="${educationStatuList.education_status_idx }">${educationStatuList.education_status_type }</option>
+							<option value="${educationStatuList.education_status_idx }"
+							<c:if test="${ educationStatuList.education_status_idx eq companyRecruitMap.EDUCATION_STATUS_IDX }">selected</c:if>
+							>${educationStatuList.education_status_type }</option>
 						</c:forEach>
 					</select>
 				</div>
@@ -401,19 +427,30 @@ body {
 			    <select id="skill" multiple>
 			        <option value="">기술 스택을 선택해주세요</option>
 			    </select>
-			    <ul id="selected-skills-list"></ul> <!-- 선택된 스킬들을 표시할 영역 -->
+			   <ul id="selected-skills-list">
+				    <c:if test="${not empty companyRecruitSkillList}">
+				        <c:forEach var="companyRecruitSkillList" items="${companyRecruitSkillList}">
+				            <li data-skill-id="${companyRecruitSkillList.SKILL_IDX}">
+				                ${companyRecruitSkillList.SKILL_NAME}
+				                <button id="skillDelete" style="margin-left: 10px;">X</button>
+				            </li>
+				            <input type="hidden" name="skill_idx" 
+				            	value="${companyRecruitSkillList.SKILL_IDX}">
+				        </c:forEach>
+				    </c:if>
+				</ul> <!-- 선택된 스킬들을 표시할 영역 -->
 				</div>
 				<div class="form-group">
 					<label for="recruitment">모집인원</label> 
-					<input type="number" id="recruitment" name="getman" placeholder="모집인원을 입력해주세요.">
+					<input type="number" id="recruitment" name="getman" placeholder="모집인원을 입력해주세요." value="${companyRecruitMap.GETMAN}">
 				</div>
 				<div class="form-group">
 					<label for="recruitment">모집부문</label> 
-					<input type="text" id="company_job" name="company_job" placeholder="모집부문을 입력해주세요.">
+					<input type="text" id="company_job" name="company_job" placeholder="모집부문을 입력해주세요." value="${companyRecruitMap.COMPANY_JOB}">
 				</div>
 				<div class="form-group">
 					<label for="deadline">마감일</label> 
-					<input type="date" id="deadline" name="application_deadline">
+					<input type="date" id="deadline" name="application_deadline" value="${companyRecruitMap.APPLICATION_DEADLINE}">
 				</div>
 				<div class="form-group">
 					<label for="deadline">회사 설립일</label> 
@@ -423,35 +460,58 @@ body {
 				<div class="form-group">
 			    <label for="main-task">주요업무</label>
 			    <button type="button" class="add-button" onclick="addInput('main_work_content')">추가</button>
-			    <input id="main-task" name="main_work_content1" placeholder="주요업무를 입력해주세요.">
-			    <div id="mainWorkContainer"></div>
+			    <input id="main-task" name="main_work_content1" placeholder="주요업무를 입력해주세요." value="${companyRecruitMap.MAIN_WORK_CONTENT1}">
+			    <div id="mainWorkContainer">
+			    <c:if test="${companyRecruitMap.MAIN_WORK_CONTENT2 ne null}">
+			    	<input id="main-task" name="main_work_content2" placeholder="주요업무를 입력해주세요." value="${companyRecruitMap.MAIN_WORK_CONTENT2}">
+			    </c:if>
+			    <c:if test="${companyRecruitMap.MAIN_WORK_CONTENT3 ne null}">
+			    	<input id="main-task" name="main_work_content3" placeholder="주요업무를 입력해주세요." value="${companyRecruitMap.MAIN_WORK_CONTENT3}">
+			    </c:if>
+			    </div>
 			</div>
 			<div class="form-group">
 			    <label for="qualifications">자격요건</label>
 			    <button type="button" class="add-button" onclick="addInput('qualification')">추가</button>
-			    <input id="qualifications" name="qualification1" placeholder="자격요건을 입력해주세요.">
-			    <div id="qualificationContainer"></div>
+			    <input id="qualifications" name="qualification1" placeholder="자격요건을 입력해주세요." value="${companyRecruitMap.QUALIFICATION1}">
+			    <div id="qualificationContainer">
+			    <c:if test="${companyRecruitMap.QUALIFICATION2 ne null}">
+			    	<input id="qualifications" name="qualification2" placeholder="자격요건을 입력해주세요." value="${companyRecruitMap.QUALIFICATION2}">
+			    </c:if>
+			    <c:if test="${companyRecruitMap.QUALIFICATION3 ne null}">
+			    	<input id="qualifications" name="qualification3" placeholder="자격요건을 입력해주세요." value="${companyRecruitMap.QUALIFICATION3}">
+			    </c:if>
+			    </div>
 			</div>
 			<div class="form-group">
 			    <label for="benefits">우대사항</label>
 			    <button type="button" class="add-button" onclick="addInput('preferential_treatment')">추가</button>
-			    <input id="benefits" name="preferential_treatment1" placeholder="우대사항을 입력해주세요.">
-			    <div id="benefitsContainer"></div>
+			    <input id="benefits" name="preferential_treatment1" placeholder="우대사항을 입력해주세요." value="${companyRecruitMap.PREFERENTIAL_TREATMENT1}">
+			    <div id="benefitsContainer">
+			    <c:if test="${companyRecruitMap.PREFERENTIAL_TREATMENT2 ne null}">
+			    	<input id="benefits" name="preferential_treatment2" placeholder="우대사항을 입력해주세요." value="${companyRecruitMap.PREFERENTIAL_TREATMENT2}">
+			    </c:if>
+			    <c:if test="${companyRecruitMap.PREFERENTIAL_TREATMENT3 ne null}">
+			    	<input id="benefits" name="preferential_treatment3" placeholder="우대사항을 입력해주세요." value="${companyRecruitMap.PREFERENTIAL_TREATMENT3}">
+			    </c:if>
+			    </div>
 			</div>
 				<div class="form-group">
 					<label for="location">근무지역</label> <select id="location"
 						name="region_idx">
-						<option>지역 선택</option>
+						<option value="">지역 선택</option>
 						<c:forEach var="regionList" items="${regionList}">
-							<option value="${regionList.region_idx }">${regionList.region_name }</option>
+							<option value="${regionList.region_idx }"
+							<c:if test="${ regionList.region_idx  eq companyRecruitMap.REGION_IDX }">selected</c:if>
+							>${regionList.region_name }</option>
 						</c:forEach>
 					</select> <input type="text" name="company_address"
-						placeholder="상세 주소를 입력해주세요." style="margin-top: 10px;">
+						placeholder="상세 주소를 입력해주세요." style="margin-top: 10px;" value="${companyRecruitMap.COMPANY_ADDRESS}">
 				</div>
 				<div class="form-group">
 					<label for="company-desc">회사소개</label>
 					<textarea id="company-desc" name="company_info"
-						placeholder="내용을 입력해주세요."></textarea>
+						placeholder="내용을 입력해주세요.">${companyRecruitMap.COMPANY_INFO}</textarea>
 				</div>
 			</div>
 			<div class="sidebar">
