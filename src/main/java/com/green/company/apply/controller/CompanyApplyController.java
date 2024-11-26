@@ -57,6 +57,7 @@ public class CompanyApplyController {
 		HashMap<String, Integer> applicationStatusIdx = companyUserMapper
 				.getCompanyApplicationStatusIdxList(companyUserVo);
 
+		 System.out.println("companyRecruitApplyUserResumeAllList:"+companyRecruitApplyUserResumeAllList);
 		// System.out.println("companyRecruitList:"+companyRecruitList);
 		// System.out.println("companyRecruitDeadList:"+companyRecruitDeadList);
 		mv.addObject("applicationStatusIdx", applicationStatusIdx);
@@ -83,7 +84,7 @@ public class CompanyApplyController {
 		
 		int companyRecruitIdx = companyRecruitVo.getCompany_recruit_idx();
 		String recruitTitle = String.valueOf(checkedCompanyRecruitApplyUserResumeList.get(0).get("RECRUIT_TITLE"));
-		
+		System.out.println("checkedCompanyRecruitApplyUserResumeListController: " + checkedCompanyRecruitApplyUserResumeList);
 		mv.addObject("recruitTitle", recruitTitle);
 		mv.addObject("companyRecruitIdx", companyRecruitIdx);
 		mv.addObject("checkedCompanyRecruitApplyUserResumeList", checkedCompanyRecruitApplyUserResumeList);
@@ -99,13 +100,14 @@ public class CompanyApplyController {
 	public ModelAndView companyApplyUserResumeView (@RequestParam HashMap<String, Object> map) {
 		ModelAndView mv = new ModelAndView();
 		UserResumeVo userResumeVo = new UserResumeVo();
-		userResumeVo.setUser_resume_idx(36);
-		map.put("user_resume_idx", 36);
-		map.put("company_recruit_idx", null);
+		userResumeVo.setUser_resume_idx(43);
+		map.put("user_resume_idx", 44);
+		//map.put("company_recruit_idx", 33);
+		map.put("application_idx", 2);
 		System.out.println(map);
 		HashMap<String, Object> userResumeMap = usersResumeService.getuserResumeMap(map);
 		List<ApplicationStatusVo> applicationStatuList = applicationStatusMapper.getapplicationStatuList();
-		
+		System.out.println("userResumeMap:" + userResumeMap);
 		mv.addObject("vo", userResumeMap);
 		mv.addObject("applicationStatuList", applicationStatuList);
 		mv.setViewName("/company/apply/companyApplyUserResumeView");
@@ -119,7 +121,7 @@ public class CompanyApplyController {
 			) {
 		//ModelAndView mv = new ModelAndView();
 		System.out.println(map);
-		//userResumeMapper.updateUserResumeApply(map);
+		userResumeMapper.updateUserResumeApply(map);
 		redirectAttributes.addAllAttributes(map);
 		//mv.addObject("map", map);
 		//mv.setViewName("redirect:/CompanyApply/CompanyApplyUserResumeView");

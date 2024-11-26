@@ -182,7 +182,7 @@
 			                <img class="bookmark mark-down" src="/images/icon/mark-off.png" alt="북마크" data-recruitidx="${recruit.COMPANY_RECRUIT_IDX}">
 			            </c:otherwise>
 			        </c:choose>
-			        <div class="recruit-img">기업로고/직무 이미지</div>
+			        <div class="recruit-img"><img  alt="" src="<c:url value='${recruit.COMPANY_SFILE_NAME}'/>"></div>
 			        <div class="recruit-info">
 			            <div class="company-info">
 			                <p class="recruit-title"><a href="/Common/RecruitOneView?company_recruit_idx=${recruit.COMPANY_RECRUIT_IDX}">${recruit.RECRUIT_TITLE}</a></p>

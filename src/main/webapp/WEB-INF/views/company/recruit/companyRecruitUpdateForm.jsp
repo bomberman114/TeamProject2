@@ -8,6 +8,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/images/favicon.ico" />
+    <link rel="stylesheet" href="/css/reset.css" />
+    <link rel="stylesheet" href="/css/style.css" />
 <title>채용 공고 수정</title>
 <style>
 * {
@@ -180,8 +183,8 @@ body {
              button.onclick = function(event) {
                  event.preventDefault(); // 기본 동작 방지
                  const listItem = button.closest('li'); // 해당 버튼의 가장 가까운 li 요소 찾기
-                 const hiddenInput = document.querySelector(`#hidden-skill-${listItem.dataset.skillId}`);
-                 const option = document.querySelector(`#skill option[value="${listItem.dataset.skillId}"]`);
+                 const hiddenInput = document.querySelector('#hidden-skill-' + listItem.dataset.skillId);
+                 const option = document.querySelector('#skill option[value="' + listItem.dataset.skillId + '"]');
 
                  // 선택 해제 및 요소 삭제
                  if (option) {
@@ -382,6 +385,7 @@ body {
 </script>
 </head>
 <body>
+<%@include file="/WEB-INF/includes/headerCompanyUser.jsp"%>
 	<form action="/CompanyRecruit/CompanyRecruitUpdate" method="get" id="recruitWrite">
 		<div class="container">
 			<div class="form-section">
@@ -435,7 +439,7 @@ body {
 				                <button id="skillDelete" style="margin-left: 10px;">X</button>
 				            </li>
 				            <input type="hidden" name="skill_idx" 
-				            	value="${companyRecruitSkillList.SKILL_IDX}">
+				            	value="${companyRecruitSkillList.SKILL_IDX}" id="hidden-skill-${companyRecruitSkillList.SKILL_IDX}">
 				        </c:forEach>
 				    </c:if>
 				</ul> <!-- 선택된 스킬들을 표시할 영역 -->

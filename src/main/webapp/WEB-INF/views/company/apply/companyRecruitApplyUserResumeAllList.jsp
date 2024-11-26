@@ -6,6 +6,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/images/favicon.ico" />
+    <link rel="stylesheet" href="/css/reset.css" />
+    <link rel="stylesheet" href="/css/style.css" />
     <title>지원자 관리</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
     <style>
@@ -88,24 +91,7 @@
     </style>
 </head>
 <body>
-    <header>
-        <div class="header-container">
-            <h1>잡집사</h1>
-            <nav>
-                <ul>
-                    <li><a href="#">마이홈</a></li>
-                    <li><a href="#">인재풀</a></li>
-                    <li><a href="#">스크랩</a></li>
-                    <li><a href="#">채용공고</a></li>
-                    <li><a href="#">지원자 관리</a></li>
-                </ul>
-            </nav>
-            <div class="notification">
-                <span>기업회원</span>
-                <button>잡집사 홈</button>
-            </div>
-        </div>
-    </header>
+  <%@include file="/WEB-INF/includes/headerCompanyUser.jsp"%>
 
     <main>
         <div class="container">
@@ -157,8 +143,18 @@
                         <tr>
                             <td>${companyRecruitApplyUserResumeAllList.APPLIED_DATE } 지원</td>
                             <td>${companyRecruitApplyUserResumeAllList.USER_NAME }</td>
-                            <td>${companyRecruitApplyUserResumeAllList.years}년 ${companyRecruitApplyUserResumeAllList.months}월</td>
-                            <td>${companyRecruitApplyUserResumeAllList.APPLIED_DATE }</td>
+                            <td>
+                            <c:if test="${companyRecruitApplyUserResumeAllList.years eq null && companyRecruitApplyUserResumeAllList.months eq null}">
+                            	신입
+                            </c:if>
+                            <c:if test="${companyRecruitApplyUserResumeAllList.years ne null}">
+                            ${companyRecruitApplyUserResumeAllList.years}년 
+                            </c:if>
+                              <c:if test="${companyRecruitApplyUserResumeAllList.months ne null}">
+                            ${companyRecruitApplyUserResumeAllList.months}월 
+                            </c:if>
+                           	</td>
+                            <td>${companyRecruitApplyUserResumeAllList.COMMON_DUTY_NAME }</td>
                             <td>${companyRecruitApplyUserResumeAllList.APPLICATION_STATUS_TYPE }</td>
                         </tr>
                         </c:if>
