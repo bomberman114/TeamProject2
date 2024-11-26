@@ -1,6 +1,5 @@
 package com.green.company.recruit.controller;
 
-import java.net.http.HttpRequest;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -10,14 +9,12 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.SystemPropertyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.green.common.company.recruit.skill.mapper.CommonCompanyRecruitSkillMapper;
-import com.green.common.company.recruit.skill.vo.CompanyRecruitSkillVo;
 import com.green.common.duty.mapper.CommonDutyMapper;
 import com.green.common.duty.vo.CommonDutyVo;
 import com.green.company.recruit.mapper.CompanyRecruitMapper;

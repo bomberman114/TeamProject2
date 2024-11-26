@@ -41,8 +41,7 @@
 		FROM COMPANY_USERS
 		WHERE COMPANY_USER_ID = #{company_user_id}
 	</select>
-	
-	
+
 
 	<select id="getCompanyUserData">
 	SELECT 

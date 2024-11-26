@@ -50,12 +50,8 @@ public class HomeController {
 		if(vo != null) {
 			List<UserBookmarkVo>          userBookMarkList    = usersBookmarkMapper.findAllById(vo);		
 			mv.addObject("userBookMarkList", userBookMarkList);
-			System.out.println(userBookMarkList);
 		}
-
-		System.out.println(companyHomeRecruiteList);
 		mv.addObject("companyHomeRecruiteList", companyHomeRecruiteList);
-		
 		mv.setViewName("home");
 		return mv;
 	}

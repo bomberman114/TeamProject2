@@ -20,7 +20,6 @@ import com.green.company.vo.CompanyUserVo;
 import com.green.user.resume.mapper.UserResumeMapper;
 import com.green.user.resume.vo.UserResumeVo;
 import com.green.users.resume.service.UsersResumeService;
-import com.green.users.resume.service.impl.UserResumeServiceImpl;
 
 import jakarta.servlet.http.HttpSession;
 

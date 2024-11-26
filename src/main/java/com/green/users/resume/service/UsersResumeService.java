@@ -26,7 +26,11 @@ public interface UsersResumeService {
 
 	void deleteResume(HashMap<String, Object> map);
 
+
 	List<HashMap<String, Object>> getUserResumeList(List<String> checkedSkillListToTypeString,
 			List<RegionVo> checkedRegionList, List<CommonDutyVo> checkedCommonDutyList, int startRow, int endRow, String condition);
+
+	int countById(UserVo vo);
+
 
 }

@@ -246,8 +246,8 @@ SET
     APPLICATION_STATUS_IDX = #{application_status_idx}
 WHERE
         APPLICATION_IDX = #{application_idx}
-
 </update>
+
 
 <select id="getCheckedUserResumeCountWithConditions">
  SELECT 
@@ -310,5 +310,13 @@ WHERE
         USER_RESUME_IDX = #{user_resume_idx}
   
 </update>
+
+
+<select id="countById">
+	SELECT COUNT(*)
+	FROM   USER_RESUME
+	WHERE  USER_IDX = #{user_idx}
+</select>
+
 
 </mapper>

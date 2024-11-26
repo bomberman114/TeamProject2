@@ -44,10 +44,14 @@ public interface UserResumeMapper {
 
 	void updateUserResumeApply(HashMap<String, Object> map);
 
+
 	int getCheckedUserResumeCountWithConditions(@Param("checkedSkillListToTypeString") List<String> checkedSkillListToTypeString,
 			@Param("checkedRegionList") List<RegionVo> checkedRegionList,	@Param("checkedCommonDutyList") List<CommonDutyVo> checkedCommonDutyList);
 
 	void setUpdateUserResumeVIewPlus(HashMap<String, Object> map);
+
+	int countById(UserVo vo);
+
 
 
 }

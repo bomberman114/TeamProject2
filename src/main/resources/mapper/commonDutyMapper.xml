@@ -21,7 +21,7 @@
          open="(" separator="," close=")">
            #{ commonDuty.common_duty_idx }
          </foreach>
-  
+
   </select>
   
 </mapper>
