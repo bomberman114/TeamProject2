@@ -29,6 +29,14 @@ public class CompanyRecruitServiceImpl implements CompanyRecruitService {
 	@Autowired
 	private ApplicationMapper applicationMapper;
 	
+	// 파일경로바꾸기
+	public String fileNemeReplace(String fileName) {
+		fileName = fileName.replace("\\", "/");
+		String path = "/img/commonImage/";
+		fileName = path + fileName;
+		return fileName;
+	}
+	
 	
 	// 마감일이 현재 날짜를 넘었는지 확인하는 메서드
 		private boolean isPastDeadline(HashMap<String, Object> recruit, LocalDate now) {
@@ -88,38 +96,48 @@ public class CompanyRecruitServiceImpl implements CompanyRecruitService {
 		};
 		return companyRecruiteDeadList;
 	}
-
+	
+	public void datetotalMonths (HashMap<String, Object> map) {
+		String startDateString = (String) map.get("USER_WOOKED_YEAR_START");
+		String endDateString = (String) map.get("USER_WOOKED_YEAR_END");
+		if(startDateString != null && endDateString != null) {
+			
+			String startDateYear = startDateString.substring(0,4).trim();
+			String endDateYear = endDateString.substring(0,4).trim();
+			long starYearLong = Long.parseLong(startDateYear);
+			long endYearLong = Long.parseLong(endDateYear);
+			String startDateMonth = startDateString.substring(4,6).trim();
+			String endDateMonth = endDateString.substring(4,6).trim();
+			long starMonthLong = Long.parseLong(startDateMonth);
+			long endMonthLong = Long.parseLong(endDateMonth);
+			// 개월 수 계산
+			long years = endYearLong - starYearLong;
+			
+			long months = Math.abs(starMonthLong - endMonthLong);
+			
+			
+			map.put("years", years);
+			map.put("months", months);
+		};
+		//map.put("careerCheck", "true");
+		
+	}
 	
 	@Override
 	public List<HashMap<String, Object>> companyRecruitApplyUserResumeAllList(CompanyUserVo companyUserVo) {
 		List<HashMap<String, Object>> companyRecruitApplyUserResumeAllList = applicationMapper
 				.companyRecruitApplyUserResumeAllList(companyUserVo);
 
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
-
+		//DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
+		 //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMM");
 		for (int i = 0; i < companyRecruitApplyUserResumeAllList.size(); i++) {
 			// 2024-11-07 00:00:00.0
-			String startDateString = (String) companyRecruitApplyUserResumeAllList.get(i).get("USER_WOOKED_YEAR_START");
-			String endDateString = (String) companyRecruitApplyUserResumeAllList.get(i).get("USER_WOOKED_YEAR_END");
+			// USER_WOOKED_YEAR_START=202004
+			datetotalMonths(companyRecruitApplyUserResumeAllList.get(i));
 
-			if (startDateString != null && endDateString != null) {
-				// 날짜 변환
-				LocalDate startDate = LocalDate.parse(startDateString, formatter);
-				LocalDate endDate = LocalDate.parse(endDateString, formatter);
-
-				// 개월 수 계산
-				long totalMonths = ChronoUnit.MONTHS.between(startDate, endDate);
-
-				// 년과 개월로 나누기
-				long years = totalMonths / 12;
-				long months = totalMonths % 12;
-
-				companyRecruitApplyUserResumeAllList.get(i).put("years", years);
-				companyRecruitApplyUserResumeAllList.get(i).put("months", months);
-
-			};
 		};
 
+		System.out.println("companyRecruitApplyUserResumeAllList Service:" + companyRecruitApplyUserResumeAllList);
 		return companyRecruitApplyUserResumeAllList;
 	}
 
@@ -129,31 +147,9 @@ public class CompanyRecruitServiceImpl implements CompanyRecruitService {
 		List<HashMap<String, Object>> checkedCompanyRecruitApplyUserResumeAllList = applicationMapper
 				.checkedCompanyRecruitApplyUserResumeAllList(companyRecruitVo);
 
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
-
 		for (int i = 0; i < checkedCompanyRecruitApplyUserResumeAllList.size(); i++) {
 			// 2024-11-07 00:00:00.0
-			String startDateString = (String) checkedCompanyRecruitApplyUserResumeAllList.get(i)
-					.get("USER_WOOKED_YEAR_START");
-			String endDateString = (String) checkedCompanyRecruitApplyUserResumeAllList.get(i)
-					.get("USER_WOOKED_YEAR_END");
-
-			if (startDateString != null && endDateString != null) {
-				// 날짜 변환
-				LocalDate startDate = LocalDate.parse(startDateString, formatter);
-				LocalDate endDate = LocalDate.parse(endDateString, formatter);
-
-				// 개월 수 계산
-				long totalMonths = ChronoUnit.MONTHS.between(startDate, endDate);
-
-				// 년과 개월로 나누기
-				long years = totalMonths / 12;
-				long months = totalMonths % 12;
-
-				checkedCompanyRecruitApplyUserResumeAllList.get(i).put("years", years);
-				checkedCompanyRecruitApplyUserResumeAllList.get(i).put("months", months);
-
-			};
+			datetotalMonths(checkedCompanyRecruitApplyUserResumeAllList.get(i));
 
 		};
 		return checkedCompanyRecruitApplyUserResumeAllList;
@@ -163,7 +159,15 @@ public class CompanyRecruitServiceImpl implements CompanyRecruitService {
 		@Override
 		public List<HashMap<String, Object>> findAllHomeRecruiteList() {
 			List<HashMap<String, Object>> homeRecruitList =  companyRecruitMapper.findAllHomeRecruiteList();
-
+			for(int i = 0; i < homeRecruitList.size(); i++) {
+				
+				String companySfileName = String.valueOf(homeRecruitList.get(i).get("COMPANY_SFILE_NAME"));
+				if(!companySfileName.equals("null")) {
+					companySfileName = fileNemeReplace(companySfileName);
+					homeRecruitList.get(i).put("COMPANY_SFILE_NAME", companySfileName);
+				};
+			};
+			
 			return homeRecruitList;
 		}
 

@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
@@ -8,6 +8,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>회사 정보</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
+<link rel="icon" href="/images/favicon.ico" />
+<link rel="stylesheet" href="/css/reset.css" />
+<link rel="stylesheet" href="/css/style.css" />
 <style>
 body {
 	
@@ -127,24 +130,7 @@ padding-bottom: 10px;
 </head>
 <body>
 	<div class="container mt-4">
-		<header class="d-flex align-items-center mb-4">
-			<a href="/"><img src="/images/logo.svg" alt="잡집사 로고" /></a>
-			<nav class="ms-3">
-				<a href="#" class="me-3">마이홈</a> 
-				<a href="#" class="me-3">이력서</a> 
-				<a href="#" class="me-3">스크랩</a> 
-				<a href="#" class="me-3">지원자관리</a> 
-				<a href="#" class="me-3">메시지</a>
-			</nav>
-			<div class="ms-auto d-flex align-items-center">
-			<img src="/images/icon/BellBell.png" alt="알람" />&nbsp;
-			<span class="me-3">기업회원님</span> 
-			 <span class="me-3">개인회원님</span> 
-
-
-				<span>잡집사 홈</span>
-			</div>
-		</header>
+		<%@ include file="/WEB-INF/includes/headerCompanyUser.jsp" %>
 
 		<div class="row">
 			<aside class="col-md-3 text-center">
@@ -199,24 +185,7 @@ padding-bottom: 10px;
 							${applicationStatusIdx.APPLICATION_STATUS_IDX4}
 						</span>
 					</div>
-					<div>
-						서류통과 
-						<span>
-						${applicationStatusIdx.APPLICATION_STATUS_IDX2}
-						</span>
-					</div>
-					<div>
-						최종합격 
-						<span>
-							${applicationStatusIdx.APPLICATION_STATUS_IDX3}
-						</span>
-					</div>
-					<div>
-						불합격 
-						<span>
-							${applicationStatusIdx.APPLICATION_STATUS_IDX4}
-						</span>
-					</div>
+					
 				</div>
 			</main>
 		</div>

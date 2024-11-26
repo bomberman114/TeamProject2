@@ -34,6 +34,7 @@ import com.green.region.vo.RegionVo;
 import com.green.skills.mapper.SkillsMapper;
 import com.green.skills.vo.SkillVo;
 import com.green.user.resume.mapper.UserResumeMapper;
+import com.green.users.resume.service.UsersResumeService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -50,6 +51,9 @@ public class CompanyController {
 	
 	@Autowired
 	private UserResumeMapper userResumeMapper; 
+	
+	@Autowired
+	private UsersResumeService usersResumeService;
 	
 	@Autowired
 	private CompanyImageMapper companyImageMapper;
@@ -75,7 +79,8 @@ public class CompanyController {
         ModelAndView mv = new ModelAndView();
         HashMap<String, Object> companyMap = companyUserService.getCompanyUserData(companyUserVo);
         HashMap<String, Integer> applicationStatusIdx = companyUserMapper.getCompanyApplicationStatusIdxList(companyUserVo);
-        System.out.println("applicationStatusIdx:" + applicationStatusIdx);
+        //System.out.println("applicationStatusIdx:" + applicationStatusIdx);
+        //System.out.println("companyMapController:" + companyMap);
      
         mv.addObject("applicationStatusIdx", applicationStatusIdx);
         mv.addObject("companyMap", companyMap);
@@ -114,23 +119,37 @@ public class CompanyController {
 	@RequestMapping("/SearchResumes")
 	public ModelAndView searchResumes(HttpSession session, HttpServletRequest request,
 			@RequestParam(value = "nowpage", required = false) Integer nowpage,
-			@RequestParam(value = "pageSize", required = false) Integer pageSize) {
+			@RequestParam(value = "pageSize", required = false) Integer pageSize,
+			@RequestParam HashMap<String, Object> map
+			) {
 		ModelAndView mv = new ModelAndView();
 		CompanyUserVo companyUserVo = (CompanyUserVo) session.getAttribute("companylogin");
+		//System.out.println("map:" + map);
+		String condition = "UR.USER_RESUME_REGDATE";
+		String conditionMap = String.valueOf(map.get("condition"));
+		//System.out.println(conditionMap);
+		if(conditionMap.equals("")) {
+			condition = conditionMap;
+		};
 		
-		if (nowpage == null && pageSize == null) {
-			nowpage = 1;
-			pageSize = 10;
+		if(conditionMap != null ) {
+			condition = conditionMap;
+		};
+		if (nowpage == null ) {
+			nowpage = 0;
+		}
+		if( pageSize == null) {
+			pageSize = 9;
 		};
 		
 		List<SkillVo> skillList = skillsMapper.getSkillList();
 		List<RegionVo> regionList = regionMapper.getRegionList();
 		List<CommonDutyVo> commonDutyList =  commonDutyMapper.getCommonDutyList();
 
-		Map<String, String[]> map = request.getParameterMap();
-		String[] skills = map.get("skill_idx");
-		String[] regions = map.get("region_idx");
-		String[] commonDutys = map.get("common_duty_idx");
+		Map<String, String[]> requestMap = request.getParameterMap();
+		String[] skills = requestMap.get("skill_idx");
+		String[] regions = requestMap.get("region_idx");
+		String[] commonDutys = requestMap.get("common_duty_idx");
 		List<SkillVo> checkedSkillList = new ArrayList<>();
 		List<RegionVo> checkedRegionList = new ArrayList<>();
 		List<CommonDutyVo> checkedCommonDutyList = new ArrayList<>();
@@ -181,7 +200,11 @@ public class CompanyController {
 			
 		};
 		int resumesCount = 0;
-		resumesCount = userResumeMapper.getUserResumeCount();
+		//resumesCount = userResumeMapper.getUserResumeCount();
+		resumesCount = userResumeMapper.getCheckedUserResumeCountWithConditions( 
+				checkedSkillListToTypeString
+                , checkedRegionList
+                , checkedCommonDutyList);
 		 
 	      PagingResponse<HashMap<String, String>> response = null;
 	       if( resumesCount < 1 ) {   // 현재 Menu_id 조회한 자료가 없다면
@@ -201,17 +224,20 @@ public class CompanyController {
 	       int      startRow      =  searchVo.getOffset();
 	       int      endRow        =  searchVo.getRecordSize();
 	       
-	     System.out.println("checkedSkillListToTypeString:"+checkedSkillListToTypeString);
-	     
+	     //System.out.println("checkedSkillListToTypeString:"+checkedSkillListToTypeString);
+	       System.out.println("searchVo:"+searchVo);
 	       List<HashMap<String, Object>> userResumeList =  
-	               userResumeMapper.getUserResumeList(   
+	               usersResumeService.getUserResumeList(   
 	            		   							  checkedSkillListToTypeString
 	                                                , checkedRegionList
 	                                                , checkedCommonDutyList
 	                                                , startRow
-	                                                , endRow );
+	                                                , endRow
+	                                                , condition
+	            		   );
 	       System.out.println("userResumeList:" + userResumeList);
-	       System.out.println("checkedSkillList:"+checkedSkillList);
+	       //System.out.println("checkedSkillList:"+checkedSkillList);
+	       mv.addObject("condition", condition);
 	       mv.addObject("commonDutyList", commonDutyList);
 	       mv.addObject("pagination", pagination);
 	       mv.addObject("regionList", regionList);
@@ -228,6 +254,20 @@ public class CompanyController {
 		return mv;
 
 	}
+	@RequestMapping("/CompanySearchUserResumeOneView")
+	public ModelAndView companySearchUserResumeOneView (@RequestParam HashMap<String, Object> map) {
+		ModelAndView mv = new ModelAndView();
+		System.out.println(map);
+		
+		HashMap<String, Object> userResumeMap = usersResumeService.getuserResumeMap(map);
+		
+		
+		mv.addObject("vo",userResumeMap);
+		mv.setViewName("/company/companyJoboffer/CompanySearchUserResumeOneView");
+		return mv;
+		
+	}
+	
 
 	
 	@RequestMapping("/LoginForm")

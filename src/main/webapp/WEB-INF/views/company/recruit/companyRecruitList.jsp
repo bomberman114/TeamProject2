@@ -7,6 +7,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/images/favicon.ico" />
+<link rel="stylesheet" href="/css/reset.css" />
+<link rel="stylesheet" href="/css/style.css" />
 <style type="text/css">
 body {
 	font-family: 'Arial', sans-serif;
@@ -127,24 +130,7 @@ h2 {
 <title>채용공고 관리</title>
 </head>
 <body>
-	<header>
-		<div class="header-container">
-			<h1>잡집사</h1>
-			<nav>
-				<ul>
-					<li><a href="#">마이홈</a></li>
-					<li><a href="#">채용공고</a></li>
-					<li><a href="#">인재풀</a></li>
-					<li><a href="#">스크랩</a></li>
-					<li><a href="#">지원자 관리</a></li>
-				</ul>
-			</nav>
-			<div class="notification">
-				<span>기업회원</span>
-				<button>잡집사 홈</button>
-			</div>
-		</div>
-	</header>
+	<%@include file="/WEB-INF/includes/headerCompanyUser.jsp"%>
 	<main>
 		<div class="container">
 			<h2>채용공고 관리</h2>

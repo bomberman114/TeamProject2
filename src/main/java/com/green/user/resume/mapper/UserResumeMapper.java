@@ -38,11 +38,16 @@ public interface UserResumeMapper {
 	void deleteResume(HashMap<String, Object> map);
 
 	List<HashMap<String, Object>> getUserResumeList(@Param("checkedSkillListToTypeString") List<String> checkedSkillListToTypeString,@Param("checkedRegionList") List<RegionVo> checkedRegionList,
-			@Param("checkedCommonDutyList") List<CommonDutyVo> checkedCommonDutyList, @Param("startRow") int startRow, @Param("endRow") int endRow);
+			@Param("checkedCommonDutyList") List<CommonDutyVo> checkedCommonDutyList, @Param("startRow") int startRow, @Param("endRow") int endRow,@Param("condition") String condition);
 
 	HashMap<String, Object> getuserResumeMap(HashMap<String, Object> map);
 
 	void updateUserResumeApply(HashMap<String, Object> map);
+
+	int getCheckedUserResumeCountWithConditions(@Param("checkedSkillListToTypeString") List<String> checkedSkillListToTypeString,
+			@Param("checkedRegionList") List<RegionVo> checkedRegionList,	@Param("checkedCommonDutyList") List<CommonDutyVo> checkedCommonDutyList);
+
+	void setUpdateUserResumeVIewPlus(HashMap<String, Object> map);
 
 
 }
