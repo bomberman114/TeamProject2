@@ -273,7 +273,7 @@ public class UserResumeServiceImpl implements UsersResumeService {
 		 		};
 		 };
 		 // USER_BIRTH=19990909, 
-		return userResumeList;
+		return userResumeList;}
 
 	public int countById(UserVo vo) {
 		int count = userResumeMapper.countById(vo);
