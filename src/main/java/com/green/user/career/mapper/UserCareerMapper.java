@@ -17,4 +17,6 @@ public interface UserCareerMapper {
 
 	void removeResumeCareer(HashMap<String, Object> map);
 
+	void ifNullsaveResumeCareer(HashMap<String, Object> map);
+
 }

@@ -89,6 +89,7 @@ public class UserResumeServiceImpl implements UsersResumeService {
 
 	@Override
 	public void updateResume(HashMap<String, Object> map, List<Integer> resumeSkills) {
+		System.out.println(map);
 		userResumeMapper.updateResume(map);
 		userEducationMapper.updateResumeEducation(map);
 		userResumeIntroMapper.updateResumeIntro(map);
@@ -103,7 +104,7 @@ public class UserResumeServiceImpl implements UsersResumeService {
 			if(vo != null) {
 				userCareerMapper.updateResumeCareer(map);				
 			}else {
-				userCareerMapper.saveResumeCareer(map);				
+				userCareerMapper.ifNullsaveResumeCareer(map);				
 			}
 		}else {
 			if(vo != null) {
@@ -189,6 +190,12 @@ public class UserResumeServiceImpl implements UsersResumeService {
 
 		//System.out.println("후" + userResumeMap);
 		return userResumeMap;
+	}
+
+	@Override
+	public int countById(UserVo vo) {
+		int count = userResumeMapper.countById(vo);
+		return count;
 	}
 
 }

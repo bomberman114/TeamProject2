@@ -126,8 +126,7 @@
           	<div class="aside-inner aside-view">
 	            <h3>${vo.USER_TITLE}</h3>
 	            <div class="write-btn-container">
-	              <button class="write-btn">수정하기</button>
-	              <button class="write-btn">저장하기</button>
+	              <button class="write-btn">수정하기</button>	
 	              <a href="/Users/MyPage/Resume/List">취소하기</a>
 	            </div>  	
           	</div>

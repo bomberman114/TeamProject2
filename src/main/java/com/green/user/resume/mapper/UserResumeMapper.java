@@ -44,6 +44,8 @@ public interface UserResumeMapper {
 
 	void updateUserResumeApply(HashMap<String, Object> map);
 
+	int countById(UserVo vo);
+
 
 }
 

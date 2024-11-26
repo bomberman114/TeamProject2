@@ -43,5 +43,8 @@ public interface CompanyRecruitMapper {
 	void setCompanyRecruitUpdate(HashMap<String, Object> map);
 
 
+	HashMap<String, Object> getCompanyHistory(int company_recruit_idx);
+
+
 
 }
