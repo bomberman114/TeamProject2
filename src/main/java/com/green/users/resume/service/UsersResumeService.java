@@ -24,4 +24,6 @@ public interface UsersResumeService {
 
 	void deleteResume(HashMap<String, Object> map);
 
+	int countById(UserVo vo);
+
 }

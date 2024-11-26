@@ -21,5 +21,4 @@ public interface UserMapper {
 
 	UserVo findById(int user_idx);
 
-
 }

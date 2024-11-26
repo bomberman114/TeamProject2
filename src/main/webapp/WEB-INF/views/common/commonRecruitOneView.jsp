@@ -114,7 +114,22 @@
                 <li>${companyHistory.COMPANY_YEAR}년차<span>(${companyHistory.ESTABLISH } 설립)</span></li>
               </ul>
               <button class="apply-btn">지원하기</button>
-              <p class="bookmark-btn"><img src="/images/icon/recruit-oneview-mark-off.png" alt="북마크 아이콘">스크랩</p>
+						    <c:if test="${not empty userBookMarkList}">
+						        <c:set var="isBookmarked" value="false" />
+						        <c:forEach var="markup" items="${userBookMarkList}">
+						            <c:if test="${markup.company_recruit_idx eq vo.COMPANY_RECRUIT_IDX and markup.bookmark_check eq 1}">
+						                <c:set var="isBookmarked" value="true" />
+						            </c:if>
+						        </c:forEach>
+								</c:if>
+								<c:choose>
+									<c:when test="${isBookmarked}">
+						          <p class="bookmark-btn mark-up"><img src="/images/icon/mark-up.png" alt="북마크 아이콘">스크랩</p>									
+									</c:when>
+									<c:otherwise>
+						            <p class="bookmark-btn mark-down"><img src="/images/icon/recruit-oneview-mark-off.png" alt="북마크 아이콘">스크랩</p>
+									</c:otherwise>
+								</c:choose>
             </div>
           </aside>
         </div>
@@ -145,48 +160,80 @@
 	              <span>${sessionScope.userLogin.user_phone}</span>
 	            </li>
 	          </ul>
-	          <h5>이력서 <span>총 0개</span></h5>
-	          <form action="#" method="post">
+	          <h5>이력서 <span>총 ${resumeCount}개</span></h5>
+	          <form action="/Users/Apply" method="post">
+	          <input type="hidden" name="company_recruit_idx" value="${vo.COMPANY_RECRUIT_IDX}">
 	          <div class="modal-resume-list">
+	          	<c:forEach var="resume" items="${resumeList}">
 	              <div class="modal-resume-item">
-	                <input type="radio" name="user_resume_idx" />
+	                <input type="radio" name="user_resume_idx" value="${resume.USER_RESUME_IDX}"/>
 	                <div>
-	                  <p class="resume-title">이력서 제목</p>
-	                  <p class="resume-info">경력,학력</p>
-	                  <p class="resume-info">기술스택</p>
-	                  <p class="resume-regdate">등록일 : 2024.10.12</p>
-	                </div>
-	              </div>
-	            </div>
-	            <button class="resume-apply-btn">지원하기</button>
+	                  	<p class="resume-title">${resume.USER_TITLE}</p>
+	                  	<p class="resume-info">
+	                  		<c:if test="${not empty resume.CARRER_MONTH or not empty resume.CARRER_YEAR}">총 </c:if>
+	                  		<c:if test="${not empty resume.CARRER_MONTH and not empty resume.CARRER_YEAR }">${resume.CARRER_YEAR}년 ${resume.CARRER_MONTH}개월, </c:if>
+	                  		<c:if test="${not empty resume.CARRER_YEAR and empty resume.CARRER_MONTH}">${resume.CARRER_YEAR}년, </c:if>
+	                  		<c:if test="${not empty resume.CARRER_MONTH and empty resume.CARRER_YEAR}">${resume.CARRER_MONTH}개월, </c:if>
+	                  		${resume.EDUCATION_STATUS_TYPE}
+	                  	</p>
+	                  	<p class="resume-info">${resume.SKILLS}</p>
+	                  	<p class="resume-regdate">등록일 : ${resume.USER_RESUME_REGDATE}</p>
+	                	</div>
+	              	</div>
+	          	 </c:forEach>
+	           </div>
+	           <button class="resume-apply-btn">지원하기</button>
 	          </form>
 	        </div>
 	      </div>
 	    </div>
     </c:if>
     <script>
-    
-    	const $applyBtn = document.querySelector(".apply-btn")
-    	const $bookmarkbtn = document.querySelector(".bookmark-btn")
+
+	
+    	const $applyBtn       = document.querySelector(".apply-btn");
+    	const $bookmarkbtn    = document.querySelector(".bookmark-btn");
+			const bookmarkStatus  = document.querySelector(".bookmark-btn img");
+			const $resumeApplyBtn = document.querySelector(".resume-apply-btn");
+    	
     	$applyBtn.addEventListener("click",()=>{
-    		if('${sessionScope.userLogin}'){
-    			const $modal = document.querySelector(".modal-bg");
+    		if("${sessionScope.userLogin}"){
+    			const $modal  = document.querySelector(".modal-bg");
     			$modal.style.display = "block"
-    			
     		}else{
     			alert("로그인이 필요합니다.")
     		}
     	})
-    	
-      async function getUserResumeAjax(userIdx) {
-	    const res = await fetch(`/Users/GetUserResume`, {
+
+		$bookmarkbtn.addEventListener("click",function(){
+			if("${sessionScope.userLogin}"){
+				const userIdx    = "${sessionScope.userLogin.user_idx}";
+				const recruitIdx = "${vo.COMPANY_RECRUIT_IDX}"
+				if(this.classList[1] == "mark-down"){
+					this.classList.remove("mark-down");
+					this.classList.add("mark-up");
+					recruitBookMarkAjax(userIdx,recruitIdx);
+					bookmarkStatus.src = "/images/icon/mark-up.png"
+				}else{
+					this.classList.remove("mark-up")
+					this.classList.add("mark-down");
+					recruitBookMarkAjax(userIdx,recruitIdx);
+					bookmarkStatus.src = "/images/icon/recruit-oneview-mark-off.png"
+				}					
+			}else{
+				alert("로그인이 필요합니다.")
+			}
+		})
+	
+		async function recruitBookMarkAjax(userIdx, recruitIdx) {
+	    const res = await fetch(`/Users/RecruitMarkUp`, {
 	        method: "POST",
 	        headers: {
 	            "Content-Type": "application/json",
 	        },
-	        body: JSON.stringify({ userIdx : userIdx)
+	        body: JSON.stringify({ userIdx : userIdx, recruitIdx : recruitIdx})
 	    });
-	
+
 	    if (!res.ok) {
 	        throw new Error(`HTTP error status: ${res.status}`);
 	    }
@@ -194,8 +241,55 @@
 	    const result = await res.json();
 	    console.log(result.vo)
 	    return result.vo;
-	}
-		
+		}
+    	
+    	if("${sessionScope.userLogin}"){
+    		const $resumeApplyBtn = document.querySelector(".resume-apply-btn");
+    		const $form           = document.querySelector("form");
+				
+    		$form.addEventListener("submit",(e)=>{
+    			e.preventDefault()
+					if(document.querySelectorAll("input[type='radio']:checked").length === 0){
+						alert("이력서를 선택해주세요.")
+					}else{
+		    		const userResumeIdx = document.querySelector("input[name='user_resume_idx']:checked").value;
+						const recruitIdx    = "${vo.COMPANY_RECRUIT_IDX}";
+    				userApplySubmitAjax(userResumeIdx,recruitIdx)						
+					}
+    		})
+    		
+    	const $modal         = document.querySelector(".modal-bg");
+    	const $modalCloseBtn = document.querySelector(".modal-bar img"); 
+			
+    	$modalCloseBtn.addEventListener("click",()=>{$modal.style.display="none"})
+    	document.addEventListener("click",(e)=>{
+    		if(!e.target.closest(".modal, .apply-btn ")){
+    			$modal.style.display="none"
+    		}
+    	})
+    	
+    	}
+    	
+    	async function userApplySubmitAjax(userResumeIdx, recruitIdx) {
+    	    const res = await fetch("/Users/Apply", {
+    	        method: "POST",
+    	        headers: {
+    	            "Content-Type": "application/json",
+    	        },
+    	        body: JSON.stringify({ userResumeIdx : userResumeIdx, recruitIdx : recruitIdx})
+    	    });
+
+    	    if (!res.ok) {
+    	        throw new Error(`HTTP error status: ${res.status}`);
+    	    }
+    	
+    	    const result = await res.json();
+    	    alert(result.result)
+    	    const $modal  = document.querySelector(".modal-bg");
+    			$modal.style.display = "none"
+    	    return result;
+    		}
+    	
     </script>
   </body>
 </html>

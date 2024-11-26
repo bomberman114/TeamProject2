@@ -20,6 +20,23 @@
 	    #{user_wooked_year_end}                          )
 	</insert>
 	
+	<insert id="ifNullsaveResumeCareer">
+		INSERT INTO USER_CAREER                          (
+	    USER_CAREER_IDX,
+	    USER_RESUME_IDX,
+	    USER_WOOKED_COMPANY_NAME,
+	    USER_CAREER_CONTENTE,
+	    USER_WOOKED_YEAR_START,
+	    USER_WOOKED_YEAR_END                             ) 
+    VALUES                                               (
+	    USER_CAREER_SEQ.NEXTVAL,
+	    #{user_resume_idx},
+	    #{user_wooked_company_name},
+	    #{user_career_contente},
+	    #{user_wooked_year_start},
+	    #{user_wooked_year_end}                          )
+	</insert>
+	
 	<update id="removeResumeCareer">
 		DELETE USER_CAREER
 		WHERE  USER_RESUME_IDX = #{user_resume_idx}

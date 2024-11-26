@@ -14,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.green.application.mapper.ApplicationMapper;
+import com.green.application.vo.AppllicationVo;
 import com.green.user.bookmark.mapper.UsersBookmarkMapper;
 import com.green.user.bookmark.vo.UserBookmarkVo;
+import com.green.users.resume.service.UsersResumeService;
 import com.green.users.service.UsersService;
 import com.green.users.vo.UserVo;
 
@@ -28,6 +31,12 @@ public class UsersController {
 	
 	@Autowired
 	private UsersService usersService;
+	
+	@Autowired
+	private UsersResumeService usersResumeService;
+	
+	@Autowired
+	private ApplicationMapper applicationMapper;
 	
 	@Autowired
 	private UsersBookmarkMapper usersBookmarkMapper;
@@ -101,7 +110,7 @@ public class UsersController {
 	}
 	
 	
-	@RequestMapping("/Bookmark")
+	@RequestMapping("/MyPage/Bookmark/List")
 	public ModelAndView personalUserApply(HttpServletRequest request) {
 		
 		
@@ -138,4 +147,62 @@ public class UsersController {
 		res.put("bookmark", vo);
 		return ResponseEntity.ok(res);
 	}
+	
+	@RequestMapping("/Apply")
+	public ResponseEntity<HashMap<String, Object>> userApply(
+			@RequestBody Map<String,String> map
+			) {
+		AppllicationVo vo = applicationMapper.findById(map);
+		System.out.println(vo);
+		HashMap<String,Object> res = new HashMap<>();
+		if(vo == null) {
+			usersService.userApplySubmit(map);
+			res.put("result", "입사지원이 완료되었습니다.");			
+		}else {
+			res.put("result", "지원한 이력이 있습니다.");			
+		}
+		System.out.println(res);
+		return ResponseEntity.ok(res);
+	}
+	
+	
+	@RequestMapping("/MyPage/Apply/List")
+	public ModelAndView personalUserApplyList(HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		UserVo      vo      = (UserVo) session.getAttribute("userLogin");
+		
+		List<HashMap<String, Object>> resumeList = usersResumeService.findResumeAll(vo);
+
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("resumeList",resumeList);
+		mv.setViewName("/users/apply/personalUserApplyList");
+		return mv;
+	}
+	
+	@RequestMapping("/GetApplyList")
+	public ResponseEntity<HashMap<String,Object>> getApplyList(
+			@RequestBody Map<String,String> map
+			) {
+		System.out.println(map);
+		HashMap<String, Object> userApplyCountList = usersService.findApplyCountListById(map); 
+		List<HashMap<String, Object>> userApplyList = usersService.findApplyList(map);
+		HashMap<String,Object> res = new HashMap<>();
+		res.put("userApplyList", userApplyList);
+		res.put("userApplyCountList", userApplyCountList);
+		return ResponseEntity.ok(res);
+	}
+	
+	@RequestMapping("/ApplyCancle")
+	public ResponseEntity<HashMap<String,Object>> userApplyCancle(
+			@RequestBody Map<String,String> map
+			) {
+		System.out.println(map);
+		applicationMapper.deleteUserApply(map);
+		
+		HashMap<String,Object> res = new HashMap<>();
+		res.put("result","지원취소 되었습니다.");
+		return ResponseEntity.ok(res);
+	}
+	
 }

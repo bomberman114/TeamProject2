@@ -38,27 +38,27 @@
           <h3>나의 현황</h3>
           <ul class="user-apply">
             <li>
-              <a href="#">
+              <a href="/Users/MyPage/Apply/List">
                 <p>지원완료</p>
-                <p>0</p>
+                <p>${userApplyCountList.SUBMITTED}</p>
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href="/Users/MyPage/Apply/List">
                 <p>서류통과</p>
-                <p>0</p>
+                <p>${userApplyCountList.PAPER_PASSED}</p>
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href="/Users/MyPage/Apply/List">
                 <p>최종합격</p>
-                <p>0</p>
+                <p>${userApplyCountList.PASS}</p>
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href="/Users/MyPage/Apply/List">
                 <p>불합격</p>
-                <p>0</p>
+                <p>${userApplyCountList.FAIL}</p>
               </a>
             </li>
           </ul>

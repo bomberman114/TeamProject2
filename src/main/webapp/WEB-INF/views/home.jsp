@@ -15,13 +15,13 @@
 <%@include file="/WEB-INF/includes/headerMain.jsp" %>
 	<main class="home">
 	  <div class="inner">
-	    <h2>개발자 분야별<br />인기공고</h2>
+	    <h2>기술스택별<br />인기공고</h2>
 	    <div class="develop-recruit">
 	      <ul class="develop-recruit-sort">
 	        <li class="sort-active">프론트엔드</li>
 	        <li>백엔드</li>
 	        <li>데이터베이스</li>
-	        <li>모바일</li>
+	        <li>협업툴</li>
 	      </ul>
 	      <div class="recruit-carasel">
 	        <img class="prev-btn" src="/images/icon/carasel-left.png" alt="이전 버튼">
