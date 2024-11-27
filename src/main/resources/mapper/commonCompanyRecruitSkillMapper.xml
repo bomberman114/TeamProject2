@@ -3,7 +3,40 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.green.common.company.recruit.skill.mapper.CommonCompanyRecruitSkillMapper">  
 
+<insert id="setCommonCompanyRecruitSkill">
+	  <foreach collection="checkedSkillList" item ="skill" 
+         index      = "i"
+         open       = "INSERT ALL"
+         close      = "SELECT * FROM DUAL"
+         separator  = " " >
+        INTO  COMMON_COMPANY_RECRUIT_SKILL VALUES (
+            ( SELECT NVL(MAX(COMMON_COMPANY_RECRUIT_SKILL_IDX), 0) FROM COMMON_COMPANY_RECRUIT_SKILL ) + #{i} + 1  
+           , #{ skill.skill_idx }
+         , #{ company_recruit_idx }  
+        )
+       </foreach>
+</insert>
+
+  <select id="getCompanyRecruitMySkillList">
+  SELECT
+    CCRK.common_company_recruit_skill_idx,
+    CCRK.skill_idx,
+    CCRK.company_recruit_idx,
+    (SELECT SKILL_NAME FROM SKILLS WHERE skill_idx = CCRK.skill_idx) AS SKILL_NAME
+FROM
+    common_company_recruit_skill CCRK
+WHERE
+    CCRK.company_recruit_idx = #{company_recruit_idx}
   
+  </select>
+  
+  <delete id="deleteCommonCompanyRecruitSkill">
+   
+DELETE FROM 
+	COMMON_COMPANY_RECRUIT_SKILL
+WHERE
+     COMPANY_RECRUIT_IDX = #{company_recruit_idx}
+  </delete>
   
 </mapper>
 

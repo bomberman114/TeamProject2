@@ -2,23 +2,36 @@ package com.green.skills.vo;
 
 public class SkillVo {
 
-	private String skill_stack; // 스킬구분
-	private String skill_name;  // 스킬
+	private int skill_idx;
+	private int skill_stack_idx; // 스킬구분
+	private String skill_name; // 스킬
+
 	
-	public SkillVo () {}
 	
-	public SkillVo(String skill_stack, String skill_name) {
+	
+	public SkillVo() {}
+	
+	public SkillVo(int skill_idx, int skill_stack_idx, String skill_name) {
 		super();
-		this.skill_stack = skill_stack;
+		this.skill_idx = skill_idx;
+		this.skill_stack_idx = skill_stack_idx;
 		this.skill_name = skill_name;
 	}
 
-	public String getSkill_stack() {
-		return skill_stack;
+	public int getSkill_idx() {
+		return skill_idx;
 	}
 
-	public void setSkill_stack(String skill_stack) {
-		this.skill_stack = skill_stack;
+	public void setSkill_idx(int skill_idx) {
+		this.skill_idx = skill_idx;
+	}
+
+	public int getSkill_stack_idx() {
+		return skill_stack_idx;
+	}
+
+	public void setSkill_stack_idx(int skill_stack_idx) {
+		this.skill_stack_idx = skill_stack_idx;
 	}
 
 	public String getSkill_name() {
@@ -31,8 +44,7 @@ public class SkillVo {
 
 	@Override
 	public String toString() {
-		return "SkillVo [skill_stack=" + skill_stack + ", skill_name=" + skill_name + "]";
+		return "SkillVo [skill_idx=" + skill_idx + ", skill_stack_idx=" + skill_stack_idx + ", skill_name=" + skill_name
+				+ "]";
 	}
-
-	
 }

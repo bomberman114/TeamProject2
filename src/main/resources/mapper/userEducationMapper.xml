@@ -3,5 +3,24 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.green.user.education.mapper.UserEducationMapper">  
 
+	<insert id="saveResumeEducation">
+		INSERT INTO user_education (
+		    user_education_idx,
+		    user_resume_idx,
+		    education_status_idx,
+		    user_school_name        ) 
+		VALUES                      (
+		    USER_EDUCATION_STATUS_SEQ.NEXTVAL,
+		    (SELECT MAX(user_resume_idx) FROM USER_RESUME),
+		    #{education_status_idx},
+		    #{user_school_name}     )
+	</insert>
+	
+	<update id="updateResumeEducation">
+		UPDATE USER_EDUCATION
+		SET    EDUCATION_STATUS_IDX = #{education_status_idx},
+		       USER_SCHOOL_NAME     = #{user_school_name}
+		WHERE  USER_RESUME_IDX      = #{user_resume_idx}
+	</update>
 
 </mapper>
