@@ -445,6 +445,7 @@ footer {
 
 </style>
 <script>
+
         function toggleDropdown(dropdownId) {
             const dropdowns = document.querySelectorAll('.filter-dropdown-content');
             dropdowns.forEach(dropdown => {

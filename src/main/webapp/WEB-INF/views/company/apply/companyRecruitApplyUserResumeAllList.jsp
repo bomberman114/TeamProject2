@@ -9,6 +9,7 @@
      <link rel="icon" href="/images/favicon.ico" />
     <link rel="stylesheet" href="/css/reset.css" />
     <link rel="stylesheet" href="/css/style.css" />
+    <script src="/js/headerSubmenu.js" defer></script>
     <title>지원자 관리</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
     <style>
@@ -149,6 +150,7 @@
                     	<c:forEach var="companyRecruitApplyUserResumeAllList"  items="${companyRecruitApplyUserResumeAllList}">
                         <c:if test="${companyRecruitApplyUserResumeAllList.USER_RESUME_IDX ne null }">
                         <tr>
+
                             <td>${companyRecruitApplyUserResumeAllList.APPLIED_DATE } 지원</td>
                             <td>${companyRecruitApplyUserResumeAllList.USER_NAME }</td>
                              <td>
@@ -164,6 +166,9 @@
                            	</td>
                             <td>${companyRecruitApplyUserResumeAllList.COMMON_DUTY_NAME }</td>
                             <td>${companyRecruitApplyUserResumeAllList.APPLICATION_STATUS_TYPE }</td>
+                           	<td><a href="/CompanyApply/CompanyApplyUserResumeView?user_resume_idx=${companyRecruitApplyUserResumeAllList.USER_RESUME_IDX}
+                        	&application_idx=${companyRecruitApplyUserResumeAllList.APPLICATION_IDX}
+                        	">보기</a></td>
                         </tr>
                         </c:if>
                         </c:forEach>

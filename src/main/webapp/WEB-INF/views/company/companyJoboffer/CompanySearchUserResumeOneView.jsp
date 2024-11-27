@@ -23,7 +23,7 @@
     <%@include file="/WEB-INF/includes/headerCompanyUser.jsp"%>
     <main class="write-form">
       <form action="/Users/MyPage/Resume/UpdateForm" method="post">
-      	<input type="hidden" name="user_resume_idx" value="${vo.USER_RESUME_IDX}">
+         <input type="hidden" name="user_resume_idx" value="${vo.USER_RESUME_IDX}">
         <div class="inner">
           <div class="resume-container">
             <div class="resume-content">
@@ -61,8 +61,8 @@
                 <li class="view-flex">
                   <p>지역</p>
                   <ul>
-                  	<li>${vo.REGION_NAME}</li>
-                  	<li>${vo.REGION_ADDRESS}</li>
+                     <li>${vo.REGION_NAME}</li>
+                     <li>${vo.REGION_ADDRESS}</li>
                   </ul>
                 </li>
                 <li class="view-flex">
@@ -86,7 +86,7 @@
                   <p class="punder">학력</p>
                   <div class="edu-inner">
                     <div class="view-edu-status">
-                   		${vo.EDUCATION_STATUS_TYPE}
+                         ${vo.EDUCATION_STATUS_TYPE}
                     </div>
                     <span><img src="/images/icon/space-bar.png" alt="여백바"></span>
                     <input type="text" value="${vo.USER_SCHOOL_NAME}" readonly="readonly">
@@ -95,23 +95,23 @@
                 <li>
                   <p class="punder">경력(업무경험)</p>
                   <div class="career-inner">
-	                  <c:if test="${not empty vo.CAREER_TYPE}">
-		                  	   <div class="date-input">
-				                      <input type="text" value="${vo.USER_WOOKED_YEAR_START}" readonly="readonly"> 
-				                      <span>~</span>
-				                      <input type="text" value="${vo.USER_WOOKED_YEAR_END}" readonly="readonly">
-				                    </div>
-				                    <span><img src="/images/icon/space-bar.png" alt=""></span>
-				                    <div class="career-info">
-				                      <input type="text" value="${vo.USER_WOOKED_COMPANY_NAME}">
-				                      <textarea readonly="readonly">${vo.USER_CAREER_CONTENTE}</textarea>
-				                    </div>                 	
-		                </c:if>
-	                  <c:if test="${empty vo.CAREER_TYPE}">
-	                  	<ul class="select-stack-list">
-	                    	<li>등록된 경력이 없습니다.</li>	                  	
-	                  	</ul>
-	                  </c:if>
+                     <c:if test="${not empty vo.CAREER_TYPE}">
+                              <div class="date-input">
+                                  <input type="text" value="${vo.USER_WOOKED_YEAR_START}" readonly="readonly"> 
+                                  <span>~</span>
+                                  <input type="text" value="${vo.USER_WOOKED_YEAR_END}" readonly="readonly">
+                                </div>
+                                <span><img src="/images/icon/space-bar.png" alt=""></span>
+                                <div class="career-info">
+                                  <input type="text" value="${vo.USER_WOOKED_COMPANY_NAME}">
+                                  <textarea readonly="readonly">${vo.USER_CAREER_CONTENTE}</textarea>
+                                </div>                    
+                      </c:if>
+                     <c:if test="${empty vo.CAREER_TYPE}">
+                        <ul class="select-stack-list">
+                          <li>등록된 경력이 없습니다.</li>                        
+                        </ul>
+                     </c:if>
                    
                   </div>
                 </li>
@@ -128,9 +128,9 @@
             </div>
           </div>
           <aside>
-          	<div class="aside-inner aside-view">
-	            <h3>${vo.USER_TITLE}</h3>
-	           <div class="write-btn-container">
+             <div class="aside-inner aside-view">
+               <h3>${vo.USER_TITLE}</h3>
+              <div class="write-btn-container">
           <button type="button" class="write-btn" id="job-offer-btn">채용제의</button>
           <button type="button" class="write-btn">스크랩</button>
           <a href="/Company/SearchResumes">돌아가기</a>
@@ -162,7 +162,6 @@
     
     document.getElementById("job-offer-btn").addEventListener("click", function() {
     	//ajax 추가
-    	
         document.getElementById("job-offer-modal").style.display = "flex";
     });
 

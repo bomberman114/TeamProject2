@@ -113,4 +113,25 @@ WHERE
     CR.COMPANY_RECRUIT_IDX = #{company_recruit_idx}
 </select>
 
+<select id="getCompanyUser">
+	SELECT
+    COMPANY_USER_IDX,
+    COMPANY_USER_ID,
+    COMPANY_USER_PASSWD,
+    COMPANY_USER_NAME,
+    COMPANY_PHONE,
+    COMPANY_NAME,
+    COMPANY_BCODE,
+    COMPANY_BOSS_NAME,
+    COMPANY_EMAIL,
+    COMPANY_USER_EMAIL,
+    COMPANY_REGDATE,
+    COMPANY_ESTABLISH
+FROM
+    COMPANY_USERS
+ WHERE
+ 	COMPANY_USER_IDX = #{company_user_idx}
+
+</select>
+
 </mapper>

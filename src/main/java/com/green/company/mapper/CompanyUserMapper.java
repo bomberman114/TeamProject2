@@ -29,5 +29,7 @@ public interface CompanyUserMapper {
 
 	HashMap<String, Integer> getCompanyApplicationStatusIdxList(CompanyUserVo companyUserVo);
 
+	CompanyUserVo getCompanyUser(CompanyUserVo companyUserVo);
+
 }
 	
