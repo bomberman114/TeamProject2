@@ -205,4 +205,12 @@ public class UsersController {
 		return ResponseEntity.ok(res);
 	}
 	
+	@RequestMapping("/MyPage/Joboffer")
+	public ModelAndView joboffer() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/users/personalJoboffer/personalJobOfferMessage");
+		return mv;
+	}
+	
+	
 }

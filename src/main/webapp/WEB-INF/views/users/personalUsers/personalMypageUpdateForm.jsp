@@ -16,33 +16,33 @@
   <body>
   	<%@include file="/WEB-INF/includes/headerUser.jsp" %>
 		<main class="mypage-update">
-      <div class="inner">
-        <div class="aside">
-          <h2>계정 정보 설정</h2>
-          <div class="user-img"><img alt=""/></div>
-          <input type="file" id="upfile" name="upfile" aria-label="upfile" accept=".jpg,.jpeg,.png">
-          <label class="profile-btn" for="upfile">프로필 변경</label>
-        </div>
+      <form action="/Users/MyPage/Update" method="post" enctype ="multipart/form-data" >
+        <div class="inner">
+	        <div class="aside">
+	          <h2>계정 정보 설정</h2>
+	          <div class="user-img"><img class="profile-img" alt="" src="<c:url value='${vo.USER_SFILE_NAME}'/>"></div>
+            <input type="file" id="upfile" name="profileImge" aria-label="upfile" accept=".jpg,.jpeg,.png">
+	          <label class="profile-btn" for="upfile">프로필 변경</label>
+	        </div>
         <div class="update-container">
-          <form action="/Users/MyPage/Update" method="post">
-          <input type="hidden" name="user_idx" value="${vo.user_idx}">
+          <input type="hidden" name="user_idx" value="${vo.USER_IDX}">
             <p>기본정보</p>
             <table>
               <tbody>
                 <tr>
                   <td>이름</td>
-                  <td><input type="text" name="user_name" value="${vo.user_name}"></td>
+                  <td><input type="text" name="user_name" value="${vo.USER_NAME}"></td>
                 </tr>
                 <tr>
                   <td>생년월일</td>
-                  <td><input type="text" name="user_birth" value="${vo.user_birth}" oninput="formatBirthNumber(this)" maxlength="8" ></td>
+                  <td><input type="text" name="user_birth" value="${vo.USER_BIRTH}" oninput="formatBirthNumber(this)" maxlength="8" ></td>
                 </tr>
                 <tr>
                   <td>성별</td>
                   <td>
                   	<select name="user_gender">
                   		<c:choose>
-                  			<c:when test="${vo.user_gender eq '남'}">
+                  			<c:when test="${vo.USER_GENDER eq '남'}">
                   				<option selected="selected">남</option>
 	                    		<option>여</option>	
                   			</c:when>
@@ -61,11 +61,11 @@
               <tbody>
                 <tr>
                   <td>휴대폰</td>
-                  <td><input type="text" name="user_phone" oninput="formatPhoneNumber(this)" value="${vo.user_phone }" maxlength="13"></td>
+                  <td><input type="text" name="user_phone" oninput="formatPhoneNumber(this)" value="${vo.USER_PHONE }" maxlength="13"></td>
                 </tr>
                 <tr>
                   <td>이메일</td>
-                  <td><input type="email" name="user_email" value="${vo.user_email}"></td>
+                  <td><input type="email" name="user_email" value="${vo.USER_EMAIL}"></td>
                 </tr>
               </tbody>
             </table>
@@ -73,9 +73,9 @@
               <a href="javascript:window.history.back();">취소</a>
               <button class="update-btn">수정</button>
             </p>
-          </form>
+          </div>
         </div>
-      </div>
+      </form>
     </main>
     <script>
     const $fileInput = document.querySelector("input[type='file']");

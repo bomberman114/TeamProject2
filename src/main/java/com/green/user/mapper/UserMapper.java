@@ -21,4 +21,6 @@ public interface UserMapper {
 
 	UserVo findById(int user_idx);
 
+	HashMap<String, Object> getUserData(UserVo vo);
+
 }

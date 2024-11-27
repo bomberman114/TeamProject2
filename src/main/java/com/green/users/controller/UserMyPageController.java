@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.green.users.service.UsersService;
@@ -44,21 +45,31 @@ public class UserMyPageController {
 	
 	@RequestMapping("/UpdateForm")
 	public ModelAndView mypageUpdateForm(
-			HttpServletRequest request, HttpServletResponse responese) {
+			HttpServletRequest request) {
 		
 		HttpSession session = request.getSession();
 		UserVo vo  = (UserVo) session.getAttribute("userLogin");
-		
+        HashMap<String, Object> userMap = usersService.getUserData(vo);
+        System.out.println(userMap);
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("vo",vo);
+		mv.addObject("vo",userMap);
 		mv.setViewName("/users/personalUsers/personalMypageUpdateForm");
 		return mv;
 	}
 	
 	@RequestMapping("/Update")
-	public String mypageUpdate(@RequestParam HashMap<String, Object> map) {
-		usersService.updateUser(map);
-		return "redirect:/Users/MyPage/Home";
+	public ModelAndView mypageUpdate(HttpSession session,
+			  @RequestParam HashMap<String, Object> map ,
+			  @RequestParam(value="profileImge")  MultipartFile[]   profileImge) {
+	ModelAndView mv = new ModelAndView();
+	UserVo userVo  = (UserVo) session.getAttribute("userLogin");
+	map.put("userVo", userVo);
+	usersService.updateUser(map);
+	usersService.deleteProfileImge(map);
+	usersService.setProfileUpdate(map, profileImge);
+	
+	mv.setViewName("redirect:/Users/MyPage/Home");
+	return mv;
 	}
 	
 }

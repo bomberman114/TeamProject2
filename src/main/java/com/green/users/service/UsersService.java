@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.green.users.vo.UserVo;
 
 public interface UsersService {
@@ -26,6 +28,12 @@ public interface UsersService {
 	void userApplySubmit(Map<String, String> map);
 
 	List<HashMap<String, Object>> findApplyList(Map<String, String> map);
+
+	void deleteProfileImge(HashMap<String, Object> map);
+
+	void setProfileUpdate(HashMap<String, Object> map, MultipartFile[] profileImge);
+
+	HashMap<String, Object> getUserData(UserVo vo);
 
 
 
