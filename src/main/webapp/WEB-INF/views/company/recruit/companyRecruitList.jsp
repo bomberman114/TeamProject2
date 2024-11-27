@@ -12,13 +12,6 @@
 <link rel="stylesheet" href="/css/style.css" />
 <script src="/js/headerSubmenu.js" defer></script>
 <style type="text/css">
-body {
-	font-family: 'Arial', sans-serif;
-	background-color: #f5f5f5;
-	margin: 0;
-	padding: 0;
-}
-
 .header-container {
 	display: flex;
 	justify-content: space-between;
@@ -31,6 +24,11 @@ body {
 .header-container h1 {
 	margin: 0;
 	font-size: 24px;
+}
+
+.separator {
+    margin: 0 10px; /* 구분자의 여백 */
+    font-weight: bold; /* 구분자 강조 */
 }
 
 nav ul {
@@ -71,15 +69,27 @@ h2 {
 }
 
 .tabs {
-	margin: 20px 0;
-	font-size: 18px;
+    display: flex; /* Flexbox 사용 */
+    justify-content: space-between; /* 양쪽 끝에 배치 */
+    align-items: center; /* 수직 중앙 정렬 */
+    margin-bottom: 20px; /* 아래쪽 여백 */
+}
+
+.link-container {
+    display: flex; /* 링크들을 가로로 배치 */
+    align-items: center; /* 세로 중앙 정렬 */
+    margin-right: 680px; /* h2 오른쪽에 여백 추가 */
+}
+.job-info {
+    display: flex; /* Flexbox 사용 */
+    justify-content: space-between; /* 양끝에 위치하게 */
+    margin-top: 10px; /* 위쪽 여백 추가 (선택 사항) */
+     margin-top: auto; /* 위쪽 여백을 자동으로 설정하여 아래로 밀기 */
 }
 
 .tabs span {
 	margin-right: 20px;
 	cursor: pointer;
-<<<<<<< HEAD
-=======
 	padding: 5px 10px;
 	border-radius: 5px;
 }
@@ -87,12 +97,12 @@ h2 {
 .tabs .active {
 	background-color: #007bff;
 	color: white;
->>>>>>> f3c9cc92c0f2aafd350de8091f14c88ad7d69d17
 }
 
 .job-list {
 	display: flex;
 	flex-wrap: wrap;
+	
 }
 
 .job-card {
@@ -103,6 +113,12 @@ h2 {
 	margin: 10px;
 	flex: 1 1 calc(33% - 20px);
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+	 width: 360px;
+    height: 200px;
+      flex-direction: column; /* 세로 방향으로 배치 */
+    justify-content: space-between; /* 내용 간의 간격을 조정하여 아래로 밀기 */
+    display: flex; /* Flexbox 사용 */
+    
 }
 
 .job-card h3 {
@@ -115,45 +131,49 @@ h2 {
 }
 
 .add-button {
-	margin-top: 20px;
-	padding: 10px 20px;
-	background-color: #007bff;
-	color: white;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
+    background-color: #e63946; /* 버튼 배경색 */
+    color: white; /* 버튼 글자색 */
+    padding: 10px 15px; /* 버튼 패딩 */
+    border-radius: 4px; /* 둥근 모서리 */
+    text-decoration: none; /* 밑줄 제거 */
 }
-
 .add-button:hover {
 	background-color: #0056b3;
+}
+.highlight {
+color: #333333;	
+font-weight: bold;
 }
 </style>
 <title>채용공고 관리</title>
 </head>
 <body>
 	<%@include file="/WEB-INF/includes/headerCompanyUser.jsp"%>
-	<main>
-		<div class="container">
-			<h2>채용공고 관리</h2>
-			<div class="tabs">
-				<span class="active"><a href="/CompanyRecruit/RecruitList">전체</a></span>
-				<span>
-					<a href="/CompanyRecruit/DeadRecruittList">마감된 공고</a>
-				</span>
-			</div>
-			<div class="job-list">
-				<c:forEach var="companyRecruitList" items="${companyRecruitList}">
-				<div class="job-card">
-					<h3>${companyRecruitList.RECRUIT_TITLE }</h3>
-					<p><a href="/CompanyRecruit/CompanyRecruitUpdateForm?company_recruit_idx=${companyRecruitList.COMPANY_RECRUIT_IDX}">공고 수정</a></p>
-					<p class="delete">공고 삭제</p>
-					<p>지원자 ${companyRecruitList.APPLICATION_COUNT }명</p>
-					<p>${companyRecruitList.COMPANY_RECRUIT_REGDATE } 등록</p>
-				</div>
-				</c:forEach>
-			</div>
-			<a href="/CompanyRecruit/RecruitWriteForm" class="add-button">채용공고 추가</a>
-		</div>
-	</main>
+<main>
+    <div class="container">
+        <div class="tabs">
+            <h2>채용공고 관리</h2>
+            <div class="link-container">
+                <a href="/CompanyRecruit/RecruitList" class="highlight">전체</a>
+                <span class="separator">|</span>
+                <a href="/CompanyRecruit/DeadRecruittList">마감된 공고</a>
+            </div>
+            <a href="/CompanyRecruit/RecruitWriteForm" class="add-button">채용공고 추가</a>
+        </div>
+
+        <div class="job-list">
+            <c:forEach var="companyRecruitList" items="${companyRecruitList}">
+                <div class="job-card">
+                    <h3>${companyRecruitList.RECRUIT_TITLE}</h3>
+                    <p><a href="/CompanyRecruit/CompanyRecruitUpdateForm?company_recruit_idx=${companyRecruitList.COMPANY_RECRUIT_IDX}">공고 수정</a></p>
+                   <p class="job-info">
+                <span>지원자&nbsp;<strong>${companyRecruitList.APPLICATION_COUNT}명</strong></span>
+                <span>${companyRecruitList.COMPANY_RECRUIT_REGDATE} 등록</span>
+            </p>
+                </div>
+            </c:forEach>
+        </div>
+    </div>
+</main>
 </body>
 </html>

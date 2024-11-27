@@ -118,7 +118,7 @@ public class CompanyController {
 		
 		//session.invalidate();
 		session.setAttribute("companylogin", companyUserVo);
-		
+	
 		
 		mv.setViewName("redirect:/Company/CompanyMypage");
 		return mv;

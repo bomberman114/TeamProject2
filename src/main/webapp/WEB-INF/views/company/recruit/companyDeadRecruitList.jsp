@@ -12,13 +12,6 @@
 <link rel="stylesheet" href="/css/style.css" />
 <script src="/js/headerSubmenu.js" defer></script>
 <style type="text/css">
-body {
-	font-family: 'Arial', sans-serif;
-	background-color: #f5f5f5;
-	margin: 0;
-	padding: 0;
-}
-
 .header-container {
 	display: flex;
 	justify-content: space-between;
@@ -31,6 +24,11 @@ body {
 .header-container h1 {
 	margin: 0;
 	font-size: 24px;
+}
+
+.separator {
+    margin: 0 10px; /* 구분자의 여백 */
+    font-weight: bold; /* 구분자 강조 */
 }
 
 nav ul {
@@ -71,16 +69,27 @@ h2 {
 }
 
 .tabs {
-	margin: 20px 0;
-	font-size: 18px;
+    display: flex; /* Flexbox 사용 */
+    justify-content: space-between; /* 양쪽 끝에 배치 */
+    align-items: center; /* 수직 중앙 정렬 */
+    margin-bottom: 20px; /* 아래쪽 여백 */
 }
-.tabs .active {
-	background-color: #007bff;
-	color: white;
+
+.link-container {
+    display: flex; /* 링크들을 가로로 배치 */
+    align-items: center; /* 세로 중앙 정렬 */
+    margin-right: 680px; /* h2 오른쪽에 여백 추가 */
 }
 .tabs span {
 	margin-right: 20px;
 	cursor: pointer;
+	padding: 5px 10px;
+	border-radius: 5px;
+}
+
+.tabs .active {
+	background-color: #007bff;
+	color: white;
 }
 
 .job-list {
@@ -108,45 +117,51 @@ h2 {
 }
 
 .add-button {
-	margin-top: 20px;
-	padding: 10px 20px;
-	background-color: #007bff;
-	color: white;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
+    background-color: #e63946; /* 버튼 배경색 */
+    color: white; /* 버튼 글자색 */
+    padding: 10px 15px; /* 버튼 패딩 */
+    border-radius: 4px; /* 둥근 모서리 */
+    text-decoration: none; /* 밑줄 제거 */
 }
-
 .add-button:hover {
 	background-color: #0056b3;
 }
+.highlight {
+color: #333333;	
+font-weight: bold;
+}
+
 </style>
 <title>채용공고 관리</title>
 </head>
 <body>
-	  <%@include file="/WEB-INF/includes/headerCompanyUser.jsp"%>
+	<%@include file="/WEB-INF/includes/headerCompanyUser.jsp"%>
+<main>
+    <div class="container">
+        <div class="tabs">
+            <h2>채용공고 관리</h2>
+            <div class="link-container">
+                <a href="/CompanyRecruit/RecruitList">전체</a>
+                <span class="separator">|</span>
+                <a href="/CompanyRecruit/DeadRecruittList"  class="highlight">마감된 공고</a>
+            </div>
+            <a href="/CompanyRecruit/RecruitWriteForm" class="add-button">채용공고 추가</a>
+        </div>
 
-	<main>
-		<div class="container">
-			<h2>채용공고 관리</h2>
-			<div class="tabs">
-				<span><a href="/CompanyRecruit/RecruitList">전체</a></span> 
-				<span class="active"><a href="/CompanyRecruit/DeadRecruittList">마감된 공고</a></span>
-			</div>
-			<div class="job-list">
-				<c:forEach var="companyRecruitDeadList" items="${companyRecruitDeadList}">
-				<div class="job-card">
-					<h3>${companyRecruitDeadList.RECRUIT_TITLE }</h3>
-					<p>공고 수정</p>
-					<p class="delete">공고 삭제</p>
-					<p>지원자 ${companyRecruitDeadList.APPLICATION_COUNT }명</p>
-					<p>${companyRecruitDeadList.COMPANY_RECRUIT_REGDATE } 등록</p>
-				</div>
-				</c:forEach>
-				
-			</div>
-			<button class="add-button">채용공고 추가</button>
-		</div>
-	</main>
+        <div class="job-list">
+            <c:forEach var="companyRecruitDeadList" items="${companyRecruitDeadList}">
+                <div class="job-card">
+                    <h3>${companyRecruitDeadList.RECRUIT_TITLE }</h3>
+                    <p><a href="/CompanyRecruit/CompanyRecruitUpdateForm?company_recruit_idx=${companyRecruitDeadList.RECRUIT_TITLE }">공고 수정</a></p>
+                    <p class="delete">공고 삭제</p>
+                    <p class="job-info">
+                    <p>지원자 ${companyRecruitDeadList.APPLICATION_COUNT }명</p>
+                    <p>${companyRecruitDeadList.COMPANY_RECRUIT_REGDATE } 등록</p>
+                    </p>
+                </div>
+            </c:forEach>
+        </div>
+    </div>
+</main>
 </body>
 </html>
