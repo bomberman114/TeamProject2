@@ -3,6 +3,10 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.green.joboffer.message.mapper.JobofferMessageMapper">  
 
+<select id="getJobofferMessageList">
+
+
+</select>
 	
 
 </mapper>

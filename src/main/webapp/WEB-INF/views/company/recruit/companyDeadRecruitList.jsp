@@ -10,6 +10,7 @@
 <link rel="icon" href="/images/favicon.ico" />
 <link rel="stylesheet" href="/css/reset.css" />
 <link rel="stylesheet" href="/css/style.css" />
+<script src="/js/headerSubmenu.js" defer></script>
 <style type="text/css">
 body {
 	font-family: 'Arial', sans-serif;
