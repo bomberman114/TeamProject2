@@ -80,16 +80,14 @@ public class UsersServiceImpl implements UsersService {
 	@Override
 	public HashMap<String, Object> getUserData(UserVo vo) {
 		HashMap<String, Object> getUserData = userMapper.getUserData(vo);
-
 		String userSfileName = String.valueOf(getUserData.get("USER_SFILE_NAME"));
+		System.out.println("userSfileName 전" + userSfileName);
 		userSfileName = fileNameReplace(userSfileName);
+		System.out.println("userSfileName 후" + userSfileName);
 		getUserData.put("USER_SFILE_NAME", userSfileName);
+		System.out.println("replace 후" + getUserData);
 		return getUserData;
 	}
-	
-	
-	
-	
 	
 	@Override
 	public HashMap<String, Object> findApplyCountListById(Map<String, String> map) {

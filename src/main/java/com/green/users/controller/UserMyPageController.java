@@ -30,13 +30,14 @@ public class UserMyPageController {
 		
 		HttpSession session = request.getSession();
 		UserVo vo           = (UserVo) session.getAttribute("userLogin");
+		HashMap<String, Object> userMap = usersService.getUserData(vo);
 		vo                  = usersService.findById(vo.getUser_idx());
 		String userBirth    = vo.getUser_birth().substring(0,4);
 		HashMap<String, String> map = new HashMap<>();
 		map.put("userIdx",String.valueOf(vo.getUser_idx()));
 		HashMap<String, Object> userApplyCountList = usersService.findApplyCountListById(map);
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("vo",vo);
+		mv.addObject("vo",userMap);
 		mv.addObject("userBirth",userBirth);
 		mv.addObject("userApplyCountList",userApplyCountList);
 		mv.setViewName("/users/personalUsers/personalMyPage");
@@ -50,7 +51,7 @@ public class UserMyPageController {
 		HttpSession session = request.getSession();
 		UserVo vo  = (UserVo) session.getAttribute("userLogin");
         HashMap<String, Object> userMap = usersService.getUserData(vo);
-        System.out.println(userMap);
+        System.out.println("userMap" + userMap);
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("vo",userMap);
 		mv.setViewName("/users/personalUsers/personalMypageUpdateForm");

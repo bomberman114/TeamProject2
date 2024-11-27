@@ -668,9 +668,10 @@ footer {
         background: #ccc;
         border-radius: 75px;
         margin-bottom: 40px;
-
+				overflow: hidden;
         & img {
           display: block;
+          width : 100%;
         }
       }
 
