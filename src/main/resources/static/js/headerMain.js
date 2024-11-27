@@ -5,8 +5,6 @@ const $searchDiv   = document.querySelector(".search-div");
 const $searchInput = document.querySelector("input[name='search']");
 const $sortLists   = document.querySelectorAll(".develop-recruit-sort li");
 const $recentList  = document.querySelector(".recent-list ul");
-const $prevBtn     = document.querySelector(".prev-btn");
-const $nextBtn     = document.querySelector(".next-btn");
 const $recruitList = document.querySelector(".develop-recruit-list");
 
 displayRecent()
@@ -85,35 +83,6 @@ function saveRecent (keyword){
     })
   })
 
-  let recruitListIndex = 0
-
-  $nextBtn.addEventListener("click",(e)=>{
-    recruitListIndex++;
-    console.log(recruitListIndex)
-    moveRecruitList(recruitListIndex)
-    if(recruitListIndex >= 6){
-      e.target.style.display = "none"
-    }
-    if(recruitListIndex >= 1){
-      $prevBtn.style.display = "block"
-    }
-  })
-
-  $prevBtn.addEventListener("click",(e)=>{
-    recruitListIndex--;
-    moveRecruitList(recruitListIndex)
-    if(recruitListIndex < 6){
-      $nextBtn.style.display = "block"
-    }
-    if(recruitListIndex < 1){
-      e.target.style.display = "none"
-    }
-  })
-
-  function moveRecruitList(i){
-    $recruitList.style.transform=`translateX(${i*-260}px)`
-  }
-  
   
 document.addEventListener('DOMContentLoaded', () => {
   let submenuActive = false;

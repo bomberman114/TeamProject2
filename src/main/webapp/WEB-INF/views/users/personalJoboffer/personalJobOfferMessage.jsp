@@ -13,7 +13,7 @@
   </head>
 <body>
 	<%@include file="/WEB-INF/includes/headerUser.jsp" %>
-	   <main class="write-form apply-form">
+	   <main class="write-form apply-form message-form">
 	     <div class="inner">
 	       <div class="display">
 	         <div class="display-inner">

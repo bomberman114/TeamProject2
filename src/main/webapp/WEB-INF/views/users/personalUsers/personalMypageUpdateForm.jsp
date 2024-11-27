@@ -92,6 +92,7 @@
             });
             reader.readAsDataURL(files[0]);
         }
+        console.log(reader)
     }
     
     

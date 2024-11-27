@@ -194,4 +194,13 @@ public class CompanyRecruitServiceImpl implements CompanyRecruitService {
 		return map;
 	}
 
+	
+	/* 채용정보 공고 필터 */
+
+	@Override
+	public List<HashMap<String, Object>> filterRecruitList(HashMap<String, Object> map) {
+		List<HashMap<String, Object>> recruitList = companyRecruitMapper.filterRecruitList(map); 
+		return recruitList;
+	}
+
 }

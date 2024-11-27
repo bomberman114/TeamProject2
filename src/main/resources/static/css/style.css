@@ -403,6 +403,10 @@ footer {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 40px 20px;
+    
+    & .not-image{
+    	background : #ccc !important;
+    }
     & .recruit-card {
       position: relative;
       flex-shrink: 0;
@@ -434,7 +438,7 @@ footer {
           top: 0;
           background: linear-gradient(
             to bottom,
-            rgba(0, 0, 0, 0.3) 0%,
+            rgba(0, 0, 0, 0.5) 0%,
             rgba(0, 0, 0, 0) 30%
           );
           display: block;
@@ -453,7 +457,7 @@ footer {
         top: 0;
         background: linear-gradient(
           to bottom,
-          rgba(0, 0, 0, 0.3) 0%,
+          rgba(0, 0, 0, 0.5) 0%,
           rgba(0, 0, 0, 0) 30%
         );
         display: block;
@@ -668,10 +672,10 @@ footer {
         background: #ccc;
         border-radius: 75px;
         margin-bottom: 40px;
-				overflow: hidden;
+        overflow: hidden;
         & img {
           display: block;
-          width : 100%;
+          width: 100%;
         }
       }
 
@@ -2002,6 +2006,194 @@ footer {
     display: block !important;
     cursor: pointer;
   }
+}
+
+.message-form {
+  height: auto;
+}
+
+/* 채용공고 검색  */
+.filter-inner {
+  margin-top: 121px;
+  padding: 12px;
+  border-bottom: solid 1px #d7dce5;
+
+  & .inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    & input[type="radio"]{
+    	display : none;
+    }
+    
+    & label{
+    display : block;
+   	padding : 8px 16px;
+    text-align: center;
+    font-weight: 500
+    }
+    
+    & input[type="radio"]:checked ~ label{
+    	background: #fff;
+    	border-radius: 8px;
+    }
+    
+    & >ul:last-child{
+    	background: #f8f8f8;
+    	border-radius: 8px;
+    	padding : 8px;
+    }
+    
+    & > ul {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      & .search-stack-input,
+      select {
+        padding: 0 40px 0 12px;
+        height: 50px;
+        border: solid 1px #d7dce5;
+        border-radius: 50px;
+        line-height: 50px;
+        -webkit-appearance: none; /* for chrome */
+        -moz-appearance: none; /*for firefox*/
+        appearance: none;
+        background: url("/images/icon/user-dropdown.png") no-repeat right 16px
+          center;
+        cursor: pointer; 
+        font-size: 16px;
+        font-family: "Pretendard";
+        font-weight: 500;
+         
+      }
+      & .search-stack-list {
+        top: 48px;
+      }
+    }
+  }
+
+  & .filter-reset-btn {
+    display: flex;
+    width: 50px;
+    height: 50px;
+    border: solid 1px #d7dce5;
+    border-radius: 25px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer; 
+    & img {
+      flex-basis: 0;
+    }
+  }
+}
+
+& .select-stack-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 6px;
+  margin-bottom: 8px;
+
+  & li {
+    padding: 8px 16px;
+    min-width: 60px;
+    text-align: center;
+    background: #333;
+    color: #fff;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    & img {
+      width: 16px;
+      cursor: pointer;
+    }
+  }
+}
+
+& .search-stack-list {
+  display: none;
+  background: #fff;
+  z-index: 3;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border: solid 1px #d7dce5;
+  border-radius: 12px;
+  font-weight: 500;
+  overflow: hidden;
+
+	& .select-stack-list{
+	  display : none;
+		border-top: solid 1px #d7dce5;
+		margin: 0;
+		padding : 12px;
+	}
+
+
+  & li {
+    height: 50px;
+    line-height: 50px;
+    padding-left: 24px;
+  }
+
+  & .stack-inner {
+    display: flex;
+    width: 100%;
+    gap: 10px;
+    cursor: pointer;
+    overflow: hidden;
+  }
+  & .stack-type {
+    & li {
+      width: 160px;
+    }
+    & .stack-active {
+      background: var(--main-color);
+      color: #fff;
+    }
+  }
+  & .stack-list {
+    overflow-y: auto;
+    height: 200px;
+    & li {
+      display: flex;
+      gap: 12px;
+      width: 240px;
+      color: #333;
+    }
+    & li:hover {
+      background: #f5f5f5;
+    }
+  }
+}
+
+& .search-stack-input {
+  position: relative;
+  display: flex;
+  gap: 12px;
+
+  & img {
+    flex-shrink: 0;
+  }
+  
+   & .search-stack-list{
+  	z-index : 999 !important;
+  }
+}
+
+& .stack-util {
+  background: #ebecf1;
+}
+
+.recruit-serarchForm {
+  margin-top: 0;
+}
+
+.recruit-serarchForm-list{
+	margin-top : 40px;
 }
 
 @media screen and (max-width: 1000px) {

@@ -182,7 +182,14 @@
 			                <img class="bookmark mark-down" src="/images/icon/mark-off.png" alt="북마크" data-recruitidx="${recruit.COMPANY_RECRUIT_IDX}">
 			            </c:otherwise>
 			        </c:choose>
-			        <div class="recruit-img"><a href="/Common/RecruitOneView?company_recruit_idx=${recruit.COMPANY_RECRUIT_IDX}"></a><img  alt="" src="<c:url value='${recruit.COMPANY_SFILE_NAME}'/>"></div>
+			        <c:choose>
+			        	<c:when test="${not empty recruit.COMPANY_SFILE_NAME}">
+					        <div class="recruit-img"><a href="/Common/RecruitOneView?company_recruit_idx=${recruit.COMPANY_RECRUIT_IDX}"></a><img  alt="" src="<c:url value='${recruit.COMPANY_SFILE_NAME}'/>"></div>	        	
+			        	</c:when>
+			        	<c:otherwise>
+			        		<div class="recruit-img"><a class="not-image" href="/Common/RecruitOneView?company_recruit_idx=${recruit.COMPANY_RECRUIT_IDX}">등록된 이미지가 없습니다.</a></div>
+			        	</c:otherwise>
+			        </c:choose>
 			        <div class="recruit-info">
 			            <div class="company-info">
 			                <p class="recruit-title"><a href="/Common/RecruitOneView?company_recruit_idx=${recruit.COMPANY_RECRUIT_IDX}">${recruit.RECRUIT_TITLE}</a></p>
@@ -253,6 +260,39 @@
 	    console.log(result.vo)
 	    return result.vo;
 	}
+		
+
+			const $prevBtn     = document.querySelector(".prev-btn");
+			const $nextBtn     = document.querySelector(".next-btn");
+		
+		  let recruitListIndex = 0
+
+		  $nextBtn.addEventListener("click",(e)=>{
+		    recruitListIndex++;
+		    console.log(recruitListIndex)
+		    moveRecruitList(recruitListIndex)
+		    if(recruitListIndex >= 6){
+		      e.target.style.display = "none"
+		    }
+		    if(recruitListIndex >= 1){
+		      $prevBtn.style.display = "block"
+		    }
+		  })
+
+		  $prevBtn.addEventListener("click",(e)=>{
+		    recruitListIndex--;
+		    moveRecruitList(recruitListIndex)
+		    if(recruitListIndex < 6){
+		      $nextBtn.style.display = "block"
+		    }
+		    if(recruitListIndex < 1){
+		      e.target.style.display = "none"
+		    }
+		  })
+
+		  function moveRecruitList(i){
+		    $recruitList.style.transform=`translateX(${i*-260}px)`
+		  }
 		
 	</script>
 </body>

@@ -15,7 +15,7 @@
           </div>
         </div>
         <ul>
-          <li><a href="#">채용정보</a></li>
+          <li><a href="/Common/RecruitSearchForm">채용정보</a></li>
         </ul>
       </div>
     </div>

@@ -317,6 +317,45 @@
 	    return result;
 	}
       
+      
+      const $searchStackList = document.querySelectorAll(".stack-type li")
+
+      $searchStackList[0].classList.add("stack-active");
+      $searchStackList.forEach(stack=>{
+    	  stack.addEventListener("click",(e)=>{
+    		  $searchStackList.forEach(a=>{
+    			  a.classList.remove("stack-active")
+    		  })
+    	 		e.target.classList.add("stack-active");
+    		 selectStackAjax(e.target.dataset.stackid)
+    	  })
+      })
+      
+      async function selectStackAjax(stackId) {
+	    const res =  await fetch("/Users/MyPage/Resume/SkillFindById", {
+	        method: "POST",
+	        headers: {
+	            "Content-Type": "application/json",
+	        },
+	        body: JSON.stringify({ stackId: stackId })
+	    });
+	
+	    if (!res.ok) {
+	        throw new Error(`HTTP error status: ${res.status}`);
+	    }
+	
+	    const result = await res.json();
+	    const skillList = result.selectSkillList;
+	    console.log(skillList)
+	    let html = ""
+	    skillList.forEach(skill=>{
+	    	let li = "<li data-skillidx="+skill.skill_idx+">"+skill.skill_name+"</li>"
+	    	html += li
+	    })
+	    $skillListInner.innerHTML = html;
+	    return result;
+	}
+      
     </script>
   </body>
 </html>

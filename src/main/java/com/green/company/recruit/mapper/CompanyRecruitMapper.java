@@ -46,5 +46,8 @@ public interface CompanyRecruitMapper {
 	HashMap<String, Object> getCompanyHistory(int company_recruit_idx);
 
 
+	List<HashMap<String, Object>> filterRecruitList(HashMap<String, Object> map);
+
+
 
 }
