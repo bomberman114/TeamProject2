@@ -14,7 +14,7 @@ import com.green.company.vo.CompanyUserVo;
 @Mapper
 public interface ApplicationMapper {
 
-	List<HashMap<String, Object>> companyRecruitApplyUserResumeAllList(CompanyUserVo companyUserVo);
+	List<HashMap<String, Object>> companyRecruitApplyUserResumeAllList(HashMap<String, Object> map);
 
 	List<HashMap<String, Object>> checkedCompanyRecruitApplyUserResumeAllList(CompanyRecruitVo companyRecruitVo);
 

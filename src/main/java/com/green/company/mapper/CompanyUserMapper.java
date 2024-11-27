@@ -22,9 +22,14 @@ public interface CompanyUserMapper {
 
 	Object isUserIdDupCheck(String userId);
 
-	HashMap<String, Integer> getCompanyApplicationStatusIdxList(CompanyUserVo companyUserVo);
 
 	HashMap<String, Integer> getCheckCompanyApplicationStatusIdxMap(CompanyRecruitVo companyRecruitVo);
+
+	HashMap<String, Integer> getCompanyApplicationStatusIdxMap(HashMap<String, Object> map);
+
+	HashMap<String, Integer> getCompanyApplicationStatusIdxList(CompanyUserVo companyUserVo);
+
+	CompanyUserVo getCompanyUser(CompanyUserVo companyUserVo);
 
 }
 	

@@ -8,7 +8,7 @@
         <ul class="user-nav">
           <li><a href="/Company/CompanyMypage">마이홈</a></li>
           <li><a href="/CompanyRecruit/RecruitList">채용공고 관리</a></li>
-          <li><a href="#">스크랩</a></li>
+          <li><a href="/Company/SearchResumes">지원자검색</a></li>
           <li><a href="/CompanyApply/CompanyRecruitApplyUserResumeAllList">지원자관리</a></li>
           <li><a href="#">메시지</a></li>
         </ul>

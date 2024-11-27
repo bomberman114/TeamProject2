@@ -11,6 +11,7 @@
 <link rel="icon" href="/images/favicon.ico" />
     <link rel="stylesheet" href="/css/reset.css" />
     <link rel="stylesheet" href="/css/style.css" />
+    <script src="/js/headerSubmenu.js" defer></script>
 <title>채용 공고 수정</title>
 <style>
 * {

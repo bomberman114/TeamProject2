@@ -20,9 +20,9 @@
       </div>
     </div>
     <c:choose>
-    	<c:when test="${not empty sessionScope.userLogin}">
+    	<c:when test="${not empty sessionScope.userlogin}">
     		<ul class="header-right logined">
-		      <li class="user"><span class="bedge role-user">개인</span>${sessionScope.userLogin.user_name}
+		      <li class="user"><span class="bedge role-user">개인</span>${sessionScope.userlogin.user_name}
 		      	<ul class="submenu">
 		      		<li><a href="/Users/MyPage/Home">마이페이지</a></li>
 		      		<li><a href="/Users/MyPage/UpdateForm">회원정보수정</a></li>
@@ -31,12 +31,12 @@
 		      </li>
 		    </ul>
     	</c:when>
-    	<c:when test="${not empty sessionScope.companyLogin}">
+    	<c:when test="${not empty sessionScope.companylogin}">
     		<ul class="header-right logined">
-		      <li class="user"><span class="bedge role-company">기업</span>${sessionScope.companyLogin.company_user_name}
+		      <li class="user"><span class="bedge role-company">기업</span>${sessionScope.companylogin.company_user_name}
 		      	<ul class="submenu">
-		      		<li><a href="/Company/Mypage/Home">마이페이지</a></li>
-		      		<li><a href="/Company/Mypage/UpdateForm">회원정보수정</a></li>
+		      		<li><a href="/Company/CompanyMypage">마이페이지</a></li>
+		      		<li><a href="/Company/CompanyMypageUpdateForm">회원정보수정</a></li>
 		      		<li><a href="/Company/Logout">로그아웃</a></li>
 		      	</ul>
 		      </li>

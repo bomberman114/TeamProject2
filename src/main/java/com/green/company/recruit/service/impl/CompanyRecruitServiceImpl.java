@@ -9,14 +9,18 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
+import javax.crypto.interfaces.PBEKey;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.green.application.mapper.ApplicationMapper;
+import com.green.common.duty.vo.CommonDutyVo;
 import com.green.company.recruit.mapper.CompanyRecruitMapper;
 import com.green.company.recruit.service.CompanyRecruitService;
 import com.green.company.recruit.vo.CompanyRecruitVo;
 import com.green.company.vo.CompanyUserVo;
+import com.green.region.vo.RegionVo;
 
 @Service("CompanyRecruitService")
 public class CompanyRecruitServiceImpl implements CompanyRecruitService {
@@ -124,9 +128,9 @@ public class CompanyRecruitServiceImpl implements CompanyRecruitService {
 	}
 	
 	@Override
-	public List<HashMap<String, Object>> companyRecruitApplyUserResumeAllList(CompanyUserVo companyUserVo) {
+	public List<HashMap<String, Object>> companyRecruitApplyUserResumeAllList(HashMap<String, Object> map) {
 		List<HashMap<String, Object>> companyRecruitApplyUserResumeAllList = applicationMapper
-				.companyRecruitApplyUserResumeAllList(companyUserVo);
+				.companyRecruitApplyUserResumeAllList(map);
 
 		//DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
 		 //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMM");
@@ -193,5 +197,18 @@ public class CompanyRecruitServiceImpl implements CompanyRecruitService {
 		HashMap<String, Object> map = companyRecruitMapper.getCompanyHistory(company_recruit_idx);
 		return map;
 	}
+
+
+
+
+	@Override
+	public List<HashMap<String, Object>> getSearchCompanyRecruitList(HashMap<String, Object> map) {
+		  List<HashMap<String, Object>> searchCompanyRecruitList =  
+	               companyRecruitMapper.getSearchCompanyRecruitList (map);
+		return searchCompanyRecruitList;
+	}
+
+
+	
 
 }

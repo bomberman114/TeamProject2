@@ -11,6 +11,7 @@ public class JobofferMessageVo {
 	private String    company_user_status;               // 기업 유저 상태(나감,있음)
 	private String    message_content_joboffer_regdate;  // 메세지 입력 시간 
 	
+	
 	public JobofferMessageVo() {}
 	
 	public JobofferMessageVo(int joboffer_message_idx, int joboffer_room_idx, int user_idx, int company_user_idx,

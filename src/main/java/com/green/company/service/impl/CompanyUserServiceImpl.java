@@ -62,7 +62,7 @@ public class CompanyUserServiceImpl implements CompanyUserService {
 		return fileName;
 	}
 
-	private String formatDate(String dateStr) {
+	private String formatDateKorean(String dateStr) {
 		// 입력 문자열에서 날짜 부분만 추출
 		LocalDate date = LocalDate.parse(dateStr.substring(0, 10), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
@@ -71,6 +71,15 @@ public class CompanyUserServiceImpl implements CompanyUserService {
 
 		// LocalDate를 한글 형식으로 변환
 		return date.format(koreanFormatter);
+	}
+	
+	private String formatDate(String dateStr) {
+		// 입력 문자열에서 날짜 부분만 추출
+		LocalDate date = LocalDate.parse(dateStr.substring(0, 10), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		String dateFormat = String.valueOf(date);
+		
+		// LocalDate를 한글 형식으로 변환
+		return dateFormat;
 	}
 	
 
@@ -85,7 +94,7 @@ public class CompanyUserServiceImpl implements CompanyUserService {
 		// 2024-11-07 00:00:00.0
 		String companyEstablish = String.valueOf(getCompanyUserData.get("COMPANY_ESTABLISH"));
 
-		String formattedEstablishDate = formatDate(companyEstablish);
+		String formattedEstablishDate = formatDateKorean(companyEstablish);
 
 		getCompanyUserData.put("COMPANY_ESTABLISH", formattedEstablishDate);
 
@@ -119,5 +128,23 @@ public class CompanyUserServiceImpl implements CompanyUserService {
 		FileImage.deleteCompanyImage(uploadPath, companyImageList);
 		companyImageMapper.deleteCompanyImge(map);
 
+	}
+
+	@Override
+	public HashMap<String, Object> getCompanyUserProfile(CompanyUserVo companyUserVo) {
+		HashMap<String, Object> companyUserProfile = companyUserMapper.getCompanyUserData(companyUserVo);
+
+		String companySfileName = String.valueOf(companyUserProfile.get("COMPANY_SFILE_NAME"));
+		companySfileName = fileNemeReplace(companySfileName);
+		companyUserProfile.put("COMPANY_SFILE_NAME", companySfileName);
+
+		// 2024-11-07 00:00:00.0
+		String companyEstablish = String.valueOf(companyUserProfile.get("COMPANY_ESTABLISH"));
+
+		String formattedEstablishDate = formatDate(companyEstablish);
+
+		companyUserProfile.put("COMPANY_ESTABLISH", formattedEstablishDate);
+
+		return companyUserProfile;
 	}
 }

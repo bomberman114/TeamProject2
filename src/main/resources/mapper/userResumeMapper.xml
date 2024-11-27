@@ -164,7 +164,7 @@
         EDUCATION_STATUS ES
     ON
         UE.EDUCATION_STATUS_IDX = ES.EDUCATION_STATUS_IDX
-  
+   
     <if test="checkedCommonDutyList != null">
   WHERE
   	UR.COMMON_DUTY_IDX IN 
@@ -219,6 +219,7 @@
         LEFT JOIN USER_RESUME_IMAGE URI
         ON
             UR.USER_RESUME_IDX = URI.USER_RESUME_IDX
+         <if test="application_idx != null">
          LEFT JOIN
             APPLICATIONS A
         ON
@@ -227,6 +228,7 @@
             APPLICATION_STATUS APS
         ON
             A.APPLICATION_STATUS_IDX = APS.APPLICATION_STATUS_IDX
+         </if>
 		WHERE 
 		<if test="user_resume_idx != null">
      	 UR.USER_RESUME_IDX = #{user_resume_idx}

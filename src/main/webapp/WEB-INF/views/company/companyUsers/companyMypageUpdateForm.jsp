@@ -16,11 +16,11 @@
 <body>
       <%@include file="/WEB-INF/includes/headerCompanyUser.jsp"%>
     <main class="mypage-update">
+        <form action="/Company/MypageProfileUpdate" method="post"  enctype ="multipart/form-data" >
         <div class="inner">
-        	<form action="/Company/MypageProfileUpdate" method="post"  enctype ="multipart/form-data" >
             <div class="aside">
                 <h2>계정 정보 설정</h2>
-                <div class="user-img"><img alt="프로필 이미지" /></div>
+                <div class="user-img"><img alt="프로필 이미지"  src="<c:url value='${companyUserProfile.COMPANY_SFILE_NAME}'/>">></div>
                 <input type="file" id="upfile" name="profileImge" aria-label="upfile" accept=".jpg,.jpeg,.png">
                 <label class="profile-btn" for="upfile">프로필 변경</label>
             </div>
@@ -73,7 +73,7 @@
                         <input type="submit" value="수정" class="update-btn">
                     </p>
             </div>
-       	 </form>
+           </form>
         </div>
     </main>
     <script>
