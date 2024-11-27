@@ -134,6 +134,7 @@ public class UsersController {
 		String userId    = map.get("userIdx");
 		String recruitId = map.get("recruitIdx"); 
 		UserBookmarkVo vo = usersBookmarkMapper.findById(userId,recruitId);
+		System.out.println(vo);
 		if(vo != null) {
 			int bookmarkCheck = vo.getBookmark_check();
 			vo.setBookmark_check(bookmarkCheck == 1 ? 0 : 1);

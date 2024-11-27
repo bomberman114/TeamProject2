@@ -68,46 +68,38 @@
 	<script>
 	
 		let $bookMarkUp;
-		$bookMarkDown;
+		let $bookMarkDown;
 	
     document.addEventListener("click", (e) => {
-        const element = e.target;
-        if (!element.closest(".search-stack-list")) {
+        const clicked = e.target;
+        if (!clicked.closest(".search-stack-list")) {
           $stackList.style.display = "none";
-        }
-        if(element.matches("")){
-        	
         }
       });
 	
 
-	
-	
-		const $bookMarkList = document.querySelectorAll(".bookmark")
-		console.log("${userBookMarkList}")
-		$bookMarkList.forEach((recruit)=>{
-			recruit.addEventListener("click",function(){
-				if("${sessionScope.userLogin}"){
-					const userIdx    = "${sessionScope.userLogin.user_idx}";
-					const recruitIdx = this.dataset.recruitidx;
-					if(this.classList[1] == "mark-down"){
-						this.classList.remove("mark-down");
-						this.classList.add("mark-up");
-						recruitBookMarkAjax(userIdx,recruitIdx);
-						this.src = "/images/icon/mark-up.png"
-					}else{
-						this.classList.remove("mark-up")
-						this.classList.add("mark-down");
-						recruitBookMarkAjax(userIdx,recruitIdx);
-						this.src = "/images/icon/mark-off.png"
-					}					
-				}else{
-					alert("로그인이 필요합니다.")
-				}
-			})
-		})
-		
-			async function recruitBookMarkAjax(userIdx, recruitIdx) {
+    document.addEventListener("click", (e) => {
+        if (clicked.matches(".bookmark")) {
+          if ("${sessionScope.userLogin}") {
+            const userIdx = "${sessionScope.userLogin.user_idx}";
+            const recruitIdx = e.target.dataset.recruitidx;
+            if (clicked.classList[1] == "mark-down") {
+            	  clicked.classList.remove("mark-down");
+            	  clicked.classList.add("mark-up");
+                  recruitBookMarkAjax(userIdx, recruitIdx);
+                  clicked.src = "/images/icon/mark-up.png";
+            } else {
+            	  clicked.classList.remove("mark-up");
+            	  clicked.classList.add("mark-down");
+                  recruitBookMarkAjax(userIdx, recruitIdx);
+                  clicked.src = "/images/icon/mark-off.png";
+            }
+          } else {
+            alert("로그인이 필요합니다.");
+          }
+        }
+    })	
+		async function recruitBookMarkAjax(userIdx, recruitIdx) {
 	    const res = await fetch(`/Users/RecruitMarkUp`, {
 	        method: "POST",
 	        headers: {
@@ -132,7 +124,6 @@
 
 	      let selectSkill = {};
 	      let selectSkillList = [];
-	      console.log($stackItem)
 
 	      $searchInputDiv.addEventListener("click", (e) => {
 	        e.stopPropagation();
@@ -198,30 +189,31 @@
 	    if (!res.ok) {
 	        throw new Error(`HTTP error status: ${res.status}`);
 	    }
-	
 	    const result = await res.json();
-	    const skillList = result.selectSkillList;
-	    console.log(skillList)
+	    const skillVoList = result.selectSkillList;
 	    let html = ""
-	    skillList.forEach(skill=>{
+	    	skillVoList.forEach(skill=>{
 	    	let li = "<li data-skillidx="+skill.skill_idx+">"+skill.skill_name+"</li>"
 	    	html += li
 	    })
 	    $skillListInner.innerHTML = html;
+	    
 	    return result;
+	}
 
-		   let regionIdx = "";
-		   let dutyIdx   = "";
-		   let skillList = [];
+	   let regionIdx = "";
+	   let dutyIdx   = "";
+	   let skillList = [];
+	   let filter    = document.querySelector("input[name='filter']").value
 		      
       const $recruitlist = document.querySelector(".recruit-list")
-      async function filterRecruitAjax(regionIdx,dutyIdx,skillList) {
+      async function filterRecruitAjax(regionIdx,dutyIdx,skillList,filter) {
   	    const res =  await fetch("/Common/FilterRecruitList", {
   	        method: "POST",
   	        headers: {
   	            "Content-Type": "application/json",
   	        },
-  	        body: JSON.stringify({ regionIdx: regionIdx, dutyIdx : dutyIdx, skillList : skillList})
+  	        body: JSON.stringify({ regionIdx: regionIdx, dutyIdx : dutyIdx, skillList : skillList, filter : filter})
   	    });
   	
   	    if (!res.ok) {
@@ -284,7 +276,7 @@
     		  dutyIdx = e.target.value;
     	  }
     	  
-        filterRecruitAjax(regionIdx,dutyIdx,skillList)
+        filterRecruitAjax(regionIdx,dutyIdx,skillList,filter)
       })
 		      
 	      	

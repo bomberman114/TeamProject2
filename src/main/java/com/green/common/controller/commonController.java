@@ -83,7 +83,6 @@ public class commonController {
 			if(companySfileName != null) {
 				companySfileName = fileNemeReplace(companySfileName);
 				recruit.put("COMPANY_SFILE_NAME", companySfileName);
-				
 			}
 		}
 		HashMap<String,Object> res = new HashMap<>();

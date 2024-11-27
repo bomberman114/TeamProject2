@@ -39,19 +39,21 @@
       </div>
     </main>
     <script>
-    	let   $bookMarkList  = document.querySelectorAll(".mark-up")
-    	const $bookmarkCount = document.querySelector(".bookmark-count")
-    	$bookMarkList.forEach((item)=>{
-    		item.addEventListener("click",(e)=>{
-    			const userIdx        = "${sessionScope.userLogin.user_idx}";
-				  const recruitIdx     = e.target.dataset.recruitidx;
-    			e.target.parentNode.remove();
+        const userIdx  = "${sessionScope.userLogin.user_idx}";
+        
+    	document.addEventListener("click",(e)=>{
+    		const clicked = e.target;
+    		
+    		if(clicked.matches(".bookmark")){
+    	    	let   $bookMarkList  = document.querySelectorAll(".mark-up")
+    	    	const $bookmarkCount = document.querySelector(".bookmark-count")
+    			const recruitIdx     = clicked.dataset.recruitidx;
+    			clicked.parentNode.remove();
     			recruitBookMarkAjax(userIdx, recruitIdx);
-    	    const bookmarkCount  = document.querySelectorAll(".mark-up").length;
-    	    console.log(bookmarkCount)
-    			$bookmarkCount.textContent =  "공고 스크랩 리스트 ("+bookmarkCount+")";
-
-    		})
+    			const bookmarkCount  = document.querySelectorAll(".mark-up").length;
+    			$bookmarkCount.textContent =  "공고 스크랩 리스트 ("+ bookmarkCount+")";
+    		}
+    		
     	})
     	
     	async function recruitBookMarkAjax(userIdx, recruitIdx) {

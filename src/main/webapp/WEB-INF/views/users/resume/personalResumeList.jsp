@@ -38,13 +38,11 @@
 	                	<c:if test="${not empty resume.CARRER_MONTH}">${resume.CARRER_MONTH}개월</c:if>	                	
 	                </p>
 	                <ul class="resume-item-top-skill">
-	                		<c:if test="${not empty resume.SKILLS}">
-									    	<c:forEach var="item" items="${resume.SKILLS}">
-									    		<c:if test="${not empty item}">
-													    <li>${item}</li>
-													</c:if>
-									    	</c:forEach>
-											</c:if>
+	               		<c:if test="${not empty resume.SKILLS}">
+					    	<c:forEach var="item" items="${resume.SKILLS}">
+					    		<c:if test="${not empty item}"><li>${item}</li></c:if>
+					    	</c:forEach>
+						</c:if>
 	                </ul>
 	              </div>
 	              <div class="resume-item-bottom">
@@ -58,27 +56,22 @@
       </div>
     </main>
     <script>
-      const $menuBtn = document.querySelectorAll(".resume-item-top img")
-      const $subMenu = document.querySelectorAll(".resume-submenu")
-
-      $menuBtn.forEach((item,i)=>{
-        item.addEventListener("click",(e)=>{
-          e.stopPropagation()
-          const submenu = $subMenu[i];
-          submenu.style.display = submenu.style.display === "block" ? "none" : "block";
-
-          $subMenu.forEach((menu,index)=>{
-            if(i != index){
-              menu.style.display = "none"
-            }
-          })
-          
-        })
-      })
+      let $menuBtn = null;
+      let $subMenu = null;
 
       document.addEventListener("click",(e)=>{
-        const element = e.target;
-        if(!element.closest(".resume-submenu") && !element.closest(".resume-item-top img") ){
+        const clicked = e.target;
+        if(clicked.matches(".resume-item-top img")){
+        	e.stopPropagation()
+        	$menuBtn = document.querySelectorAll(".resume-item-top img")
+        	$subMenu = document.querySelectorAll(".resume-submenu")
+        	const submenu = e.target.nextSibling.nextSibling;
+        	$menuBtn.forEach((_,i)=>{
+                $subMenu[i].style.display = "none"
+              })
+        	submenu.style.display = "block"
+        }
+        if(!clicked.closest(".resume-submenu") && !clicked.closest(".resume-item-top img") ){
           $menuBtn.forEach((_,i)=>{
             $subMenu[i].style.display = "none"
           })
