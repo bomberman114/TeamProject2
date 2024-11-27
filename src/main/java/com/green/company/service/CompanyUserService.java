@@ -21,4 +21,7 @@ public interface CompanyUserService {
 	Boolean isUserExist(String userId, String userPd);
 
 	void deleteProfileImge(HashMap<String, Object> map);
+
+	HashMap<String, Object> getCompanyUserProfile(CompanyUserVo companyUserVo);
+
 }

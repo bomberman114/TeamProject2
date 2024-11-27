@@ -10,6 +10,7 @@
     <link rel="icon" href="/images/favicon.ico" />
     <link rel="stylesheet" href="/css/reset.css" />
     <link rel="stylesheet" href="/css/style.css" />
+    <script src="/js/headerSubmenu.js" defer></script>
     <style>
         /* 오른쪽 이력서 박스 스타일 */
         .aside-inner {
@@ -192,18 +193,26 @@
               <input type="hidden" name="application_idx" value="${vo.APPLICATION_IDX }">
               <input type="hidden" name="company_recruit_idx" value="${vo.COMPANY_RECRUIT_IDX }">
               <div class="write-btn-container">
+
+              <div class="write-btn">${vo.APPLICATION_STATUS_TYPE}</div>
+              <c:if test="${vo.APPLICATION_STATUS_IDX ne 9 }">
+
                 <select class="write-btn-select" name="application_status_idx" id="status">
                    <c:forEach var="applicationStatuList" items="${applicationStatuList}">
                     <option value="${applicationStatuList.application_status_idx}"
                     <c:if test="${vo.APPLICATION_STATUS_IDX eq applicationStatuList.application_status_idx}">
-                    seleted
+
+                    selected
+
                     </c:if>
                     >${applicationStatuList.application_status_type }</option>
                     </c:forEach>
                 </select>
-                <div class="write-btn">${vo.APPLICATION_STATUS_TYPE}</div>
+
                 <input type="submit" class="write-btn" value="저장하기">
-                <a href="/Users/MyPage/Resume/List" class="cancel-button">돌아가기</a>
+                </c:if>
+                <a href="/CompanyApply/CompanyRecruitApplyUserResumeAllList" class="cancel-button">돌아가기</a>
+
               </div> 
               </form> 	
             </div>

@@ -12,13 +12,10 @@
 <link rel="stylesheet" href="/css/reset.css" />
 <link rel="stylesheet" href="/css/style.css" />
 <style>
-body {
-	
-}
 
 h2 {
-	font-size: 32px;
-	font-weight: bold;
+   font-size: 32px;
+   font-weight: bold;
 }
 main {
  padding-top: 40px; /* 위쪽 패딩 추가 */
@@ -137,6 +134,7 @@ nav {
 
 .ms-auto {
 	margin-left: 20px; 
+
 }
 
 .col-md-3.text-center {
@@ -216,5 +214,6 @@ padding-bottom: 10px;
 	</div>
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

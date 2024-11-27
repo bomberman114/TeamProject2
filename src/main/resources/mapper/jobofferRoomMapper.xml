@@ -3,6 +3,46 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.green.joboffer.rooms.mapper.JobofferRoomMapper">  
 
+	<select id="getJobOfferRoomList">
 	
+	 SELECT
+    JOBOFFER_ROOM_IDX,
+    JOBOFFER_ROOM_REGDATE,
+    USER_IDX,
+    COMPANY_USER_IDX,
+    JOBOFFER_ROOM_STATUS,
+    (SELECT MESSAGE_CONTENT  FROM JOBOFFER_MESSAGES  JM 
+    WHERE JR.JOBOFFER_ROOM_IDX = JM.JOB_OFFER_ROOM_IDX  ORDER BY MESSAGE_CONTENT_JOB_OFFERS_REGDATE DESC 
+    FETCH FIRST 1 ROW ONLY) MESSAGE_CONTENT
+FROM
+    JOBOFFER_ROOMS    JR
+WHERE
+	<if test="user_idx">
+	USER_IDX = #{user_idx}
+	</if>
+	<if test="company_user_idx">
+	COMPANY_USER_IDX = #{company_user_idx}
+	</if>
+	AND 
+		JOBOFFER_ROOM_STATUS = #{joboffer_room_status}
+    ORDER BY
+        JOBOFFER_ROOM_REGDATE DESC
+	
+	</select>
+	
+	<insert id="setJobOfferRoomCreate">
+	
+	  INSERT INTO JOBOFFER_ROOMS (
+    JOBOFFER_ROOM_IDX,
+    USER_IDX,
+    COMPANY_USER_IDX
+) VALUES (
+    JOBOFFER_ROOMS_SEQ.NEXTVAL,
+    #{USER_IDX},
+    #{COMPANY_USER_IDX}
+)      
+   
+	
+	</insert>
 
 </mapper>

@@ -96,7 +96,8 @@ public class CompanyController {
 	public ModelAndView companyMypageUpdateForm (HttpSession session) {
 		ModelAndView mv = new ModelAndView();
 		CompanyUserVo companyUserVo = (CompanyUserVo) session.getAttribute("companylogin");
-		HashMap<String, Object> companyUserProfile = companyUserService.getCompanyUserData(companyUserVo);
+		HashMap<String, Object> companyUserProfile = companyUserService.getCompanyUserProfile(companyUserVo);
+		System.out.println("companyUserProfile:" + companyUserProfile);
 		 mv.addObject("companyUserVo", companyUserVo);
 		 mv.addObject("companyUserProfile", companyUserProfile);
 	     mv.setViewName("/company/companyUsers/companyMypageUpdateForm");
@@ -113,6 +114,11 @@ public class CompanyController {
 		map.put("companyUserVo", companyUserVo);
 		companyUserService.deleteProfileImge(map);
 		companyUserService.setProfileUpdate(map, profileImge);
+		companyUserVo = companyUserMapper.getCompanyUser(companyUserVo);
+		
+		//session.invalidate();
+		session.setAttribute("companylogin", companyUserVo);
+	
 		
 		mv.setViewName("redirect:/Company/CompanyMypage");
 		return mv;
