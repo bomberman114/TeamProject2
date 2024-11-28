@@ -37,7 +37,7 @@
             </div>
             <div class="resume-content">
               <div class="user-info">
-                <div class="user-img"></div>
+                <div class="user-img"><img alt="프로필 이미지" src="${map.USER_SFILE_NAME}"></div>
                 <div class="user-details">
                   <div class="user-util">
                     <h3>

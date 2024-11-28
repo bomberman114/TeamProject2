@@ -272,6 +272,7 @@ public class UserResumeServiceImpl implements UsersResumeService {
 		 		};
 		 };
 		 // USER_BIRTH=19990909, 
+
 		return userResumeList;
 	}
 	

@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.green.company.image.vo.CompanyImageVo;
 import com.green.user.resume.image.vo.UserResumeImageVo;
 import com.green.user.resume.vo.UserResumeVo;
+import com.green.users.vo.UserImageVo;
 
 
 public class FileImage {
@@ -29,7 +30,7 @@ public class FileImage {
 			String  uploadPath = String.valueOf( map.get("uploadPath") );
 			  // 파일 목록 리스트 선언
 		    List<CompanyImageVo> companyImageList = new ArrayList<>();
-		    List<UserResumeImageVo> userResumeImageList = new ArrayList<>();
+		    List<UserImageVo> userImageList = new ArrayList<>();
 		   
 		    System.out.println("save까지옴");
 			System.out.println("profileImge:" + profileImge.toString().length());
@@ -88,10 +89,10 @@ public class FileImage {
 				};
 				
 
-				if(map.get("userResumeProfile") != null ) {
+				if(map.get("userProfile") != null ) {
 
-					UserResumeImageVo userResumeImageVo = new UserResumeImageVo(0, 0, fileName, fileExt, saveName2);
-					userResumeImageList.add(userResumeImageVo);
+					UserImageVo userImageVo = new UserImageVo(0, 0, fileName, fileExt, saveName2);
+					userImageList.add(userImageVo);
 				};
 				
 			}  // for end
@@ -101,8 +102,8 @@ public class FileImage {
 		    if (!companyImageList.isEmpty()) {
 		        map.put("fileList", companyImageList);
 		    }  
-		    if (!userResumeImageList.isEmpty()) {
-		        map.put("fileList", userResumeImageList);
+		    if (!userImageList.isEmpty()) {
+		        map.put("fileList", userImageList);
 		    }
 		}
 
@@ -147,12 +148,12 @@ public class FileImage {
 		// 실제 물리파일 삭제 : 여러파일 삭제
 		public static void deleteUserImage(
 				String uploadPath, 
-				List<UserResumeImageVo> fileList  ) {
+				List<UserImageVo> fileList  ) {
 			
 			String  path  = uploadPath;
 			
 			fileList.forEach( ( file ) -> {
-				String  sfile  = file.getUser_resume_sfile_name();  // 실제 파일명 uuid
+				String  sfile  = file.getUser_sfile_name();  // 실제 파일명 uuid
 				
 				File    dfile  = new  File( path + sfile );
 				if( dfile.exists() )

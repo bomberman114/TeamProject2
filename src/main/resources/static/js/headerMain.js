@@ -40,7 +40,6 @@ document.addEventListener("click", (e) => {
 		$submenu.style.display = "none";
 		submenuActive = false;
 	}
-
 })
 
 // 키업 위임 이벤트
@@ -49,6 +48,11 @@ document.addEventListener("keyup", (e) => {
 		saveRecent(e.target.value.trim())
 		displayRecent();
 		$searchDiv.classList.add("recent")
+		if(e.target.value != ""){
+			location.href = "/Common/RecruitSearchForm?search=" + e.target.value		
+		}else{
+			location.href = "/Common/RecruitSearchForm"
+		}
 	}
 })
 
@@ -57,12 +61,13 @@ function displayRecent() {
 	let recentInnerHtml = "";
 	recentHistory.forEach((item, index) => {
 		recentInnerHtml += `<li>
-                            <a href="#">`+ item + `</a>
+                            <a href="/Common/RecruitSearchForm?search=`+ item + `">`+ item + `</a>
                             <img src="/images/icon/recent-close.png"
                             alt="검색 삭제" class="recent-remove" onclick="removeRecent(${index})"/>
                           </li>`
 	});
 	$recentList.innerHTML = recentInnerHtml;
+
 }
 
 // 최근검색 저장

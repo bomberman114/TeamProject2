@@ -1,4 +1,3 @@
-
 let submenuActive = false;
 
 const $submenu = document.querySelector(".submenu");
@@ -19,5 +18,5 @@ document.addEventListener("click", (e) => {
 		$submenu.style.display = "none";
 		submenuActive = false;
 	}
-
 })
+

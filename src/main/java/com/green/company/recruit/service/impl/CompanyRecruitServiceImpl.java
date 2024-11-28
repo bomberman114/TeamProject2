@@ -197,9 +197,20 @@ public class CompanyRecruitServiceImpl implements CompanyRecruitService {
 		HashMap<String, Object> map = companyRecruitMapper.getCompanyHistory(company_recruit_idx);
 		return map;
 	}
+	
+	/* 채용정보 공고 필터 */
+
+	@Override
+	public List<HashMap<String, Object>> filterRecruitList(HashMap<String, Object> map) {
+		List<HashMap<String, Object>> recruitList = companyRecruitMapper.filterRecruitList(map); 
+		return recruitList;
+	}
 
 
-
+	@Override
+	public void updateViews(CompanyRecruitVo vo) {
+		companyRecruitMapper.updateViews(vo);
+	}
 
 	@Override
 	public List<HashMap<String, Object>> getSearchCompanyRecruitList(HashMap<String, Object> map) {
@@ -207,8 +218,5 @@ public class CompanyRecruitServiceImpl implements CompanyRecruitService {
 	               companyRecruitMapper.getSearchCompanyRecruitList (map);
 		return searchCompanyRecruitList;
 	}
-
-
-	
 
 }

@@ -52,4 +52,10 @@
 		WHERE  USER_IDX = #{user_idx}	
 	</select>
 
+	<select id="getUserData">
+		SELECT *
+		FROM   USERS U LEFT JOIN USER_IMAGE UI ON U.USER_IDX = UI.USER_IDX
+		WHERE  U.USER_IDX = #{user_idx}
+	</select>
+
 </mapper>

@@ -403,9 +403,9 @@ footer {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 40px 20px;
-    
-    & .not-image{
-    	background : #ccc !important;
+
+    & .not-image {
+      background: #ccc !important;
     }
     & .recruit-card {
       position: relative;
@@ -1062,11 +1062,17 @@ footer {
           display: flex;
           gap: 24px;
           & .user-img {
+            flex-shrink: 0;
             width: 150px;
             height: 150px;
             background: #ccc;
-            border-radius: 100px;
-            flex-shrink: 0;
+            border-radius: 75px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            & img {
+              display: block;
+              width: 100%;
+            }
           }
           & .user-details {
             width: 100%;
@@ -1667,6 +1673,7 @@ footer {
           height: 72px;
           background: #ccc;
           border-radius: 50px;
+          overflow: hidden;
         }
         & .company-name {
           & h5 {
@@ -2024,29 +2031,30 @@ footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    
-    & input[type="radio"]{
-    	display : none;
+
+    & input[type="radio"] {
+      display: none;
     }
-    
-    & label{
-    display : block;
-   	padding : 8px 16px;
-    text-align: center;
-    font-weight: 500
+
+    & label {
+      display: block;
+      padding: 8px 16px;
+      text-align: center;
+      font-weight: 500;
+      cursor: pointer;
     }
-    
-    & input[type="radio"]:checked ~ label{
-    	background: #fff;
-    	border-radius: 8px;
+
+    & input[type="radio"]:checked ~ label {
+      background: #fff;
+      border-radius: 8px;
     }
-    
-    & >ul:last-child{
-    	background: #f8f8f8;
-    	border-radius: 8px;
-    	padding : 8px;
+
+    & > ul:last-child {
+      background: #f8f8f8;
+      border-radius: 8px;
+      padding: 8px;
     }
-    
+
     & > ul {
       display: flex;
       align-items: center;
@@ -2064,11 +2072,10 @@ footer {
         appearance: none;
         background: url("/images/icon/user-dropdown.png") no-repeat right 16px
           center;
-        cursor: pointer; 
+        cursor: pointer;
         font-size: 16px;
         font-family: "Pretendard";
         font-weight: 500;
-         
       }
       & .search-stack-list {
         top: 48px;
@@ -2077,17 +2084,14 @@ footer {
   }
 
   & .filter-reset-btn {
-    display: flex;
+    background: url("/images/icon/refresh-btn.png") no-repeat center center;
     width: 50px;
     height: 50px;
     border: solid 1px #d7dce5;
     border-radius: 25px;
     justify-content: center;
     align-items: center;
-    cursor: pointer; 
-    & img {
-      flex-basis: 0;
-    }
+    cursor: pointer;
   }
 }
 
@@ -2109,8 +2113,9 @@ footer {
     gap: 12px;
 
     & img {
-      width: 16px;
+      width: 24px;
       cursor: pointer;
+      padding: 4px;
     }
   }
 }
@@ -2127,13 +2132,12 @@ footer {
   font-weight: 500;
   overflow: hidden;
 
-	& .select-stack-list{
-	  display : none;
-		border-top: solid 1px #d7dce5;
-		margin: 0;
-		padding : 12px;
-	}
-
+  & .select-stack-list {
+    display: none;
+    border-top: solid 1px #d7dce5;
+    margin: 0;
+    padding: 12px;
+  }
 
   & li {
     height: 50px;
@@ -2180,9 +2184,9 @@ footer {
   & img {
     flex-shrink: 0;
   }
-  
-   & .search-stack-list{
-  	z-index : 999 !important;
+
+  & .search-stack-list {
+    z-index: 999 !important;
   }
 }
 
@@ -2194,8 +2198,8 @@ footer {
   margin-top: 0;
 }
 
-.recruit-serarchForm-list{
-	margin-top : 40px;
+.recruit-serarchForm-list {
+  margin-top: 40px;
 }
 
 @media screen and (max-width: 1000px) {

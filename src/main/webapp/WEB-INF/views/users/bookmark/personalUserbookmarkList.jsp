@@ -21,7 +21,22 @@
 					<c:forEach var="recruit" items="${bookmarkList}">
 					    <div class="recruit-card">
 	                <img class="bookmark mark-up" src="/images/icon/mark-up.png" alt="북마크" data-recruitidx ="${recruit.COMPANY_RECRUIT_IDX}">
-					        <div class="recruit-img">기업로고/직무 이미지</div>
+					        <c:choose>
+										<c:when test="${not empty recruit.COMPANY_SFILE_NAME}">
+											<div class="recruit-img">
+												<a
+													href="/Common/RecruitOneView?company_recruit_idx=${recruit.COMPANY_RECRUIT_IDX}"></a><img
+													alt="" src="<c:url value='${recruit.COMPANY_SFILE_NAME}'/>">
+											</div>
+										</c:when>
+										<c:otherwise>
+											<div class="recruit-img">
+												<a class="not-image"
+													href="/Common/RecruitOneView?company_recruit_idx=${recruit.COMPANY_RECRUIT_IDX}">등록된
+													이미지가 없습니다.</a>
+											</div>
+										</c:otherwise>
+									</c:choose>
 					        <div class="recruit-info">
 					            <div class="company-info">
 					                <p class="recruit-title">${recruit.RECRUIT_TITLE}</p>
@@ -39,19 +54,21 @@
       </div>
     </main>
     <script>
-    	let   $bookMarkList  = document.querySelectorAll(".mark-up")
-    	const $bookmarkCount = document.querySelector(".bookmark-count")
-    	$bookMarkList.forEach((item)=>{
-    		item.addEventListener("click",(e)=>{
-    			const userIdx        = "${sessionScope.userLogin.user_idx}";
-				  const recruitIdx     = e.target.dataset.recruitidx;
-    			e.target.parentNode.remove();
+        const userIdx  = "${sessionScope.userLogin.user_idx}";
+        
+    	document.addEventListener("click",(e)=>{
+    		const clicked = e.target;
+    		
+    		if(clicked.matches(".bookmark")){
+    	    	let   $bookMarkList  = document.querySelectorAll(".mark-up")
+    	    	const $bookmarkCount = document.querySelector(".bookmark-count")
+    			const recruitIdx     = clicked.dataset.recruitidx;
+    			clicked.parentNode.remove();
     			recruitBookMarkAjax(userIdx, recruitIdx);
-    	    const bookmarkCount  = document.querySelectorAll(".mark-up").length;
-    	    console.log(bookmarkCount)
-    			$bookmarkCount.textContent =  "공고 스크랩 리스트 ("+bookmarkCount+")";
-
-    		})
+    			const bookmarkCount  = document.querySelectorAll(".mark-up").length;
+    			$bookmarkCount.textContent =  "공고 스크랩 리스트 ("+ bookmarkCount+")";
+    		}
+    		
     	})
     	
     	async function recruitBookMarkAjax(userIdx, recruitIdx) {
