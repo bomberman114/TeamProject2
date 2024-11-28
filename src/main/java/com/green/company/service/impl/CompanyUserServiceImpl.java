@@ -62,16 +62,10 @@ public class CompanyUserServiceImpl implements CompanyUserService {
       return fileName;
    }
 
-<<<<<<< HEAD
-   private String formatDateKorean(String dateStr) {
-      // 입력 문자열에서 날짜 부분만 추출
-      LocalDate date = LocalDate.parse(dateStr.substring(0, 10), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-=======
 
 	private String formatDateKorean(String dateStr) {
 		// 입력 문자열에서 날짜 부분만 추출
 		LocalDate date = LocalDate.parse(dateStr.substring(0, 10), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
->>>>>>> bd75c04cbdd8828ead663d63ba5d95ab8c6bc391
 
       // 한글 형식의 포맷터 생성
       DateTimeFormatter koreanFormatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일", Locale.KOREAN);
@@ -105,17 +99,9 @@ public class CompanyUserServiceImpl implements CompanyUserService {
 
       getCompanyUserData.put("COMPANY_ESTABLISH", formattedEstablishDate);
 
-<<<<<<< HEAD
       return getCompanyUserData;
    }
-=======
-		String formattedEstablishDate = formatDateKorean(companyEstablish);
 
-		getCompanyUserData.put("COMPANY_ESTABLISH", formattedEstablishDate);
-
-		return getCompanyUserData;
-	}
->>>>>>> bd75c04cbdd8828ead663d63ba5d95ab8c6bc391
 
 
 
