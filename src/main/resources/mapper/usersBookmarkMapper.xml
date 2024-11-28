@@ -35,7 +35,7 @@
 		SELECT *
     FROM   USERS_BOOKMARK UB LEFT JOIN USERS           U  ON UB.USER_IDX            = U.USER_IDX 
                              LEFT JOIN COMPANY_RECRUIT CR ON UB.COMPANY_RECRUIT_IDX = CR.COMPANY_RECRUIT_IDX
-
+														 LEFT JOIN COMPANY_IMAGE   CI ON CR.COMPANY_USER_IDX    = CI.COMPANY_USER_IDX
                            LEFT JOIN  (
                 SELECT 
                                   COMPANY_RECRUIT_IDX,

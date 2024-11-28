@@ -390,6 +390,9 @@ WHERE
 	<if test="dutyIdx != null and dutyIdx != ''">
 		AND CR.COMMON_DUTY_IDX = #{dutyIdx}
 	</if>
+	<if test="search != null and search != ''">
+		AND CR.RECRUIT_TITLE LIKE '%${search}%'
+	</if>
 	<if test="filter == 'earliest'">
 		ORDER BY CR.COMPANY_RECRUIT_REGDATE DESC
 	</if>
@@ -397,6 +400,13 @@ WHERE
 		ORDER BY CR.COMPANY_RECRUIT_VIEWS DESC
 	</if>
 </select>
+
+<update id="updateViews">
+	UPDATE COMPANY_RECRUIT
+	SET    COMPANY_RECRUIT_VIEWS = COMPANY_RECRUIT_VIEWS + 1
+	WHERE  COMPANY_RECRUIT_IDX   = #{company_recruit_idx}
+</update>
+
 
 
 </mapper>

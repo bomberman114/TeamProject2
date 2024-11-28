@@ -49,7 +49,7 @@
 							<option value="${item.common_duty_idx}">${item.common_duty_name}</option>
 						</c:forEach>
 				</select></li>
-				<li class="filter-reset-btn"><img alt="" src="/images/icon/refresh-btn.png"></li>
+				<li class="filter-reset-btn"></li>
 			</ul>
 			<ul>
 				<li><input type="radio" name="filter" value="earliest" id="early" checked="checked"><label for="early">최신순</label></li>
@@ -73,6 +73,7 @@
 		let dutyIdx       = "";
 		let filter        = document.querySelector("input[name='filter']").value
 		let skillList     = null;
+		let search        = "${search}" ? "${search}" : "";
 
     document.addEventListener("click", (e) => {
     		const clicked = e.target;
@@ -102,6 +103,12 @@
         if (clicked.matches(".search-stack-list")) {
             $stackList.style.display = "none";
           }
+        
+        if (clicked.matches(".filter-reset-btn")) {
+        		location.href="/Common/RecruitSearchForm?search="
+          }
+        
+        
     })	
 		async function recruitBookMarkAjax(userIdx, recruitIdx) {
 	    const res = await fetch(`/Users/RecruitMarkUp`, {
@@ -148,10 +155,9 @@
 	    	        	skillList.push(e.target.dataset.skillidx)
 	    	        	skillList = new Set(skillList)
 	    	        	skillList = Array.from(skillList)
-	    	        	console.log(skillList)
 	    	        	
 	    	          displaySelectStack(selectSkillList, $selectList);
-	    	        	filterRecruitAjax(regionIdx,dutyIdx,skillList,filter);
+	    	        	filterRecruitAjax(regionIdx,dutyIdx,skillList,filter,search);
 	    	  }
 	    	});
 	      
@@ -165,16 +171,15 @@
 	      }
 
 	      function removeStack(index){
-	        console.log(index)
 	        selectSkillList.splice(index,1);
 	        if(selectSkillList.length < 1){ $selectList.style.display = "none";}
 	        displaySelectStack(selectSkillList, $selectList);
 	        skillList.splice(index,1);
 	        if(skillList.length == 0){
 	        	skillList = null;
-		        filterRecruitAjax(regionIdx,dutyIdx,skillList,filter);
+	        	filterRecruitAjax(regionIdx,dutyIdx,skillList,filter,search);
 	        }else{
-	          filterRecruitAjax(regionIdx,dutyIdx,skillList,filter);
+	        	filterRecruitAjax(regionIdx,dutyIdx,skillList,filter,search);
 	        }
 	      }
 
@@ -216,13 +221,13 @@
 	}
 		      
       const $recruitlist = document.querySelector(".recruit-list")
-      async function filterRecruitAjax(regionIdx,dutyIdx,skillList,filter) {
+      async function filterRecruitAjax(regionIdx,dutyIdx,skillList,filter,search) {
   	    const res =  await fetch("/Common/FilterRecruitList", {
   	        method: "POST",
   	        headers: {
   	            "Content-Type": "application/json",
   	        },
-  	        body: JSON.stringify({ regionIdx: regionIdx, dutyIdx : dutyIdx, skillList : skillList, filter : filter})
+  	        body: JSON.stringify({ regionIdx: regionIdx, dutyIdx : dutyIdx, skillList : skillList, filter : filter, search : search})
   	    });
   	
   	    if (!res.ok) {
@@ -231,9 +236,7 @@
   	
   	    const result       = await res.json();
   	    const recruitList  = result.fiterRecruitList;
-  	    const bookmarkList = result.bookmarkList;
-  	    
-  	    console.log(recruitList)
+  	    const bookmarkList = result.bookmarkList;	
   	    
   	    let html = "";
   	    recruitList.forEach(recruit=>{
@@ -287,8 +290,11 @@
   	    return result;
   	}
       
-      
-      filterRecruitAjax();
+      if("${search}"){
+	      filterRecruitAjax(regionIdx,dutyIdx,skillList,filter,search);  	  
+      }else{
+	      filterRecruitAjax(regionIdx,dutyIdx,skillList,filter);  	      	  
+      }
       
       document.addEventListener("change",(e)=>{
     	  if (e.target.matches("select[name='region']")) {
@@ -298,14 +304,22 @@
     		  dutyIdx = e.target.value;
     	  }
     	  if (e.target.matches("input[name='filter']")){
-    		  console.log(1)
+    		  filter = e.target.value;
     	  }
     	  
-        filterRecruitAjax(regionIdx,dutyIdx,skillList,filter)
+    	  filterRecruitAjax(regionIdx,dutyIdx,skillList,filter,search);
       })
-		      
-	      	
-		
+		    
+			document.addEventListener("keyup", (e) => {
+				if (e.target.matches("input[name='search']") && e.keyCode == 13 && e.target.value != "") {
+					displayRecent();
+					$searchDiv.classList.add("recent")
+					filterRecruitAjax(regionIdx,dutyIdx,skillList,filter,search);  	
+				}else if(e.target.matches("input[name='search']") && e.keyCode == 13){
+					search = "";
+					filterRecruitAjax(regionIdx,dutyIdx,skillList,filter); 
+				}
+			})
 		
 	</script>
 </body>

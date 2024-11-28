@@ -103,7 +103,16 @@
           <aside>
             <div class="recruit-oneview-aside">
               <div class="company-info">
-                <div class="company-img"></div>
+                <div class="company-img">
+                <c:choose>
+                	<c:when test="${not empty companyImage.COMPANY_SFILE_NAME}">
+               			 <img alt="프로필 이미지" src="${companyImage.COMPANY_SFILE_NAME}">
+                	</c:when>
+                	<c:otherwise>
+                	</c:otherwise>
+                </c:choose>
+                </div>
+                
                 <div class="company-name">
                   <h5>${vo.COMPANY_NAME}</h5>
                   <a href="#">기업정보 보기</a>
@@ -112,6 +121,10 @@
               <ul>
                 <li>업력</li>
                 <li>${companyHistory.COMPANY_YEAR}년차<span>(${companyHistory.ESTABLISH } 설립)</span></li>
+              </ul>
+              <ul>
+                <li>조회수</li>
+                <li>${vo.COMPANY_RECRUIT_VIEWS}</li>
               </ul>
               <button class="apply-btn">지원하기</button>
 			  <c:if test="${not empty userBookMarkList}">

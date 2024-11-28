@@ -21,7 +21,22 @@
 					<c:forEach var="recruit" items="${bookmarkList}">
 					    <div class="recruit-card">
 	                <img class="bookmark mark-up" src="/images/icon/mark-up.png" alt="북마크" data-recruitidx ="${recruit.COMPANY_RECRUIT_IDX}">
-					        <div class="recruit-img">기업로고/직무 이미지</div>
+					        <c:choose>
+										<c:when test="${not empty recruit.COMPANY_SFILE_NAME}">
+											<div class="recruit-img">
+												<a
+													href="/Common/RecruitOneView?company_recruit_idx=${recruit.COMPANY_RECRUIT_IDX}"></a><img
+													alt="" src="<c:url value='${recruit.COMPANY_SFILE_NAME}'/>">
+											</div>
+										</c:when>
+										<c:otherwise>
+											<div class="recruit-img">
+												<a class="not-image"
+													href="/Common/RecruitOneView?company_recruit_idx=${recruit.COMPANY_RECRUIT_IDX}">등록된
+													이미지가 없습니다.</a>
+											</div>
+										</c:otherwise>
+									</c:choose>
 					        <div class="recruit-info">
 					            <div class="company-info">
 					                <p class="recruit-title">${recruit.RECRUIT_TITLE}</p>

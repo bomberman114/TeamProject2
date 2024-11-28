@@ -13,10 +13,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.green.common.duty.mapper.CommonDutyMapper;
 import com.green.common.duty.vo.CommonDutyVo;
+import com.green.company.image.mapper.CompanyImageMapper;
 import com.green.company.recruit.service.CompanyRecruitService;
 import com.green.company.recruit.vo.CompanyRecruitVo;
 import com.green.region.mapper.RegionMapper;
@@ -58,8 +60,11 @@ public class commonController {
 	@Autowired
 	private SkillsMapper skillsMapper;
 	
+	@Autowired
+	private CompanyImageMapper companyImageMapper;
+	
 	@RequestMapping("/RecruitSearchForm")
-	public ModelAndView commonRecruitSearchFrom() {
+	public ModelAndView commonRecruitSearchFrom(@RequestParam HashMap<String, Object> map) {
 
 	List<RegionVo> regionList       = regionMapper.getRegionList();
 	List<CommonDutyVo> dutyList     = commonDutyMapper.getCommonDutyList();
@@ -67,6 +72,12 @@ public class commonController {
 	List<SkillVo> initialSkillList  = skillsMapper.getSeletedSkillStackSkillList(1);
 	ModelAndView mv = new ModelAndView();
 
+	if(map.get("search") != null) {
+		String search = String.valueOf(map.get("search")); 
+		mv.addObject("search", search);
+	}
+	
+	
 	mv.addObject("regionList",regionList);
 	mv.addObject("dutyList",dutyList);
 	mv.addObject("stackList",stackList);
@@ -160,7 +171,7 @@ public class commonController {
 	    return ResponseEntity.ok(res);
 	}
 
-	public String fileNemeReplace(String fileName) {
+	public String fileNemeReplace(String fileName) {	
 		fileName = fileName.replace("\\", "/");
 		String path = "/img/commonImage/";
 		fileName = path + fileName;
@@ -169,6 +180,9 @@ public class commonController {
 	
 	@RequestMapping("/RecruitOneView")
 	public ModelAndView  commonRecruitOneView(CompanyRecruitVo vo, HttpServletRequest request) {
+		
+		companyRecruitService.updateViews(vo);
+		
 		HashMap<String, Object> map = companyRecruitService.getcompanyRecruitMap(vo);
         String skillString          = String.valueOf(map.get("SKILL_NAME"));
         
@@ -178,7 +192,10 @@ public class commonController {
 		// 배열을 List로 변환하여 저장
         map.put("SKILLS", Arrays.asList(resumeSkillArr));
         HashMap<String, Object> companyHistory = companyRecruitService.getCompanyHistory(vo.getCompany_recruit_idx());
-
+        HashMap<String, Object> companyImage   = companyImageMapper.findById(vo);
+        String imageSrc = fileNemeReplace(String.valueOf(companyImage.get("COMPANY_SFILE_NAME")));
+        companyImage.put("COMPANY_SFILE_NAME", imageSrc);
+        
         ModelAndView mv = new ModelAndView();
 		HttpSession                   session      = request.getSession();
 		UserVo                        userVo       = (UserVo) session.getAttribute("userLogin");
@@ -193,6 +210,7 @@ public class commonController {
 
 		mv.addObject("vo",map);
 		mv.addObject("companyHistory",companyHistory);
+		mv.addObject("companyImage",companyImage);
 		mv.setViewName("/common/commonRecruitOneView");
 		return mv;
 	}

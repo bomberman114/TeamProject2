@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.green.company.image.vo.CompanyImageVo;
+import com.green.company.recruit.vo.CompanyRecruitVo;
 
 @Mapper
 public interface CompanyImageMapper {
@@ -19,5 +20,7 @@ public interface CompanyImageMapper {
 	void setCompanyImage(HashMap<String, Object> map);
 
 	int setCompanyImageCountCheck(HashMap<String, Object> map);
+
+	HashMap<String, Object> findById(CompanyRecruitVo vo);
 
 }

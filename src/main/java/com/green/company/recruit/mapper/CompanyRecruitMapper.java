@@ -49,5 +49,8 @@ public interface CompanyRecruitMapper {
 	List<HashMap<String, Object>> filterRecruitList(HashMap<String, Object> map);
 
 
+	void updateViews(CompanyRecruitVo vo);
+
+
 
 }

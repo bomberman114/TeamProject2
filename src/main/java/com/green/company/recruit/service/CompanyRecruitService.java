@@ -25,6 +25,8 @@ public interface CompanyRecruitService {
 
 	List<HashMap<String, Object>> filterRecruitList(HashMap<String, Object> map);
 
+	void updateViews(CompanyRecruitVo vo);
+
 
 
 }

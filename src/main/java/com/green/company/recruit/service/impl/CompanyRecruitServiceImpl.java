@@ -203,4 +203,10 @@ public class CompanyRecruitServiceImpl implements CompanyRecruitService {
 		return recruitList;
 	}
 
+
+	@Override
+	public void updateViews(CompanyRecruitVo vo) {
+		companyRecruitMapper.updateViews(vo);
+	}
+
 }
