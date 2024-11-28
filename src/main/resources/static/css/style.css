@@ -2010,6 +2010,8 @@ footer {
       color: #555;
       font-weight: 500;
       border-radius: 8px;
+      flex-basis : 0;
+      display: inline-block;
     }
 
     & .my-message {
