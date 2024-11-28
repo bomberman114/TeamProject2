@@ -23,4 +23,5 @@ public interface CompanyUserService {
 	void deleteProfileImge(HashMap<String, Object> map);
 
 	HashMap<String, Object> getCompanyUserProfile(CompanyUserVo companyUserVo);
+
 }

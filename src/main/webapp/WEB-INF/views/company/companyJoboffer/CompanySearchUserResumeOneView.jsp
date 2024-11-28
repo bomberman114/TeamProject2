@@ -67,21 +67,21 @@
                 </li>
                 <li class="view-flex">
                   <p>직무</p>
-                           <h3>${vo.COMMON_DUTY_NAME}</h3>
+   								<h3>${vo.COMMON_DUTY_NAME}</h3>
                 </li>
-                   <li class="stack-input-li">
-                     <p>기술스택(업무 툴/스킬)</p>
-                     <ul class="select-stack-list">
-                        <c:forEach var="skill" items="${vo.SKILLS}">
-                         <c:if test="${not empty skill}">
-                          <li>${skill}</li>                        
-                         </c:if>
-                         <c:if test="${empty skill}">
-                          <li>등록된 기술스택이 없습니다.</li>                        
-                         </c:if>
-                        </c:forEach>
-                     </ul>
-                   </li>
+	                <li class="stack-input-li">
+	                  <p>기술스택(업무 툴/스킬)</p>
+	                  <ul class="select-stack-list">
+	                  	<c:forEach var="skill" items="${vo.SKILLS}">
+	                  	 <c:if test="${not empty skill}">
+	                  	  <li>${skill}</li>	                  	
+	                  	 </c:if>
+	                  	 <c:if test="${empty skill}">
+	                  	  <li>등록된 기술스택이 없습니다.</li>	                  	
+	                  	 </c:if>
+	                  	</c:forEach>
+	                  </ul>
+	                </li>
                 <li>
                   <p class="punder">학력</p>
                   <div class="edu-inner">
@@ -162,6 +162,7 @@
     <script>
     
     document.getElementById("job-offer-btn").addEventListener("click", function() {
+
     	const recruitListEl = document.querySelector('#recruitList'); 
     	recruitListEl.innerHTML = ''; // 초기화
 
@@ -215,6 +216,7 @@
     	            console.error('Error:', error);
     	        });
        
+
         document.getElementById("job-offer-modal").style.display = "flex";
     });
 

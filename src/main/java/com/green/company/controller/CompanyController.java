@@ -123,7 +123,7 @@ public class CompanyController {
 		DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		 companyUserVo.setCompany_establish(String.valueOf(companyEstablishFormat));
 		session.setAttribute("companylogin", companyUserVo);
-		
+	
 		
 		mv.setViewName("redirect:/Company/CompanyMypage");
 		return mv;

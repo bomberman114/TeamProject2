@@ -193,20 +193,26 @@
               <input type="hidden" name="application_idx" value="${vo.APPLICATION_IDX }">
               <input type="hidden" name="company_recruit_idx" value="${vo.COMPANY_RECRUIT_IDX }">
               <div class="write-btn-container">
+
               <div class="write-btn">${vo.APPLICATION_STATUS_TYPE}</div>
               <c:if test="${vo.APPLICATION_STATUS_IDX ne 9 }">
+
                 <select class="write-btn-select" name="application_status_idx" id="status">
                    <c:forEach var="applicationStatuList" items="${applicationStatuList}">
                     <option value="${applicationStatuList.application_status_idx}"
                     <c:if test="${vo.APPLICATION_STATUS_IDX eq applicationStatuList.application_status_idx}">
+
                     selected
+
                     </c:if>
                     >${applicationStatuList.application_status_type }</option>
                     </c:forEach>
                 </select>
+
                 <input type="submit" class="write-btn" value="저장하기">
                 </c:if>
                 <a href="/CompanyApply/CompanyRecruitApplyUserResumeAllList" class="cancel-button">돌아가기</a>
+
               </div> 
               </form> 	
             </div>

@@ -150,7 +150,7 @@
                     	<c:forEach var="companyRecruitApplyUserResumeAllList"  items="${companyRecruitApplyUserResumeAllList}">
                         <c:if test="${companyRecruitApplyUserResumeAllList.USER_RESUME_IDX ne null }">
                         <tr>
-							
+
                             <td>${companyRecruitApplyUserResumeAllList.APPLIED_DATE } 지원</td>
                             <td>${companyRecruitApplyUserResumeAllList.USER_NAME }</td>
                              <td>
