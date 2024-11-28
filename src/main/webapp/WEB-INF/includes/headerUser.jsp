@@ -10,7 +10,7 @@
           <li><a href="/Users/MyPage/Resume/List">이력서</a></li>
           <li><a href="/Users/MyPage/Bookmark/List">스크랩</a></li>
           <li><a href="/Users/MyPage/Apply/List">지원내역</a></li>
-          <li><a href="/Users/MyPage/Joboffer">메시지</a></li>
+          <li><a href="/Joboffer/JobofferRoomUser">메시지</a></li>
         </ul>
       </div>
       <ul class="header-right logined">

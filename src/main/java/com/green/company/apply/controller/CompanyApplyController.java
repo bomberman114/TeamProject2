@@ -46,20 +46,38 @@ public class CompanyApplyController {
 	private UsersResumeService usersResumeService;
 
 	@RequestMapping("/CompanyRecruitApplyUserResumeAllList")
-	public ModelAndView companyRecruitApplyUserResumeAllList(HttpSession session) {
+	public ModelAndView companyRecruitApplyUserResumeAllList(HttpSession session,@RequestParam HashMap<String, Object> map) {
 		ModelAndView mv = new ModelAndView();
 		CompanyUserVo companyUserVo = (CompanyUserVo) session.getAttribute("companylogin");
+		int company_user_idx = companyUserVo.getCompany_user_idx();
+		if(map.get("company_recruit_idx") != null) {
+			map.put("company_user_idx", null);
+		};
+		if(map.get("company_recruit_idx") == null) {
+			map.put("company_user_idx", company_user_idx);
+		};
+		System.out.println("map:" + map);
 		List<HashMap<String, Object>> companyRecruitApplyUserResumeAllList = companyRecruitService
-				.companyRecruitApplyUserResumeAllList(companyUserVo);
+				.companyRecruitApplyUserResumeAllList(map);
 		List<HashMap<String, Object>> companyRecruitList = companyRecruitService.getCompanyRecruiteList(companyUserVo);
 		List<HashMap<String, Object>> companyRecruitDeadList = companyRecruitService
 				.getCompanyRecruiteDeadList(companyUserVo);
 		HashMap<String, Integer> applicationStatusIdx = companyUserMapper
-				.getCompanyApplicationStatusIdxList(companyUserVo);
-
-		 System.out.println("companyRecruitApplyUserResumeAllList:"+companyRecruitApplyUserResumeAllList);
+				.getCompanyApplicationStatusIdxMap(map);
+		int companyRecruitIdx = 0;
+		
+		if(map.get("company_recruit_idx") != null) {
+			companyRecruitIdx = Integer.parseInt(String.valueOf(map.get("company_recruit_idx")));
+		};
+		System.out.println("companyRecruitApplyUserResumeAllList:"+companyRecruitApplyUserResumeAllList);
+		String recruitTitle = null;
+		if(companyRecruitApplyUserResumeAllList.get(0).get("RECRUIT_TITLE") != null) {
+			recruitTitle = String.valueOf(companyRecruitApplyUserResumeAllList.get(0).get("RECRUIT_TITLE"));
+		};
 		// System.out.println("companyRecruitList:"+companyRecruitList);
 		// System.out.println("companyRecruitDeadList:"+companyRecruitDeadList);
+		mv.addObject("recruitTitle", recruitTitle);
+		mv.addObject("companyRecruitIdx", companyRecruitIdx);
 		mv.addObject("applicationStatusIdx", applicationStatusIdx);
 		mv.addObject("companyRecruitDeadList", companyRecruitDeadList);
 		mv.addObject("companyRecruitList", companyRecruitList);
@@ -101,9 +119,9 @@ public class CompanyApplyController {
 		ModelAndView mv = new ModelAndView();
 		UserResumeVo userResumeVo = new UserResumeVo();
 		userResumeVo.setUser_resume_idx(43);
-		map.put("user_resume_idx", 44);
+		//map.put("user_resume_idx", 44);
 		//map.put("company_recruit_idx", 33);
-		map.put("application_idx", 2);
+		//map.put("application_idx", 2);
 		System.out.println(map);
 		HashMap<String, Object> userResumeMap = usersResumeService.getuserResumeMap(map);
 		List<ApplicationStatusVo> applicationStatuList = applicationStatusMapper.getapplicationStatuList();

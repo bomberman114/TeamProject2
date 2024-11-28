@@ -6,9 +6,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="/images/favicon.ico" />
+     <link rel="icon" href="/images/favicon.ico" />
     <link rel="stylesheet" href="/css/reset.css" />
     <link rel="stylesheet" href="/css/style.css" />
+    <script src="/js/headerSubmenu.js" defer></script>
     <title>지원자 관리</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
     <style>
@@ -88,10 +89,16 @@
         .application-status h3 {
             margin: 0;
         }
+        
+        .active-link {
+    	font-weight: bold;
+    	color: #fff;
+    	background: #A23541;
+		}
     </style>
 </head>
 <body>
-  <%@include file="/WEB-INF/includes/headerCompanyUser.jsp"%>
+      <%@include file="/WEB-INF/includes/headerCompanyUser.jsp"%>
 
     <main>
         <div class="container">
@@ -101,25 +108,27 @@
                 <c:forEach var="companyRecruitList" items="${companyRecruitList}">
                 <div class="job-card">
                     <p>
-                    	<a href="/CompanyApply/CheckedCompanyRecruitApplyUserResumeList?company_recruit_idx=${companyRecruitList.COMPANY_RECRUIT_IDX}">	
+                    	<a href="/CompanyApply/CompanyRecruitApplyUserResumeAllList?company_recruit_idx=${companyRecruitList.COMPANY_RECRUIT_IDX}"	
+                    		   class="${companyRecruitIdx eq companyRecruitList.COMPANY_RECRUIT_IDX ? 'active-link' : ''}">
                     		${companyRecruitList.RECRUIT_TITLE}
                     	</a>
-                    </p>
+                   </p>
                 </div>
                 </c:forEach>
                 <h3>비성화 공고</h3>
                 <c:forEach var="companyRecruitDeadList" items="${companyRecruitDeadList}">
                 <div class="job-card">
                     <p>
-                    	<a href="/CompanyApply/CheckedCompanyRecruitApplyUserResumeList?company_recruit_idx=${companyRecruitDeadList.COMPANY_RECRUIT_IDX}">
+                    	<a href="/CompanyApply/CompanyRecruitApplyUserResumeAllList?company_recruit_idx=${companyRecruitDeadList.COMPANY_RECRUIT_IDX}"	
+                    		 class="${companyRecruitIdx eq companyRecruitDeadList.COMPANY_RECRUIT_IDX ? 'active-link' : ''}">
                     		${companyRecruitDeadList.RECRUIT_TITLE}
                     	</a>
-                    </p>
+                   </p>
                 </div>
                 </c:forEach>
             </div>
             <div class="resume-info">
-                <h3>지원자 정보</h3>
+                <h3>${recruitTitle}</h3>
                 <div class="application-status">
                     <h3>지원완료 (${applicationStatusIdx.APPLICATION_STATUS_IDX1})</h3>
                     <h3>서류통과 (${applicationStatusIdx.APPLICATION_STATUS_IDX2})</h3>
@@ -141,21 +150,25 @@
                     	<c:forEach var="companyRecruitApplyUserResumeAllList"  items="${companyRecruitApplyUserResumeAllList}">
                         <c:if test="${companyRecruitApplyUserResumeAllList.USER_RESUME_IDX ne null }">
                         <tr>
+
                             <td>${companyRecruitApplyUserResumeAllList.APPLIED_DATE } 지원</td>
                             <td>${companyRecruitApplyUserResumeAllList.USER_NAME }</td>
-                            <td>
+                             <td>
                             <c:if test="${companyRecruitApplyUserResumeAllList.years eq null && companyRecruitApplyUserResumeAllList.months eq null}">
                             	신입
                             </c:if>
-                            <c:if test="${companyRecruitApplyUserResumeAllList.years ne null}">
+                            <c:if test="${companyRecruitApplyUserResumeAllList.years ne null && companyRecruitApplyUserResumeAllList.years ne 0}">
                             ${companyRecruitApplyUserResumeAllList.years}년 
                             </c:if>
-                              <c:if test="${companyRecruitApplyUserResumeAllList.months ne null}">
+                              <c:if test="${companyRecruitApplyUserResumeAllList.months ne null && companyRecruitApplyUserResumeAllList.months ne 0}">
                             ${companyRecruitApplyUserResumeAllList.months}월 
                             </c:if>
                            	</td>
                             <td>${companyRecruitApplyUserResumeAllList.COMMON_DUTY_NAME }</td>
                             <td>${companyRecruitApplyUserResumeAllList.APPLICATION_STATUS_TYPE }</td>
+                           	<td><a href="/CompanyApply/CompanyApplyUserResumeView?user_resume_idx=${companyRecruitApplyUserResumeAllList.USER_RESUME_IDX}
+                        	&application_idx=${companyRecruitApplyUserResumeAllList.APPLICATION_IDX}
+                        	">보기</a></td>
                         </tr>
                         </c:if>
                         </c:forEach>

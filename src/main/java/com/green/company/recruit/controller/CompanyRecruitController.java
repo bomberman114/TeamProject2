@@ -65,8 +65,41 @@ public class CompanyRecruitController {
 	@Autowired
 	private EducationStatusMapper educationStatusMapper;
 	
-	
+	@RequestMapping("/Test")
+	public ModelAndView test (@RequestParam HashMap<String, Object> map) {
+		ModelAndView mv = new ModelAndView();
+		System.out.println("Test:" + map); //Test:{test=<a href="/"><div>asddasd</div></a>}
+		/*
+		<form action="/CompanyRecruit/Test" method="get">
+		<textarea name="test" rows="" cols=""><a href="/"><div>asddasd</div></a></textarea>
+		<input type="submit" value="GO">
+		</form>
+		<form action="/CompanyRecruit/Test" method="get">
+		<textarea name="test" rows="" cols=""><a href="/">
+		<div>asddasd</div><div>dasdad</div>
+		</a></textarea>
+		<input type="submit" value="GO">
+		</form>
+		
+		Test:{test=<a href="/">
+		<div>asddasd</div><div>dasdad</div>
+		</a>}
 
+		
+		*/
+		return mv;
+		
+	}
+	
+	@RequestMapping("/RecruitListAjax")
+	@ResponseBody
+	public List<HashMap<String, Object>> recruitListAjax (HttpSession session){
+		CompanyUserVo companyUserVo = (CompanyUserVo) session.getAttribute("companylogin");
+		List<HashMap<String, Object>> companyRecruitList = companyRecruitService.getCompanyRecruiteList(companyUserVo);
+		System.out.println("RecruitListAjax:" + companyRecruitList);
+		return companyRecruitList;
+	}
+	
 	// 회사가 자기들 채용공고 보기
 	@RequestMapping("/RecruitList")
 	public ModelAndView recruitList(HttpSession session) {

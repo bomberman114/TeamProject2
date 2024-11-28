@@ -71,12 +71,12 @@ SET
     , COMPANY_USER_EMAIL = #{company_user_email}
     , COMPANY_ESTABLISH = #{company_establish}
 WHERE
-        COMPANY_USER_IDX = #{company_user_idx}
+        COMPANY_USER_IDX = #{companyUserVo.company_user_idx}
 	
 	</update>
 
 
-	<select id="getCompanyApplicationStatusIdxList">
+	<select id="getCompanyApplicationStatusIdxMap">
 	SELECT 
     COUNT(CASE WHEN A.APPLICATION_STATUS_IDX = 5 THEN 1 END) AS APPLICATION_STATUS_IDX1,
     COUNT(CASE WHEN A.APPLICATION_STATUS_IDX = 6 THEN 1 END) AS APPLICATION_STATUS_IDX2,
@@ -88,7 +88,12 @@ FROM
 LEFT JOIN
     APPLICATIONS A ON CR.COMPANY_RECRUIT_IDX = A.COMPANY_RECRUIT_IDX
 WHERE
+	<if test="company_user_idx != null">
     CR.COMPANY_USER_IDX = #{company_user_idx}
+	</if>
+	<if test="company_recruit_idx != null">
+	CR.COMPANY_RECRUIT_IDX = #{company_recruit_idx}
+	</if>
 	
 	</select>
 	
@@ -106,6 +111,27 @@ LEFT JOIN
     APPLICATIONS A ON CR.COMPANY_RECRUIT_IDX = A.COMPANY_RECRUIT_IDX
 WHERE
     CR.COMPANY_RECRUIT_IDX = #{company_recruit_idx}
+</select>
+
+<select id="getCompanyUser">
+	SELECT
+    COMPANY_USER_IDX,
+    COMPANY_USER_ID,
+    COMPANY_USER_PASSWD,
+    COMPANY_USER_NAME,
+    COMPANY_PHONE,
+    COMPANY_NAME,
+    COMPANY_BCODE,
+    COMPANY_BOSS_NAME,
+    COMPANY_EMAIL,
+    COMPANY_USER_EMAIL,
+    COMPANY_REGDATE,
+    COMPANY_ESTABLISH
+FROM
+    COMPANY_USERS
+ WHERE
+ 	COMPANY_USER_IDX = #{company_user_idx}
+
 </select>
 
 </mapper>

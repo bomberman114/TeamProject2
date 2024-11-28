@@ -40,7 +40,6 @@ document.addEventListener("click", (e) => {
 		$submenu.style.display = "none";
 		submenuActive = false;
 	}
-
 })
 
 // 키업 위임 이벤트
@@ -68,6 +67,7 @@ function displayRecent() {
                           </li>`
 	});
 	$recentList.innerHTML = recentInnerHtml;
+
 }
 
 // 최근검색 저장
@@ -97,22 +97,3 @@ function removeRecentAll() {
 	localStorage.setItem('recent-history', JSON.stringify(recentHistory));
 	$searchDiv.classList.remove("recent");
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

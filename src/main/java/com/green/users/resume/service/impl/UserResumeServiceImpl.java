@@ -247,7 +247,6 @@ public class UserResumeServiceImpl implements UsersResumeService {
 	}
 
 	@Override
-
 	public List<HashMap<String, Object>> getUserResumeList(List<String> checkedSkillListToTypeString,
 			List<RegionVo> checkedRegionList, List<CommonDutyVo> checkedCommonDutyList, int startRow, int endRow
 			, String condition
@@ -273,8 +272,11 @@ public class UserResumeServiceImpl implements UsersResumeService {
 		 		};
 		 };
 		 // USER_BIRTH=19990909, 
-		return userResumeList;}
 
+		return userResumeList;
+	}
+	
+	@Override
 	public int countById(UserVo vo) {
 		int count = userResumeMapper.countById(vo);
 		return count;

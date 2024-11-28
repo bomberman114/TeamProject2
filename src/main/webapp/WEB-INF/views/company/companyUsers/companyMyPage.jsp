@@ -12,13 +12,11 @@
 <link rel="stylesheet" href="/css/reset.css" />
 <link rel="stylesheet" href="/css/style.css" />
 <style>
-body {
-	
-}
+
 
 h2 {
-	font-size: 32px;
-	font-weight: bold;
+   font-size: 32px;
+   font-weight: bold;
 }
 main {
  padding-top: 40px; /* 위쪽 패딩 추가 */
@@ -58,13 +56,19 @@ header::after {
 	background: rgba(0, 0, 0, 0.1); /* 희미한 선 색상 */
 }
 
+
+aside {
+    display: flex; /* flex 사용 시 */
+    flex-direction: column; /* 세로 정렬 */
+    align-items: flex-start; /* 왼쪽 정렬 */
+}
+
+
 .p1 {
 	text-align: left;
-	margin-left: 0; 
-	margin-right: auto; 
 	font-weight: bold;
 	font-size: 16px;
-	margin-top: 30px;
+	margin-top: 20px;
 }
 
 p {
@@ -78,28 +82,47 @@ p {
 	margin-bottom: 15px;
 }
 
-.status-box {
-	border: 1px solid black;
-	border-radius: 10px;
-	padding: 25px;
-	text-align: center;
-	width: 915px;
-	height: 120px;
-}
 
-.status-box div {
-	display: inline-block;
-	width: 23%;
-	font-size: 22px; 
-	font-weight: bold;
-}
+   & .user-apply {
+        display: flex;
+        align-items: center;
+        border: solid 1px #333;
+        border-radius: 8px;
+        margin-top: 20px;
 
-.status-box div span {
-	display: block;
-	font-size: 22px; 
-	color: #000;
-}
+        & li {
+          width: 25%;
+          padding: 30px 24px;
+          text-align: center;
+          position: relative;
 
+          & a {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 10px;
+            font-weight: 500;
+            & p:last-child {
+              font-size: 22px;
+            }
+          }
+        }
+
+        & li::after {
+          content: "";
+          background: #ccc;
+          position: absolute;
+          display: block;
+          width: 1px;
+          height: 40px;
+          right: 0;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+      }
+    }
+  }
+}
 nav a {
 	text-decoration: none;
 	color: inherit; 
@@ -112,6 +135,7 @@ nav {
 
 .ms-auto {
 	margin-left: 20px; 
+
 }
 
 .col-md-3.text-center {
@@ -129,20 +153,19 @@ padding-bottom: 10px;
 </style>
 </head>
 <body>
-	<div class="container mt-4">
 		<%@ include file="/WEB-INF/includes/headerCompanyUser.jsp" %>
-
+	<div class="container mt-4">
 		<div class="row">
 			<aside class="col-md-3 text-center">
 				<div class="profile-img"><img class="profile-img" alt="" src="<c:url value='${companyMap.COMPANY_SFILE_NAME}'/>"></div>
 				<a href="/Company/CompanyMypageUpdateForm" class="p1">계정 정보 설정</a>
-				<p class="p1">계정 탈퇴</p>
+			    <a href="/Company/CompanyMypageUpdateForm" class="p1">계정 탈퇴</a>
 			</aside>
 
 			<main class="col-md-9">
 				<h2 class="mb-3">${companyMap.COMPANY_NAME}</h2>
 				<p>
-					<img src="/images/icon/bell.png" alt="달력" />&nbsp;${companyMap.COMPANY_ESTABLISH} 설립
+					<img src="/images/icon/Calendar.png" alt="달력" />&nbsp;${companyMap.COMPANY_ESTABLISH} 설립
 				</p>
 				<p>
 					<img src="/images/icon/call.png" alt="전화" />&nbsp;${companyMap.COMPANY_PHONE}
@@ -160,37 +183,38 @@ padding-bottom: 10px;
 				</p>
 				<br/>
 				<h3 class="section-title">나의 현황</h3>
-				<div class="status-box">
-					<div>
-						신규지원자 
-						<span>
-							${applicationStatusIdx.APPLICATION_STATUS_IDX1}
-						</span>
-					</div>
-					<div>
-						서류통과 
-						<span>
-						${applicationStatusIdx.APPLICATION_STATUS_IDX2}
-						</span>
-					</div>
-					<div>
-						최종합격 
-						<span>
-							${applicationStatusIdx.APPLICATION_STATUS_IDX3}
-						</span>
-					</div>
-					<div>
-						불합격 
-						<span>
-							${applicationStatusIdx.APPLICATION_STATUS_IDX4}
-						</span>
-					</div>
-					
-				</div>
+				  <ul class="user-apply">
+            <li>
+              <a href="/Users/MyPage/Apply/List">
+                <p>신규 지원자</p>
+                <p>${applicationStatusIdx.APPLICATION_STATUS_IDX1}</p>
+              </a>
+            </li>
+            <li>
+              <a href="/Users/MyPage/Apply/List">
+                <p>서류통과</p>
+                <p>${applicationStatusIdx.APPLICATION_STATUS_IDX2}</p>
+              </a>
+            </li>
+            <li>
+              <a href="/Users/MyPage/Apply/List">
+                <p>최종합격</p>
+                <p>${applicationStatusIdx.APPLICATION_STATUS_IDX3}</p>
+              </a>
+            </li>
+            <li>
+              <a href="/Users/MyPage/Apply/List">
+                <p>불합격</p>
+                <p>${applicationStatusIdx.APPLICATION_STATUS_IDX4}</p>
+              </a>
+            </li>
+          </ul>
+			
 			</main>
 		</div>
 	</div>
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

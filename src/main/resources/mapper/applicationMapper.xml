@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper
-	namespace="com.green.application.mapper.ApplicationMapper">
+<mapper namespace="com.green.application.mapper.ApplicationMapper">
 
 	<select id="companyRecruitApplyUserResumeAllList" resultType="java.util.HashMap">
 		SELECT
@@ -20,12 +19,18 @@
     UR.USER_IDX
 FROM
     COMPANY_RECRUIT CR
- JOIN
+LEFT JOIN
     APPLICATIONS A ON CR.COMPANY_RECRUIT_IDX = A.COMPANY_RECRUIT_IDX
 LEFT JOIN
     USER_RESUME UR ON A.USER_RESUME_IDX = UR.USER_RESUME_IDX
 WHERE
+	<if test="company_user_idx != null">
     CR.COMPANY_USER_IDX = #{company_user_idx}
+	</if>
+	
+	<if test="company_recruit_idx != null">
+   CR.COMPANY_RECRUIT_IDX = #{company_recruit_idx}
+	</if>
 	</select>
 	
 	<select id="checkedCompanyRecruitApplyUserResumeAllList">
