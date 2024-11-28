@@ -21,131 +21,132 @@ import com.green.files.FileImage;
 @Service("CompanyUserService")
 public class CompanyUserServiceImpl implements CompanyUserService {
 
-	@Value("${part4.upload-path}")
-	private String uploadPath;
+   @Value("${part4.upload-path}")
+   private String uploadPath;
 
-	@Autowired
-	private CompanyImageMapper companyImageMapper;
+   @Autowired
+   private CompanyImageMapper companyImageMapper;
 
-	@Autowired
-	private CompanyUserMapper companyUserMapper;
+   @Autowired
+   private CompanyUserMapper companyUserMapper;
 
-	@Override
-	public void saveUser(HashMap<String, Object> map) {
-		companyUserMapper.saveUser(map);
+   @Override
+   public void saveUser(HashMap<String, Object> map) {
+      companyUserMapper.saveUser(map);
 
-	}
+   }
 
-	@Override
-	public CompanyUserVo login(String userid, String passwd) {
-		CompanyUserVo user = companyUserMapper.login(userid, passwd);
-		return user;
-	}
+   @Override
+   public CompanyUserVo login(String userid, String passwd) {
+      CompanyUserVo user = companyUserMapper.login(userid, passwd);
+      return user;
+   }
 
-	@Override
-	public Boolean isUserIdDupCheck(String userId) {
-		Boolean result = companyUserMapper.isUserIdDupCheck(userId) != null ? true : false;
+   @Override
+   public Boolean isUserIdDupCheck(String userId) {
+      Boolean result = companyUserMapper.isUserIdDupCheck(userId) != null ? true : false;
 
-		return result;
-	}
+      return result;
+   }
 
-	@Override
-	public Boolean isUserExist(String userId, String userPd) {
-		Boolean result = companyUserMapper.login(userId, userPd) != null ? true : false;
-		return result;
-	}
+   @Override
+   public Boolean isUserExist(String userId, String userPd) {
+      Boolean result = companyUserMapper.login(userId, userPd) != null ? true : false;
+      return result;
+   }
 
-	public String fileNemeReplace(String fileName) {
-		fileName = fileName.replace("\\", "/");
-		String path = "/img/commonImage/";
-		fileName = path + fileName;
-		return fileName;
-	}
+   public String fileNemeReplace(String fileName) {
+      fileName = fileName.replace("\\", "/");
+      String path = "/img/commonImage/";
+      fileName = path + fileName;
+      return fileName;
+   }
 
 
 	private String formatDateKorean(String dateStr) {
 		// 입력 문자열에서 날짜 부분만 추출
 		LocalDate date = LocalDate.parse(dateStr.substring(0, 10), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-		// 한글 형식의 포맷터 생성
-		DateTimeFormatter koreanFormatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일", Locale.KOREAN);
+      // 한글 형식의 포맷터 생성
+      DateTimeFormatter koreanFormatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일", Locale.KOREAN);
 
-		// LocalDate를 한글 형식으로 변환
-		return date.format(koreanFormatter);
-	}
+      // LocalDate를 한글 형식으로 변환
+      return date.format(koreanFormatter);
+   }
+   
+   private String formatDate(String dateStr) {
+      // 입력 문자열에서 날짜 부분만 추출
+      LocalDate date = LocalDate.parse(dateStr.substring(0, 10), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+      String dateFormat = String.valueOf(date);
+      
+      // LocalDate를 한글 형식으로 변환
+      return dateFormat;
+   }
+   
 
-	private String formatDate(String dateStr) {
-		// 입력 문자열에서 날짜 부분만 추출
-		LocalDate date = LocalDate.parse(dateStr.substring(0, 10), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-		String dateFormat = String.valueOf(date);
-		
-		// LocalDate를 한글 형식으로 변환
-		return dateFormat;
-	}
+   @Override
+   public HashMap<String, Object> getCompanyUserData(CompanyUserVo companyUserVo) {
+      HashMap<String, Object> getCompanyUserData = companyUserMapper.getCompanyUserData(companyUserVo);
 
+      String companySfileName = String.valueOf(getCompanyUserData.get("COMPANY_SFILE_NAME"));
+      companySfileName = fileNemeReplace(companySfileName);
+      getCompanyUserData.put("COMPANY_SFILE_NAME", companySfileName);
 
-	@Override
-	public HashMap<String, Object> getCompanyUserData(CompanyUserVo companyUserVo) {
-		HashMap<String, Object> getCompanyUserData = companyUserMapper.getCompanyUserData(companyUserVo);
+      // 2024-11-07 00:00:00.0
+      String companyEstablish = String.valueOf(getCompanyUserData.get("COMPANY_ESTABLISH"));
 
-		String companySfileName = String.valueOf(getCompanyUserData.get("COMPANY_SFILE_NAME"));
-		companySfileName = fileNemeReplace(companySfileName);
-		getCompanyUserData.put("COMPANY_SFILE_NAME", companySfileName);
+      String formattedEstablishDate = formatDateKorean(companyEstablish);
 
-		// 2024-11-07 00:00:00.0
-		String companyEstablish = String.valueOf(getCompanyUserData.get("COMPANY_ESTABLISH"));
+      getCompanyUserData.put("COMPANY_ESTABLISH", formattedEstablishDate);
 
-		String formattedEstablishDate = formatDateKorean(companyEstablish);
-
-		getCompanyUserData.put("COMPANY_ESTABLISH", formattedEstablishDate);
-
-		return getCompanyUserData;
-	}
+      return getCompanyUserData;
+   }
 
 
 
-	@Override
-	public void setProfileUpdate(HashMap<String, Object> map, MultipartFile[] profileImge) {
-		map.put("uploadPath", uploadPath);
-		String companyProfile = "companyProfile";
-		map.put("companyProfile", companyProfile);
-		FileImage.save(map, profileImge);
-		System.out.println("setProfileUpdate map후:"+map);
 
-		if (map.get("fileList") != null) {
-			int companyImageCountCheck = companyImageMapper.setCompanyImageCountCheck(map);
-			if (companyImageCountCheck == 0) {
-				companyImageMapper.setCompanyImage(map);
-			};
-		};
-		companyUserMapper.setUpdateCompanyProfile(map);
+   @Override
+   public void setProfileUpdate(HashMap<String, Object> map, MultipartFile[] profileImge) {
+      map.put("uploadPath", uploadPath);
+      String companyProfile = "companyProfile";
+      map.put("companyProfile", companyProfile);
+      FileImage.save(map, profileImge);
+      System.out.println("setProfileUpdate map후:"+map);
 
-	}
+      if (map.get("fileList") != null) {
+         int companyImageCountCheck = companyImageMapper.setCompanyImageCountCheck(map);
+         if (companyImageCountCheck == 0) {
+            companyImageMapper.setCompanyImage(map);
+         };
+      };
+      companyUserMapper.setUpdateCompanyProfile(map);
 
-	@Override
-	public void deleteProfileImge(HashMap<String, Object> map) {
-		List<CompanyImageVo> companyImageList = companyImageMapper.getCompanyProfileImge(map);
+   }
 
-		FileImage.deleteCompanyImage(uploadPath, companyImageList);
-		companyImageMapper.deleteCompanyImge(map);
+   @Override
+   public void deleteProfileImge(HashMap<String, Object> map) {
+      List<CompanyImageVo> companyImageList = companyImageMapper.getCompanyProfileImge(map);
 
-	}
+      FileImage.deleteCompanyImage(uploadPath, companyImageList);
+      companyImageMapper.deleteCompanyImge(map);
 
-	@Override
-	public HashMap<String, Object> getCompanyUserProfile(CompanyUserVo companyUserVo) {
-		HashMap<String, Object> companyUserProfile = companyUserMapper.getCompanyUserData(companyUserVo);
+   }
 
-		String companySfileName = String.valueOf(companyUserProfile.get("COMPANY_SFILE_NAME"));
-		companySfileName = fileNemeReplace(companySfileName);
-		companyUserProfile.put("COMPANY_SFILE_NAME", companySfileName);
+   @Override
+   public HashMap<String, Object> getCompanyUserProfile(CompanyUserVo companyUserVo) {
+      HashMap<String, Object> companyUserProfile = companyUserMapper.getCompanyUserData(companyUserVo);
 
-		// 2024-11-07 00:00:00.0
+      String companySfileName = String.valueOf(companyUserProfile.get("COMPANY_SFILE_NAME"));
+      companySfileName = fileNemeReplace(companySfileName);
+      companyUserProfile.put("COMPANY_SFILE_NAME", companySfileName);
+
+      // 2024-11-07 00:00:00.0
 		String companyEstablish = String.valueOf(companyUserProfile.get("COMPANY_ESTABLISH"));
 		
 		String formattedEstablishDate = formatDate(companyEstablish);
 
-		companyUserProfile.put("COMPANY_ESTABLISH", formattedEstablishDate);
+      companyUserProfile.put("COMPANY_ESTABLISH", formattedEstablishDate);
 
-		return companyUserProfile;
-	}
+      return companyUserProfile;
+   }
 }

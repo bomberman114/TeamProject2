@@ -167,11 +167,19 @@ font-weight: bold;
 <title>채용공고 관리</title>
 </head>
 <body>
+<<<<<<< HEAD
+	<%@include file="/WEB-INF/includes/headerCompanyUser.jsp"%>
+	<main>
+		<div class="container">
+			<div class="tabs">
+			  <h2>채용공고 관리</h2>
+=======
    <%@include file="/WEB-INF/includes/headerCompanyUser.jsp"%>
    <main>
       <div class="container">
          <div class="tabs">
            <h2>채용공고 관리</h2>
+>>>>>>> bd75c04cbdd8828ead663d63ba5d95ab8c6bc391
             <div class="link-container">
                 <a href="/CompanyRecruit/RecruitList" class="highlight">전체</a>
                 <span class="separator">|</span>
@@ -201,7 +209,11 @@ font-weight: bold;
 </div>
 
     </div>
+<<<<<<< HEAD
+	<script>
+=======
    <script>
+>>>>>>> bd75c04cbdd8828ead663d63ba5d95ab8c6bc391
 function toggleDetails(element) {
     const details = element.closest('.job-card').querySelector('.details'); // 부모 요소에서 .details 선택
     if (details.style.display === "none" || details.style.display === "") {

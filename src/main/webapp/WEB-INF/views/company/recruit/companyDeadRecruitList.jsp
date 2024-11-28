@@ -99,6 +99,16 @@ h2 {
 }
 
 .job-card {
+<<<<<<< HEAD
+	background-color: #f9f9f9;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	padding: 15px;
+	margin: 10px;
+	flex: 1 1 calc(33% - 20px);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+	 width: 360px;
+=======
    background-color: #f9f9f9;
    border: 1px solid #ddd;
    border-radius: 5px;
@@ -107,6 +117,7 @@ h2 {
    flex: 1 1 calc(33% - 20px);
    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     width: 360px;
+>>>>>>> bd75c04cbdd8828ead663d63ba5d95ab8c6bc391
     height: 200px;
       flex-direction: column; /* 세로 방향으로 배치 */
     justify-content: space-between; /* 내용 간의 간격을 조정하여 아래로 밀기 */
@@ -161,8 +172,18 @@ h2 {
     margin-top: 10px; /* 위쪽 여백 추가 (선택 사항) */
      margin-top: auto; /* 위쪽 여백을 자동으로 설정하여 아래로 밀기 */
 }
+.job-info {
+    display: flex; /* Flexbox 사용 */
+    justify-content: space-between; /* 양끝에 위치하게 */
+    margin-top: 10px; /* 위쪽 여백 추가 (선택 사항) */
+     margin-top: auto; /* 위쪽 여백을 자동으로 설정하여 아래로 밀기 */
+}
 .highlight {
+<<<<<<< HEAD
+color: red;	
+=======
 color: red;   
+>>>>>>> bd75c04cbdd8828ead663d63ba5d95ab8c6bc391
 font-weight: bold;
 }
 

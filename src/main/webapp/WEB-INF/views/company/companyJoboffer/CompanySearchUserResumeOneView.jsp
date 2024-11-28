@@ -13,10 +13,46 @@
     <script src="/js/headerSubmenu.js" defer></script>
     <script src="/js/inputForm.js" defer></script>
     <style>
+   
+   
     h4 {
     text-align: center;
     }
     
+    #job-offer-modal {
+    display: none; /* 기본적으로 숨김 */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 480px; /* 모달 너비 */
+    overflow: hidden; /* 기본 오버플로우 숨김 */
+    background-color: #fff; /* 배경색 */
+    border-radius: 8px; /* 모서리 둥글게 */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* 그림자 */
+    z-index: 1000; /* 최상위 요소로 */
+    height: 670px;
+}
+
+#recruitList {
+    max-height: 580px; /* 원하는 최대 높이 설정 */
+    overflow-y: auto; /* 세로 스크롤 가능 */
+    width: 480px;
+ 
+}
+ 
+.total{
+    border: 1px solid #ccc; /* 테두리 색상 설정 */
+    border-radius: 5px; /* 모서리 둥글게 */
+    padding: 10px; /* 내부 여백 */
+    margin: 10px 0; /* 상하 여백 */
+    background-color: #ffffff; /* 배경색 */
+    width: 432px;
+    height: 103px;
+    margin-left: 20px;
+}
+
+
     </style>
   </head>
   <body>
@@ -67,21 +103,21 @@
                 </li>
                 <li class="view-flex">
                   <p>직무</p>
-   								<h3>${vo.COMMON_DUTY_NAME}</h3>
+                           <h3>${vo.COMMON_DUTY_NAME}</h3>
                 </li>
-	                <li class="stack-input-li">
-	                  <p>기술스택(업무 툴/스킬)</p>
-	                  <ul class="select-stack-list">
-	                  	<c:forEach var="skill" items="${vo.SKILLS}">
-	                  	 <c:if test="${not empty skill}">
-	                  	  <li>${skill}</li>	                  	
-	                  	 </c:if>
-	                  	 <c:if test="${empty skill}">
-	                  	  <li>등록된 기술스택이 없습니다.</li>	                  	
-	                  	 </c:if>
-	                  	</c:forEach>
-	                  </ul>
-	                </li>
+                   <li class="stack-input-li">
+                     <p>기술스택(업무 툴/스킬)</p>
+                     <ul class="select-stack-list">
+                        <c:forEach var="skill" items="${vo.SKILLS}">
+                         <c:if test="${not empty skill}">
+                          <li>${skill}</li>                        
+                         </c:if>
+                         <c:if test="${empty skill}">
+                          <li>등록된 기술스택이 없습니다.</li>                        
+                         </c:if>
+                        </c:forEach>
+                     </ul>
+                   </li>
                 <li>
                   <p class="punder">학력</p>
                   <div class="edu-inner">
@@ -138,7 +174,7 @@
       </div>
     </div>
   </form>
-<div class="modal-bg" id="job-offer-modal" style="display: none;">
+<div class="modal-bg" id="job-offer-modal" style="display: none">
     <div class="modal">
         <div class="modal-bar">
             <span>채용 제의</span>
@@ -149,9 +185,9 @@
         <div class="modal-content" id="modal-content">
             <div id="recruitList"></div>
                 <div class="modal-bar" style="display: flex; justify-content: center; cursor: pointer;" onclick="document.getElementById('job-offer-form').submit();">
-                    <span>제출</span>
+                    <span>채용제의</span>
                 </div>
-                <a href="http://localhost:9090/Common/RecruitOneView?company_recruit_idx=8">채용공고제목</a>
+              
         </div>
             </form>
     </div>
@@ -161,60 +197,62 @@
     </main>
     <script>
     
-    document.getElementById("job-offer-btn").addEventListener("click", function() {
+    document.getElementById("job-offer-btn").addEventListener("click", function(e) {
+  
+    	
+       const recruitListEl = document.querySelector('#recruitList'); 
+       recruitListEl.innerHTML = ''; // 초기화
 
-    	const recruitListEl = document.querySelector('#recruitList'); 
-    	recruitListEl.innerHTML = ''; // 초기화
+         // AJAX 요청
+           fetch('/CompanyRecruit/RecruitListAjax')
+               .then(response => response.json())
+               .then(data => {
+                   // 채용 공고 갯수 표시
+                   console.log(data);
+                   recruitListEl.innerHTML = '<span style="font-size: 20px; margin-top: 20px; margin-left: 20px; font-weight: bold; display: inline-block;">채용공고</span> 총 ' + data.length + '개';
 
-    	  // AJAX 요청
-    	    fetch('/CompanyRecruit/RecruitListAjax')
-    	        .then(response => response.json())
-    	        .then(data => {
-    	            // 채용 공고 갯수 표시
-    	            console.log(data);
-    	            recruitListEl.innerHTML = '총 ' + data.length + '개의 채용 공고가 있습니다.';
+                   // 받아온 채용 공고 목록을 라디오 버튼으로 추가
+                   data.forEach(function(companyRecruitList) {
+                       const radioContainer = document.createElement('div'); // 라디오 버튼을 감싸는 div
+                       radioContainer.classList.add('total'); 
+                       
+                       const inputRecruitIdx = document.createElement('input');
+                       inputRecruitIdx.type = 'radio';
+                       inputRecruitIdx.name = 'company_recruit_idx'; // 같은 그룹으로 묶기 위한 name
+                       inputRecruitIdx.value = companyRecruitList.COMPANY_RECRUIT_IDX; // 값 설정
+                       
+                       const inputRecruitTitle = document.createElement('input');
+                       inputRecruitTitle.type = 'hidden';
+                       inputRecruitTitle.name = 'recruit_title'; // 같은 그룹으로 묶기 위한 name
+                       inputRecruitTitle.value = companyRecruitList.RECRUIT_TITLE; // 값 설정
+                       
+                       const inputLink = document.createElement('input');
+                       inputLink.type = 'hidden';
+                       inputLink.name = 'link'; // 같은 그룹으로 묶기 위한 name
+                       let recruiteLink = '<a href="http://localhost:9090/Common/RecruitOneView?company_recruit_idx='
+                                      + companyRecruitList.COMPANY_RECRUIT_IDX + '"> 채용공고 제목 :  ' + companyRecruitList.RECRUIT_TITLE + '</a>';
+                       inputLink.value = recruiteLink; // 값 설정
 
-    	            // 받아온 채용 공고 목록을 라디오 버튼으로 추가
-    	            data.forEach(function(companyRecruitList) {
-    	                const radioContainer = document.createElement('div'); // 라디오 버튼을 감싸는 div
+                       const label = document.createElement('label');
+                       label.textContent = companyRecruitList.RECRUIT_TITLE; // 제목 설정
+                       label.htmlFor = inputRecruitIdx.value; // label과 input 연결
 
-    	                const inputRecruitIdx = document.createElement('input');
-    	                inputRecruitIdx.type = 'radio';
-    	                inputRecruitIdx.name = 'company_recruit_idx'; // 같은 그룹으로 묶기 위한 name
-    	                inputRecruitIdx.value = companyRecruitList.COMPANY_RECRUIT_IDX; // 값 설정
-    	                
-    	                const inputRecruitTitle = document.createElement('input');
-    	                inputRecruitTitle.type = 'hidden';
-    	                inputRecruitTitle.name = 'recruit_title'; // 같은 그룹으로 묶기 위한 name
-    	                inputRecruitTitle.value = companyRecruitList.RECRUIT_TITLE; // 값 설정
-    	                
-    	                const inputLink = document.createElement('input');
-    	                inputLink.type = 'hidden';
-    	                inputLink.name = 'link'; // 같은 그룹으로 묶기 위한 name
-    	                let recruiteLink = '<a href="http://localhost:9090/Common/RecruitOneView?company_recruit_idx='
-    	                					+ companyRecruitList.COMPANY_RECRUIT_IDX + '"> 채용공고 제목 :  ' + companyRecruitList.RECRUIT_TITLE + '</a>';
-    	                inputLink.value = recruiteLink; // 값 설정
+                       // 등록 날짜 추가
+                       const regDate = document.createElement('div');
+                       regDate.textContent = '등록일: ' + companyRecruitList.COMPANY_RECRUIT_REGDATE; // 등록일 설정
 
-    	                const label = document.createElement('label');
-    	                label.textContent ='채용공고 제목: ' + companyRecruitList.RECRUIT_TITLE; // 제목 설정
-    	                label.htmlFor = inputRecruitIdx.value; // label과 input 연결
-
-    	                // 등록 날짜 추가
-    	                const regDate = document.createElement('div');
-    	                regDate.textContent = '등록일: ' + companyRecruitList.COMPANY_RECRUIT_REGDATE; // 등록일 설정
-
-    	                // 라디오 버튼과 레이블을 추가
-    	                radioContainer.appendChild(inputRecruitIdx);
-    	                radioContainer.appendChild(inputRecruitTitle);
-    	                radioContainer.appendChild(inputLink);
-    	                radioContainer.appendChild(label);
-    	                radioContainer.appendChild(regDate); // 등록일 추가
-    	                recruitListEl.appendChild(radioContainer);
-    	            });
-    	        })
-    	        .catch(function(error) {
-    	            console.error('Error:', error);
-    	        });
+                       // 라디오 버튼과 레이블을 추가
+                       radioContainer.appendChild(inputRecruitIdx);
+                       radioContainer.appendChild(inputRecruitTitle);
+                       radioContainer.appendChild(inputLink);
+                       radioContainer.appendChild(label);
+                       radioContainer.appendChild(regDate); // 등록일 추가
+                       recruitListEl.appendChild(radioContainer);
+                   });
+               })
+               .catch(function(error) {
+                   console.error('Error:', error);
+               });
        
 
         document.getElementById("job-offer-modal").style.display = "flex";
