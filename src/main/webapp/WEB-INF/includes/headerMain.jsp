@@ -30,7 +30,7 @@
     	<c:when test="${not empty sessionScope.userLogin}">
     		<ul class="header-right logined">
 
-		      <li class="user"><span class="bedge role-user">개인</span>${sessionScope.userlogin.user_name}
+		      <li class="user"><span class="bedge role-user">개인</span>${sessionScope.userLogin.user_name}
 
 
 		      	<ul class="submenu">
