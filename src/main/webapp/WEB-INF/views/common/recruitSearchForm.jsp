@@ -67,18 +67,15 @@
 	<%@include file="/WEB-INF/includes/footer.jsp"%>
 	<script>
 	
-		let $bookMarkUp;
-		let $bookMarkDown;
-	
-    document.addEventListener("click", (e) => {
-        const clicked = e.target;
-        if (!clicked.closest(".search-stack-list")) {
-          $stackList.style.display = "none";
-        }
-      });
-	
+		let $bookMarkUp   = null;
+		let $bookMarkDown = null;
+		let regionIdx     = "";
+		let dutyIdx       = "";
+		let filter        = document.querySelector("input[name='filter']").value
+		let skillList     = null;
 
     document.addEventListener("click", (e) => {
+    		const clicked = e.target;
         if (clicked.matches(".bookmark")) {
           if ("${sessionScope.userLogin}") {
             const userIdx = "${sessionScope.userLogin.user_idx}";
@@ -98,6 +95,13 @@
             alert("로그인이 필요합니다.");
           }
         }
+        
+        if (!clicked.closest(".search-stack-list")) {
+            $stackList.style.display = "none";
+          }
+        if (clicked.matches(".search-stack-list")) {
+            $stackList.style.display = "none";
+          }
     })	
 		async function recruitBookMarkAjax(userIdx, recruitIdx) {
 	    const res = await fetch(`/Users/RecruitMarkUp`, {
@@ -113,14 +117,13 @@
 	    }
 	
 	    const result = await res.json();
-	    console.log(result.vo)
 	    return result.vo;
 	}
 		
 	      const $searchInputDiv = document.querySelector(".search-stack-input");
-	      const $stackList   = document.querySelector(".search-stack-list");
-	      const $stackItem   = document.querySelectorAll(".stack-list li");
-	      const $selectList  = document.querySelector(".select-stack-list");
+	      const $stackList      = document.querySelector(".search-stack-list");
+	      const $stackItem      = document.querySelectorAll(".stack-list li");
+	      const $selectList     = document.querySelector(".select-stack-list");
 
 	      let selectSkill = {};
 	      let selectSkillList = [];
@@ -130,8 +133,6 @@
 	        $stackList.style.display = "block";
 	      });
 
-	
-	      
 	      const $skillListInner  = document.querySelector(".stack-list")
 
 	      $skillListInner.addEventListener('click', function(e) {
@@ -139,12 +140,18 @@
 	    	    // 클릭된 li 요소에 대한 처리
 	    	     $selectList.style.display = "flex";
 	    		 	selectSkill = {"skill_idx" : e.target.dataset.skillidx , "skill_name" : e.target.textContent}
-
+	    		 				if(skillList == null){
+			              skillList = [];    		 					
+	    		 				}
 	    	          selectSkillList.push(selectSkill);
 	    	        	selectSkillList =  [ ...new Map(selectSkillList.map((obj) => [obj["skill_idx"], obj])).values() ];
-	    	        	console.log(selectSkillList)
+	    	        	skillList.push(e.target.dataset.skillidx)
+	    	        	skillList = new Set(skillList)
+	    	        	skillList = Array.from(skillList)
+	    	        	console.log(skillList)
 	    	        	
 	    	          displaySelectStack(selectSkillList, $selectList);
+	    	        	filterRecruitAjax(regionIdx,dutyIdx,skillList,filter);
 	    	  }
 	    	});
 	      
@@ -162,6 +169,13 @@
 	        selectSkillList.splice(index,1);
 	        if(selectSkillList.length < 1){ $selectList.style.display = "none";}
 	        displaySelectStack(selectSkillList, $selectList);
+	        skillList.splice(index,1);
+	        if(skillList.length == 0){
+	        	skillList = null;
+		        filterRecruitAjax(regionIdx,dutyIdx,skillList,filter);
+	        }else{
+	          filterRecruitAjax(regionIdx,dutyIdx,skillList,filter);
+	        }
 	      }
 
 	      const $searchStackList = document.querySelectorAll(".stack-type li")
@@ -200,11 +214,6 @@
 	    
 	    return result;
 	}
-
-	   let regionIdx = "";
-	   let dutyIdx   = "";
-	   let skillList = [];
-	   let filter    = document.querySelector("input[name='filter']").value
 		      
       const $recruitlist = document.querySelector(".recruit-list")
       async function filterRecruitAjax(regionIdx,dutyIdx,skillList,filter) {
@@ -220,14 +229,27 @@
   	        throw new Error(`HTTP error status: ${res.status}`);
   	    }
   	
-  	    const result = await res.json();
-  	    const recruitList = result.fiterRecruitList;
+  	    const result       = await res.json();
+  	    const recruitList  = result.fiterRecruitList;
+  	    const bookmarkList = result.bookmarkList;
+  	    
   	    console.log(recruitList)
+  	    
   	    let html = "";
-  	    recruitList.forEach((recruit)=>{
+  	    recruitList.forEach(recruit=>{
+  	    	let isbookmarked = false;
   	    	html += '<div class="recruit-card">'
   	    		if("${sessionScope.userLogin}"){
-		  	    	html += '<img class="bookmark mark-up" src="/images/icon/mark-up.png" alt="북마크" data-recruitidx="'+recruit.COMPANY_RECRUIT_IDX +'">'    			  	    			
+  	    			bookmarkList.forEach((bookmark)=>{
+  	    				if(bookmark.company_recruit_idx == recruit.COMPANY_RECRUIT_IDX && bookmark.bookmark_check == 1){
+  	    					isbookmarked = true;
+  	    				}
+  	    			})
+  	    			if(isbookmarked){
+  	    				html += '<img class="bookmark mark-up" src="/images/icon/mark-up.png" alt="북마크" data-recruitidx="'+ recruit.COMPANY_RECRUIT_IDX +'">'
+  	    			}else{
+  	    				html += '<img class="bookmark mark-down" src="/images/icon/mark-off.png" alt="북마크" data-recruitidx="' + recruit.COMPANY_RECRUIT_IDX + '">'
+  	    			}	  	    			
   	    		}else{
   	    			html += '<img class="bookmark mark-down" src="/images/icon/mark-off.png" alt="북마크" data-recruitidx="' + recruit.COMPANY_RECRUIT_IDX + '">'
   	    		}
@@ -274,6 +296,9 @@
     	  }
     	  if (e.target.matches("select[name='duty']")) {
     		  dutyIdx = e.target.value;
+    	  }
+    	  if (e.target.matches("input[name='filter']")){
+    		  console.log(1)
     	  }
     	  
         filterRecruitAjax(regionIdx,dutyIdx,skillList,filter)

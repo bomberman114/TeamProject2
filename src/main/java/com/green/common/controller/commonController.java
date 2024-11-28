@@ -1,15 +1,18 @@
 package com.green.common.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.green.common.duty.mapper.CommonDutyMapper;
@@ -75,21 +78,88 @@ public class commonController {
 	
 	@RequestMapping("/FilterRecruitList")
 	public ResponseEntity<HashMap<String, Object>> filterRecruitList(
-			@RequestBody HashMap<String, Object> map){
-		System.out.println(map);
-		List<HashMap<String, Object>> fiterRecruitList = companyRecruitService.filterRecruitList(map);
-		for (HashMap<String, Object> recruit : fiterRecruitList) {
-			String companySfileName = String.valueOf(recruit.get("COMPANY_SFILE_NAME"));
-			if(companySfileName != null) {
-				companySfileName = fileNemeReplace(companySfileName);
-				recruit.put("COMPANY_SFILE_NAME", companySfileName);
-			}
-		}
-		HashMap<String,Object> res = new HashMap<>();
-		res.put("fiterRecruitList", fiterRecruitList);
-		return ResponseEntity.ok(res);
+	        @RequestBody HashMap<String, Object> map, HttpServletRequest request) {
+	    System.out.println(map);
+	    HashMap<String, Object> res = new HashMap<>();
+	    
+	    HttpSession session = request.getSession();
+	    UserVo userVo = (UserVo) session.getAttribute("userLogin");
+	    
+	    if (userVo != null) {
+	        List<UserBookmarkVo> bookmarkList = usersBookmarkMapper.findAllById(userVo);
+	        res.put("bookmarkList", bookmarkList);
+	    }
+
+	    List<HashMap<String, Object>> fiterRecruitList = companyRecruitService.filterRecruitList(map);
+	    for (HashMap<String, Object> recruit : fiterRecruitList) {
+	        String companySfileName = String.valueOf(recruit.get("COMPANY_SFILE_NAME"));
+	        if (companySfileName != null) {
+	            companySfileName = fileNemeReplace(companySfileName);
+	            recruit.put("COMPANY_SFILE_NAME", companySfileName);
+	        }
+	    }
+	    
+	    if (map.get("skillList") != null) {
+	    	System.out.println("스킬 있음");
+	    	
+	    	String userSkillString = String.valueOf(map.get("skillList"));
+	    	userSkillString = userSkillString.replace("[", "").replace("]", "").trim();
+	    	List<Integer> userSkills = Arrays.stream(userSkillString.split(","))
+                    .map(String::trim)
+                    .map(Integer::parseInt)
+                    .collect(Collectors.toList());
+	    	
+	    	
+	    	/*
+			List<Integer> userSkills = (List<Integer>) map.get("skillList");
+	    	 */
+	        System.out.println("User skills: " + userSkills);
+	        List<HashMap<String, Object>> skillFilterRecruitList = new ArrayList<>();
+	        for (HashMap<String, Object> recruit : fiterRecruitList) {
+	            String skillString = String.valueOf(recruit.get("SKILLSIDX"));
+	            if (skillString != null && !skillString.equals("null")) {
+	                skillString = skillString.replace("[", "").replace("]", "").trim();
+	                List<Integer> recruitSkills = Arrays.stream(skillString.split(","))
+	                    .map(String::trim)
+	                    .map(Integer::parseInt)
+	                    .collect(Collectors.toList());
+	                
+	                
+	                Set<Integer> userSkillSet = new HashSet<>(userSkills);
+	                boolean isSkillMatch = recruitSkills.stream().anyMatch(userSkillSet::contains);
+	                if(isSkillMatch) {
+	                	skillFilterRecruitList.add(recruit);
+	                }
+	                	
+	                
+	                /*
+	                boolean isSkillMatch = false; 
+	                for(int i = 0; i < userSkills.size(); i++) {
+	                	for(int j = 0; j < recruitSkills.size(); j++) {
+	                		System.out.println(userSkills.get(i) instanceof Integer);
+	                		System.out.println(recruitSkills.get(j) instanceof Integer);
+	                		if (userSkills.get(i) instanceof Integer && recruitSkills.get(j) instanceof Integer) {
+	                		    if (((Integer)userSkills.get(i)).equals((Integer)recruitSkills.get(j))) {
+	                		        // 일치하는 경우의 로직
+	                		    }
+	                		}
+	                		if(userSkills.get(i).equals(recruitSkills.get(j))) {
+	                		    System.out.println("일치여부");
+	                		    isSkillMatch = true;
+	                		}
+	                	}
+	                		
+	                }*/
+	            }
+	        }
+	        res.put("fiterRecruitList", skillFilterRecruitList);
+	    } else {
+	        res.put("fiterRecruitList", fiterRecruitList);
+	    }
+	    
+	    return ResponseEntity.ok(res);
 	}
-	
+
 	public String fileNemeReplace(String fileName) {
 		fileName = fileName.replace("\\", "/");
 		String path = "/img/commonImage/";

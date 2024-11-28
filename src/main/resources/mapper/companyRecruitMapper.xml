@@ -370,11 +370,13 @@ WHERE
 	       R.REGION_NAME,
 	       CD.COMMON_DUTY_NAME,
          SKILLS,
+         SKILLSIDX,
          CI.COMPANY_SFILE_NAME
 	FROM   COMPANY_RECRUIT CR  LEFT JOIN (
 			                                SELECT 
 			                                  COMPANY_RECRUIT_IDX,
-			                                  LISTAGG(DISTINCT S.SKILL_Name, ', ') WITHIN GROUP (ORDER BY COMMON_COMPANY_RECRUIT_SKILL_IDX)  AS SKILLS
+			                                  LISTAGG(DISTINCT S.SKILL_NAME, ', ') WITHIN GROUP (ORDER BY COMMON_COMPANY_RECRUIT_SKILL_IDX)  AS SKILLS,
+                                        LISTAGG(DISTINCT S.SKILL_IDX, ', ') WITHIN GROUP (ORDER BY COMMON_COMPANY_RECRUIT_SKILL_IDX)  AS SKILLSIDX
 			                                FROM COMMON_COMPANY_RECRUIT_SKILL CCRS LEFT JOIN SKILLS S ON CCRS.SKILL_IDX = S.SKILL_IDX
 			                                GROUP BY CCRS.COMPANY_RECRUIT_IDX
 			                               ) SS   ON CR.COMPANY_RECRUIT_IDX = SS.COMPANY_RECRUIT_IDX
@@ -388,7 +390,12 @@ WHERE
 	<if test="dutyIdx != null and dutyIdx != ''">
 		AND CR.COMMON_DUTY_IDX = #{dutyIdx}
 	</if>
-
+	<if test="filter == 'earliest'">
+		ORDER BY CR.COMPANY_RECRUIT_REGDATE DESC
+	</if>
+	<if test="filter == 'popular'">
+		ORDER BY CR.COMPANY_RECRUIT_VIEWS DESC
+	</if>
 </select>
 
 
