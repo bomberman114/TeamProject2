@@ -3,31 +3,42 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.green.joboffer.rooms.mapper.JobofferRoomMapper">  
 
-	<select id="getJobOfferRoomList">
+	<select id="getJobOfferRoomCompanyUserList">
 	
 	 SELECT
-    JOBOFFER_ROOM_IDX,
-    JOBOFFER_ROOM_REGDATE,
-    USER_IDX,
-    COMPANY_USER_IDX,
-    JOBOFFER_ROOM_STATUS,
+    JR.JOBOFFER_ROOM_IDX,
+    JR.JOBOFFER_ROOM_REGDATE,
+    JR.USER_IDX,
+    JR.COMPANY_USER_IDX,
+    JR.JOBOFFER_ROOM_USER_STATUS,
+    JR.JOBOFFER_ROOM_COMPANY_USER_STATUS,
+    (SELECT  UI.USER_SFILE_NAME	FROM  USER_IMAGE UI WHERE JR.USER_IDX = UI.USER_IDX  )  USER_SFILE_NAME,
     (SELECT MESSAGE_CONTENT  FROM JOBOFFER_MESSAGES  JM 
-    WHERE JR.JOBOFFER_ROOM_IDX = JM.JOB_OFFER_ROOM_IDX  ORDER BY MESSAGE_CONTENT_JOB_OFFERS_REGDATE DESC 
+    WHERE JR.JOBOFFER_ROOM_IDX = JM.JOB_OFFER_ROOM_IDX  ORDER BY JM.MESSAGE_CONTENT_JOB_OFFERS_REGDATE DESC 
     FETCH FIRST 1 ROW ONLY) MESSAGE_CONTENT
 FROM
     JOBOFFER_ROOMS    JR
 WHERE
-	<if test="user_idx">
-	USER_IDX = #{user_idx}
-	</if>
-	<if test="company_user_idx">
 	COMPANY_USER_IDX = #{company_user_idx}
-	</if>
-	AND 
-		JOBOFFER_ROOM_STATUS = #{joboffer_room_status}
+	AND
+    	JOBOFFER_ROOM_COMPANY_USER_STATUS = #{joboffer_room_company_user_status}
     ORDER BY
         JOBOFFER_ROOM_REGDATE DESC
 	
+	</select>
+	
+	<select id="getJobofferRoomIdx">
+	
+	  SELECT
+    JOBOFFER_ROOM_IDX
+FROM
+    JOBOFFER_ROOMS
+   WHERE USER_IDX = #{user_idx}
+    AND 
+    COMPANY_USER_IDX = (SELECT COMPANY_USER_IDX FROM COMPANY_RECRUIT WHERE COMPANY_RECRUIT_IDX = #{company_recruit_idx})
+   	 ORDER BY
+   		JOBOFFER_ROOM_REGDATE  DESC
+       FETCH FIRST 1 ROW ONLY
 	</select>
 	
 	<insert id="setJobOfferRoomCreate">
@@ -38,8 +49,8 @@ WHERE
     COMPANY_USER_IDX
 ) VALUES (
     JOBOFFER_ROOMS_SEQ.NEXTVAL,
-    #{USER_IDX},
-    #{COMPANY_USER_IDX}
+    #{user_idx},
+    (SELECT COMPANY_USER_IDX FROM COMPANY_RECRUIT WHERE COMPANY_RECRUIT_IDX = #{company_recruit_idx})
 )      
    
 	

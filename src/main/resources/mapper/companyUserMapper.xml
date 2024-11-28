@@ -71,7 +71,7 @@ SET
     , COMPANY_USER_EMAIL = #{company_user_email}
     , COMPANY_ESTABLISH = #{company_establish}
 WHERE
-        COMPANY_USER_IDX = #{company_user_idx}
+        COMPANY_USER_IDX = #{companyUserVo.company_user_idx}
 	
 	</update>
 

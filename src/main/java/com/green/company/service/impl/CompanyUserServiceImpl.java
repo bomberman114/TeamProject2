@@ -140,7 +140,7 @@ public class CompanyUserServiceImpl implements CompanyUserService {
 
 		// 2024-11-07 00:00:00.0
 		String companyEstablish = String.valueOf(companyUserProfile.get("COMPANY_ESTABLISH"));
-
+		
 		String formattedEstablishDate = formatDate(companyEstablish);
 
 		companyUserProfile.put("COMPANY_ESTABLISH", formattedEstablishDate);

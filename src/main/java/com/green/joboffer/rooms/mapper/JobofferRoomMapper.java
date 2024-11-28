@@ -8,8 +8,11 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface JobofferRoomMapper {
 
-	List<HashMap<String, Object>> getJobOfferRoomList(HashMap<String, Object> map);
 
 	void setJobOfferRoomCreate(HashMap<String, Object> map);
+
+	int getJobofferRoomIdx(HashMap<String, Object> map);
+
+	List<HashMap<String, Object>> getJobOfferRoomCompanyUserList(HashMap<String, Object> map);
 
 }

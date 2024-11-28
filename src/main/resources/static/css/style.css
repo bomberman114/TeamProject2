@@ -371,6 +371,7 @@ footer {
           height: 118px;
           line-height: 118px;
           text-align: center;
+          overflow: hidden;
         }
         & .recruit-info {
           padding: 12px 20px;
@@ -402,24 +403,67 @@ footer {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 40px 20px;
+    
+    & .not-image{
+    	background : #ccc !important;
+    }
     & .recruit-card {
       position: relative;
       flex-shrink: 0;
       overflow: hidden;
       border-radius: 8px;
 
-      & img {
+      & > img {
         position: absolute;
         top: 16px;
         right: 16px;
         cursor: pointer;
+        z-index: 990;
       }
       & .recruit-img {
-        background: #ccc;
+        background: #fff;
         height: 160px;
         line-height: 160px;
         text-align: center;
         border-radius: 8px;
+        overflow: hidden;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        & a {
+          position: absolute;
+          left: 0;
+          top: 0;
+          background: linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.5) 0%,
+            rgba(0, 0, 0, 0) 30%
+          );
+          display: block;
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      & .recruit-img:hover img {
+        transform: scale(1.2) !important;
+        transition: all 0.4s;
+      }
+      & .recruit-img:hover a {
+        position: absolute;
+        left: 0;
+        top: 0;
+        background: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0.5) 0%,
+          rgba(0, 0, 0, 0) 30%
+        );
+        display: block;
+        width: 100%;
+        height: 100%;
+        z-index: 50;
       }
       & .recruit-info {
         padding: 12px 4px;
@@ -628,9 +672,10 @@ footer {
         background: #ccc;
         border-radius: 75px;
         margin-bottom: 40px;
-
+        overflow: hidden;
         & img {
           display: block;
+          width: 100%;
         }
       }
 
@@ -1435,11 +1480,11 @@ footer {
         }
 
         & .applyall-btn {
-          display : block;
+          display: block;
           width: 100%;
-          text-align : center;
+          text-align: center;
           height: 50px;
-          line-height : 50px;
+          line-height: 50px;
           border: solid 1px #333;
           font-weight: 700;
           background: none;
@@ -1463,7 +1508,7 @@ footer {
       }
       & .apply-resume-list {
         padding: 24px 20px 40px;
-        & p{
+        & p {
           font-size: 16px;
           font-weight: 300;
           margin-bottom: 20px;
@@ -1472,13 +1517,13 @@ footer {
           align-items: center;
           padding: 8px 0 8px 12px;
           cursor: pointer;
-          color : #767676
+          color: #767676;
         }
-        & .selected{
-        color : #fff;
-        background: #333;
-        font-weight : 500;
-        border-radius: 4px;
+        & .selected {
+          color: #fff;
+          background: #333;
+          font-weight: 500;
+          border-radius: 4px;
         }
       }
     }
@@ -1498,15 +1543,15 @@ footer {
             gap: 40px;
             font-size: 18px;
             font-weight: 500;
-            
-            & li{
-            	cursor : pointer;
-            	color : #767676
+
+            & li {
+              cursor: pointer;
+              color: #767676;
             }
-            
-            & li.apply-active{
-            	color : #333;
-            	font-weight: 500;
+
+            & li.apply-active {
+              color: #333;
+              font-weight: 500;
             }
           }
         }
@@ -1551,8 +1596,8 @@ footer {
   }
 }
 
-.apply-form .aside-inner{
-	border-radius: 4px !important;
+.apply-form .aside-inner {
+  border-radius: 4px !important;
 }
 
 /* 채용공고 oneView */
@@ -1686,9 +1731,9 @@ footer {
   width: 100%;
   height: 100%;
   position: fixed;
-  left : 0;
-  top : 0;
-  z-index : 999;
+  left: 0;
+  top: 0;
+  z-index: 999;
   display: none;
 }
 
@@ -1699,7 +1744,7 @@ footer {
   position: absolute;
   left: 50%;
   top: 50%;
-  transform : translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
 .modal-bar {
@@ -1799,6 +1844,356 @@ footer {
     color: #fff;
     cursor: pointer;
   }
+}
+
+/* 메시지 공용 스타일 */
+.display {
+  margin-top: 60px;
+  background: #2b2d31;
+  border-radius: 24px;
+  padding: 24px;
+  width: 100%;
+  height: 700px;
+}
+
+.display-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  display: flex;
+}
+
+.room-inner {
+  width: 320px;
+  padding: 20px 0 20px 20px;
+  background: #fff;
+  border-right: solid 1px #d7dce5;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+
+  & h3 {
+    display: flex;
+    font-size: 20px;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+
+  & .audience-list {
+    overflow-y: auto;
+    height: 100%;
+    padding-bottom: 40px;
+    padding-right: 20px;
+  }
+
+  & .audience-item {
+    width: 100%;
+    display: flex;
+    gap: 12px;
+    padding: 12px;
+    margin-bottom: 12px;
+    cursor: pointer;
+
+    & .audience-img {
+      background: #ddd;
+      width: 48px;
+      height: 48px;
+      border-radius: 24px;
+      flex-shrink: 0;
+    }
+
+    & .audience-info {
+      width: 100%;
+      flex: 1 1 0;
+      min-width: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      & div {
+        flex: 1 1 0;
+        min-width: 0;
+      }
+      & p {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+      & img {
+        display: none;
+      }
+    }
+  }
+}
+
+.message-inner {
+  width: 100%;
+  background: #bacee0;
+  padding: 20px 0 40px 20px;
+  position: relative;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+
+  & .messageInput {
+    position: absolute;
+    width: 90%;
+    height: 50px;
+    padding: 20px;
+    border-radius: 8px;
+    bottom: 20px;
+    left: 50%;
+    transform: translate(-50%);
+    border: solid 1px #b0b0c2;
+  }
+
+  & h5 {
+    font-size: 16px;
+
+    & span {
+      font-size: 14px;
+      font-weight: 500;
+      color: rgb(77, 60, 116);
+      padding-left: 12px;
+    }
+  }
+
+  & > h5 {
+    margin-bottom: 40px;
+  }
+
+  & .message-list {
+    overflow-y: auto;
+    height: 80%;
+    padding-right: 20px;
+  }
+
+  & .message {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 30px;
+
+    & .user-img {
+      width: 48px;
+      height: 48px;
+      background: #eee;
+      border-radius: 24px;
+      flex-shrink: 0;
+    }
+
+    & p {
+      background: #fff;
+      padding: 12px 20px;
+      font-size: 16px;
+      color: #555;
+      font-weight: 500;
+      border-radius: 8px;
+    }
+
+    & .my-message {
+      background: #ffed62;
+    }
+  }
+}
+.audience-item.room-active {
+  background: #fbf0ed;
+  border-radius: 8px;
+  & h4 {
+    color: var(--main-color);
+  }
+
+  & img {
+    display: block !important;
+    cursor: pointer;
+  }
+}
+
+.message-form {
+  height: auto;
+}
+
+/* 채용공고 검색  */
+.filter-inner {
+  margin-top: 121px;
+  padding: 12px;
+  border-bottom: solid 1px #d7dce5;
+
+  & .inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    & input[type="radio"]{
+    	display : none;
+    }
+    
+    & label{
+    display : block;
+   	padding : 8px 16px;
+    text-align: center;
+    font-weight: 500
+    }
+    
+    & input[type="radio"]:checked ~ label{
+    	background: #fff;
+    	border-radius: 8px;
+    }
+    
+    & >ul:last-child{
+    	background: #f8f8f8;
+    	border-radius: 8px;
+    	padding : 8px;
+    }
+    
+    & > ul {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      & .search-stack-input,
+      select {
+        padding: 0 40px 0 12px;
+        height: 50px;
+        border: solid 1px #d7dce5;
+        border-radius: 50px;
+        line-height: 50px;
+        -webkit-appearance: none; /* for chrome */
+        -moz-appearance: none; /*for firefox*/
+        appearance: none;
+        background: url("/images/icon/user-dropdown.png") no-repeat right 16px
+          center;
+        cursor: pointer; 
+        font-size: 16px;
+        font-family: "Pretendard";
+        font-weight: 500;
+         
+      }
+      & .search-stack-list {
+        top: 48px;
+      }
+    }
+  }
+
+  & .filter-reset-btn {
+    display: flex;
+    width: 50px;
+    height: 50px;
+    border: solid 1px #d7dce5;
+    border-radius: 25px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer; 
+    & img {
+      flex-basis: 0;
+    }
+  }
+}
+
+& .select-stack-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 6px;
+  margin-bottom: 8px;
+
+  & li {
+    padding: 8px 16px;
+    min-width: 60px;
+    text-align: center;
+    background: #333;
+    color: #fff;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    & img {
+      width: 16px;
+      cursor: pointer;
+    }
+  }
+}
+
+& .search-stack-list {
+  display: none;
+  background: #fff;
+  z-index: 3;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border: solid 1px #d7dce5;
+  border-radius: 12px;
+  font-weight: 500;
+  overflow: hidden;
+
+	& .select-stack-list{
+	  display : none;
+		border-top: solid 1px #d7dce5;
+		margin: 0;
+		padding : 12px;
+	}
+
+
+  & li {
+    height: 50px;
+    line-height: 50px;
+    padding-left: 24px;
+  }
+
+  & .stack-inner {
+    display: flex;
+    width: 100%;
+    gap: 10px;
+    cursor: pointer;
+    overflow: hidden;
+  }
+  & .stack-type {
+    & li {
+      width: 160px;
+    }
+    & .stack-active {
+      background: var(--main-color);
+      color: #fff;
+    }
+  }
+  & .stack-list {
+    overflow-y: auto;
+    height: 200px;
+    & li {
+      display: flex;
+      gap: 12px;
+      width: 240px;
+      color: #333;
+    }
+    & li:hover {
+      background: #f5f5f5;
+    }
+  }
+}
+
+& .search-stack-input {
+  position: relative;
+  display: flex;
+  gap: 12px;
+
+  & img {
+    flex-shrink: 0;
+  }
+  
+   & .search-stack-list{
+  	z-index : 999 !important;
+  }
+}
+
+& .stack-util {
+  background: #ebecf1;
+}
+
+.recruit-serarchForm {
+  margin-top: 0;
+}
+
+.recruit-serarchForm-list{
+	margin-top : 40px;
 }
 
 @media screen and (max-width: 1000px) {

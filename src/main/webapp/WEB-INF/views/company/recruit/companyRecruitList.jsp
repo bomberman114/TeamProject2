@@ -153,6 +153,8 @@ h2 {
 				</c:forEach>
 			</div>
 			<a href="/CompanyRecruit/RecruitWriteForm" class="add-button">채용공고 추가</a>
+			
+			
 		</div>
 	</main>
 </body>

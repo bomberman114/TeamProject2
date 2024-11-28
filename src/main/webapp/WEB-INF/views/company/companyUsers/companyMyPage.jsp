@@ -12,9 +12,7 @@
 <link rel="stylesheet" href="/css/reset.css" />
 <link rel="stylesheet" href="/css/style.css" />
 <style>
-body {
-   
-}
+
 
 h2 {
    font-size: 32px;
