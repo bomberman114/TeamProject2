@@ -16,7 +16,7 @@
       </div>
       <ul class="header-right logined">
         <li class="user">
-          <span class="bedge">회사</span>${companylogin.company_user_name}
+          <span class="bedge role-company">회사</span>${companylogin.company_user_name}
           <ul class="submenu">
 	      		<li><a href="/Company/CompanyMypageUpdateForm">회사회원정보수정</a></li>
 	      		<li><a href="/Company/Logout">로그아웃</a></li>

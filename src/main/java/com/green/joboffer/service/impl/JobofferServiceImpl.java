@@ -43,7 +43,7 @@ public class JobofferServiceImpl implements JobofferService{
         // 원하는 형식으로 변환
         String formattedDate = desiredFormat.format(date);
         // 결과 출력
-        System.out.println(formattedDate);
+        //System.out.println(formattedDate);
 
 		// LocalDate를 한글 형식으로 변환
 		return formattedDate;
@@ -59,7 +59,6 @@ public class JobofferServiceImpl implements JobofferService{
 	@Override
 	public List<HashMap<String, Object>> getJobofferMessageList(HashMap<String, Object> map) {
 		List<HashMap<String, Object>> jobofferMessageList = jobofferMessageMapper.getJobofferMessageList(map);
-		System.out.println("jobofferMessageList:" + jobofferMessageList);
 		for(int i = 0 ; i < jobofferMessageList.size(); i++ ){
 		String 	messageContentJobOffersRegdate= String.valueOf(jobofferMessageList.get(i).get("MESSAGE_CONTENT_JOB_OFFERS_REGDATE"));
 			messageContentJobOffersRegdate = formatDateKorean(messageContentJobOffersRegdate);

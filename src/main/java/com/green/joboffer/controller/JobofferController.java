@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -12,12 +14,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.green.company.vo.CompanyUserVo;
 import com.green.joboffer.message.mapper.JobofferMessageMapper;
-import com.green.joboffer.message.vo.JobofferMessageVo;
 import com.green.joboffer.rooms.mapper.JobofferRoomMapper;
 import com.green.joboffer.service.JobofferService;
 import com.green.users.vo.UserVo;
 
-import ch.qos.logback.core.model.Model;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -194,6 +194,19 @@ public class JobofferController {
 		redirectAttributes.addAllAttributes(map);
 		
 		return "redirect:/Joboffer/JobOfferRoomOneView";
+	}
+	
+ 
+	
+	@RequestMapping("/GetJobOfferUserMessages")
+	public ResponseEntity<HashMap<String, Object>> getJobOfferUserMessages(
+			@RequestBody HashMap<String,Object> map, HttpSession session
+			) {
+
+		List<HashMap<String, Object>>jobOfferMessageList = jobofferService.getJobofferMessageList(map);
+		HashMap<String,Object> res = new HashMap<>();
+		res.put("jobOfferMessageList", jobOfferMessageList);
+		return ResponseEntity.ok(res);
 	}
 	
  
