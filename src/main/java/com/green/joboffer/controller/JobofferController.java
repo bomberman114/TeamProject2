@@ -97,24 +97,27 @@ public class JobofferController {
 		String JOBOFFER_ROOM_USER_STATUS = null;
 		if(companyUserVo != null) {
 			 JOBOFFER_ROOM_COMPANY_USER_STATUS  =  "ACTIVE";
+			 map.put("company_user_idx", companyUserVo.getCompany_user_idx());
 		};
 		if(userVo != null) {
 			JOBOFFER_ROOM_USER_STATUS  =  "ACTIVE";
+			map.put("user_idx", userVo.getUser_idx());
 		};
 		map.put("joboffer_room_company_user_status", JOBOFFER_ROOM_COMPANY_USER_STATUS);
 		map.put("joboffer_room_user_status", JOBOFFER_ROOM_USER_STATUS);
-		List<HashMap<String, Object>> jobOfferRoomCompanyUserList = jobofferService.getJobOfferRoomActiveList(map);
+		List<HashMap<String, Object>> jobOfferRoomActiveList = jobofferService.getJobOfferRoomActiveList(map);
 		List<HashMap<String, Object>> jobOfferMessageList = jobofferService.getJobofferMessageList(map); 
 		int jobofferRoomIdx = Integer.parseInt(String.valueOf(map.get("joboffer_room_idx")));
 		System.out.println("jobOfferMessageList:" + jobOfferMessageList);
-		System.out.println("jobOfferRoomCompanyUserList:" + jobOfferRoomCompanyUserList);
+		System.out.println("jobOfferRoomActiveList:" + jobOfferRoomActiveList);
 		mv.addObject("jobofferRoomIdx", jobofferRoomIdx);
-		mv.addObject("jobOfferRoomCompanyUserList", jobOfferRoomCompanyUserList);
 		mv.addObject("jobOfferMessageList", jobOfferMessageList);
 		if(userVo != null) {
+			mv.addObject("jobOfferRoomUserList", jobOfferRoomActiveList);
 			mv.setViewName("/users/personalJoboffer/personalJobOfferMessage");
 		};
 		if(companyUserVo != null) {
+			mv.addObject("jobOfferRoomCompanyUserList", jobOfferRoomActiveList);
 			mv.setViewName("/company/companyJoboffer/companyJobofferMessage");
 		};
 		
