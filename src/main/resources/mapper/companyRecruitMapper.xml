@@ -363,6 +363,50 @@ WHERE
 	WHERE  COMPANY_USER_IDX = (select COMPANY_USER_IDX  from COMPANY_RECRUIT WHERE COMPANY_RECRUIT_IDX = #{company_recruit_idx})
 </select>
 
+<select id="filterRecruitList">
+	SELECT CR.COMPANY_RECRUIT_IDX,
+				 CR.COMPANY_NAME,
+	       CR.RECRUIT_TITLE,
+	       R.REGION_NAME,
+	       CD.COMMON_DUTY_NAME,
+         SKILLS,
+         SKILLSIDX,
+         CI.COMPANY_SFILE_NAME
+	FROM   COMPANY_RECRUIT CR  LEFT JOIN (
+			                                SELECT 
+			                                  COMPANY_RECRUIT_IDX,
+			                                  LISTAGG(DISTINCT S.SKILL_NAME, ', ') WITHIN GROUP (ORDER BY COMMON_COMPANY_RECRUIT_SKILL_IDX)  AS SKILLS,
+                                        LISTAGG(DISTINCT S.SKILL_IDX, ', ') WITHIN GROUP (ORDER BY COMMON_COMPANY_RECRUIT_SKILL_IDX)  AS SKILLSIDX
+			                                FROM COMMON_COMPANY_RECRUIT_SKILL CCRS LEFT JOIN SKILLS S ON CCRS.SKILL_IDX = S.SKILL_IDX
+			                                GROUP BY CCRS.COMPANY_RECRUIT_IDX
+			                               ) SS   ON CR.COMPANY_RECRUIT_IDX = SS.COMPANY_RECRUIT_IDX
+		                          LEFT JOIN REGION        R  ON CR.REGION_IDX       = R.REGION_IDX
+		                          LEFT JOIN COMMON_DUTY   CD ON CR.COMMON_DUTY_IDX  = CD.COMMON_DUTY_IDX
+		                          LEFT JOIN COMPANY_IMAGE CI ON CR.COMPANY_USER_IDX = CI.COMPANY_USER_IDX 
+	WHERE 1 = 1
+	<if test="regionIdx != null and regionIdx != ''">
+		AND CR.REGION_IDX = #{regionIdx}
+	</if>
+	<if test="dutyIdx != null and dutyIdx != ''">
+		AND CR.COMMON_DUTY_IDX = #{dutyIdx}
+	</if>
+	<if test="search != null and search != ''">
+		AND CR.RECRUIT_TITLE LIKE '%${search}%'
+	</if>
+	<if test="filter == 'earliest'">
+		ORDER BY CR.COMPANY_RECRUIT_REGDATE DESC
+	</if>
+	<if test="filter == 'popular'">
+		ORDER BY CR.COMPANY_RECRUIT_VIEWS DESC
+	</if>
+</select>
+
+<update id="updateViews">
+	UPDATE COMPANY_RECRUIT
+	SET    COMPANY_RECRUIT_VIEWS = COMPANY_RECRUIT_VIEWS + 1
+	WHERE  COMPANY_RECRUIT_IDX   = #{company_recruit_idx}
+</update>
+
 <select id="getSearchCompanyRecruitCountWithConditions">
 
  SELECT 
@@ -481,6 +525,51 @@ WHERE
        CR.COMPANY_RECRUIT_REGDATE DESC
     OFFSET #{startRow} ROWS FETCH NEXT #{endRow} ROWS ONLY 
 
+
+</select>
+
+<select id="getRecruitListSkillStack">
+SELECT 
+      *
+   FROM 
+        COMPANY_RECRUIT CR
+   LEFT JOIN (
+       SELECT 
+             CCPRS.COMPANY_RECRUIT_IDX
+           , LISTAGG(DISTINCT S.SKILL_NAME, ', ') WITHIN GROUP (ORDER BY S.SKILL_NAME) AS SKILL_NAME
+           , LISTAGG(DISTINCT S.SKILL_IDX, ', ') WITHIN GROUP (ORDER BY S.SKILL_IDX) AS SKILL_IDX
+           , LISTAGG(DISTINCT S.SKILL_STACK_IDX, ', ') WITHIN GROUP (ORDER BY S.SKILL_STACK_IDX) AS SKILL_STACK_IDX
+       FROM 
+           COMMON_COMPANY_RECRUIT_SKILL  CCPRS
+    JOIN SKILLS S ON CCPRS.SKILL_IDX = S.SKILL_IDX
+     
+        GROUP BY CCPRS.COMPANY_RECRUIT_IDX
+   )  CCRK ON CCRK.COMPANY_RECRUIT_IDX = CR.COMPANY_RECRUIT_IDX
+   LEFT JOIN 
+       REGION R ON CR.REGION_IDX = R.REGION_IDX
+  
+    LEFT JOIN
+        COMMON_DUTY CD
+    ON  
+        CR.COMMON_DUTY_IDX = CD.COMMON_DUTY_IDX
+      LEFT JOIN
+        EDUCATION_STATUS ES
+    ON
+        CR.EDUCATION_STATUS_IDX = ES.EDUCATION_STATUS_IDX
+    LEFT JOIN
+        COMPANY_IMAGE  CI
+    ON
+        CR.COMPANY_USER_IDX = CI.COMPANY_USER_IDX
+    LEFT JOIN
+    	USERS_BOOKMARK  UBK
+    ON
+    	UBK.COMPANY_RECRUIT_IDX = CCRK.COMPANY_RECRUIT_IDX
+  WHERE
+    CCRK.SKILL_STACK_IDX = #{skill_stack_idx}
+        
+   ORDER BY 
+       CR.COMPANY_RECRUIT_REGDATE DESC
+    OFFSET 0 ROWS FETCH NEXT 9 ROWS ONLY 
 
 </select>
 

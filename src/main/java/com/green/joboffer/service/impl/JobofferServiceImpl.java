@@ -43,7 +43,7 @@ public class JobofferServiceImpl implements JobofferService{
         // 원하는 형식으로 변환
         String formattedDate = desiredFormat.format(date);
         // 결과 출력
-        System.out.println(formattedDate);
+        //System.out.println(formattedDate);
 
 		// LocalDate를 한글 형식으로 변환
 		return formattedDate;
@@ -59,7 +59,6 @@ public class JobofferServiceImpl implements JobofferService{
 	@Override
 	public List<HashMap<String, Object>> getJobofferMessageList(HashMap<String, Object> map) {
 		List<HashMap<String, Object>> jobofferMessageList = jobofferMessageMapper.getJobofferMessageList(map);
-		System.out.println("jobofferMessageList:" + jobofferMessageList);
 		for(int i = 0 ; i < jobofferMessageList.size(); i++ ){
 		String 	messageContentJobOffersRegdate= String.valueOf(jobofferMessageList.get(i).get("MESSAGE_CONTENT_JOB_OFFERS_REGDATE"));
 			messageContentJobOffersRegdate = formatDateKorean(messageContentJobOffersRegdate);
@@ -80,19 +79,38 @@ public class JobofferServiceImpl implements JobofferService{
 		return jobofferMessageList;
 	}
 
+		
+
 	@Override
-	public List<HashMap<String, Object>> getJobOfferRoomCompanyUserList(HashMap<String, Object> map) {
-		List<HashMap<String, Object>> JobOfferRoomCompanyUserList = JobofferRoomMapper.getJobOfferRoomCompanyUserList(map);
-		for (int i = 0; i < JobOfferRoomCompanyUserList.size(); i++) {
-			if(JobOfferRoomCompanyUserList.get(i).get("USER_SFILE_NAME") != null) {
-				String userSfileName = String.valueOf(JobOfferRoomCompanyUserList.get(i).get("USER_SFILE_NAME") );
+	public List<HashMap<String, Object>> getJobOfferRoomActiveList(HashMap<String, Object> map) {
+		List<HashMap<String, Object>> jobOfferRoomActiveList = JobofferRoomMapper.getJobOfferRoomActiveList(map);
+		for (int i = 0; i < jobOfferRoomActiveList.size(); i++) {
+			String jobofferRoomRegdate = String.valueOf(jobOfferRoomActiveList.get(i).get("JOBOFFER_ROOM_REGDATE"));
+			jobofferRoomRegdate = formatDateKorean(jobofferRoomRegdate);
+			jobOfferRoomActiveList.get(i).put("JOBOFFER_ROOM_REGDATE", jobofferRoomRegdate);
+			
+			if(jobOfferRoomActiveList.get(i).get("USER_SFILE_NAME") != null) {
+				String userSfileName = String.valueOf(jobOfferRoomActiveList.get(i).get("USER_SFILE_NAME") );
 				userSfileName = fileNemeReplace(userSfileName);
-				JobOfferRoomCompanyUserList.get(i).put("USER_SFILE_NAME", userSfileName);
+				jobOfferRoomActiveList.get(i).put("USER_SFILE_NAME", userSfileName);
 			};
-		}
+			if(jobOfferRoomActiveList.get(i).get("COMPANY_SFILE_NAME") != null) {
+				String companyUserSfileName = String.valueOf(jobOfferRoomActiveList.get(i).get("COMPANY_SFILE_NAME"));
+				companyUserSfileName = fileNemeReplace(companyUserSfileName);
+				jobOfferRoomActiveList.get(i).put("COMPANY_SFILE_NAME", companyUserSfileName);
+			};
+			if(jobOfferRoomActiveList.get(i).get("MESSAGE_CONTENT_JOB_OFFERS_REGDATE") != null) {
+				String  messageContentJobOffersRegdate = String.valueOf(jobOfferRoomActiveList.get(i).get("MESSAGE_CONTENT_JOB_OFFERS_REGDATE"));
+				messageContentJobOffersRegdate = formatDateKorean(messageContentJobOffersRegdate);
+				jobOfferRoomActiveList.get(i).put("MESSAGE_CONTENT_JOB_OFFERS_REGDATE", messageContentJobOffersRegdate); 
+			};
+			
+			
+			
+		};
 		
 		
-		return JobOfferRoomCompanyUserList;
+		return jobOfferRoomActiveList;
 	}
 
 }

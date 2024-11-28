@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
@@ -14,17 +14,17 @@
 <style type="text/css">
 
 .header-container {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	background-color: #ffffff;
-	padding: 20px;
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   background-color: #ffffff;
+   padding: 20px;
+   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .header-container h1 {
-	margin: 0;
-	font-size: 24px;
+   margin: 0;
+   font-size: 24px;
 }
 
 .separator {
@@ -33,40 +33,40 @@
 }
 
 nav ul {
-	list-style-type: none;
-	padding: 0;
-	margin: 0;
-	display: flex;
+   list-style-type: none;
+   padding: 0;
+   margin: 0;
+   display: flex;
 }
 
 nav ul li {
-	margin: 0 15px;
+   margin: 0 15px;
 }
 
 nav ul li a {
-	text-decoration: none;
-	color: #333;
+   text-decoration: none;
+   color: #333;
 }
 
 .notification {
-	display: flex;
-	align-items: center;
+   display: flex;
+   align-items: center;
 }
 
 .notification button {
-	margin-left: 10px;
+   margin-left: 10px;
 }
 
 .container {
-	max-width: 1200px;
-	margin: 20px auto;
-	padding: 20px;
-	background-color: #ffffff;
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+   max-width: 1200px;
+   margin: 20px auto;
+   padding: 20px;
+   background-color: #ffffff;
+   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 h2 {
-	margin: 0;
+   margin: 0;
 }
 
 .tabs {
@@ -82,23 +82,24 @@ h2 {
     margin-right: 680px; /* h2 오른쪽에 여백 추가 */
 }
 .tabs span {
-	margin-right: 20px;
-	cursor: pointer;
-	padding: 5px 10px;
-	border-radius: 5px;
+   margin-right: 20px;
+   cursor: pointer;
+   padding: 5px 10px;
+   border-radius: 5px;
 }
 
 .tabs .active {
-	background-color: #007bff;
-	color: white;
+   background-color: #007bff;
+   color: white;
 }
 
 .job-list {
-	display: flex;
-	flex-wrap: wrap;
+   display: flex;
+   flex-wrap: wrap;
 }
 
 .job-card {
+<<<<<<< HEAD
 	background-color: #f9f9f9;
 	border: 1px solid #ddd;
 	border-radius: 5px;
@@ -107,6 +108,16 @@ h2 {
 	flex: 1 1 calc(33% - 20px);
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 	 width: 360px;
+=======
+   background-color: #f9f9f9;
+   border: 1px solid #ddd;
+   border-radius: 5px;
+   padding: 15px;
+   margin: 10px;
+   flex: 1 1 calc(33% - 20px);
+   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    width: 360px;
+>>>>>>> bd75c04cbdd8828ead663d63ba5d95ab8c6bc391
     height: 200px;
       flex-direction: column; /* 세로 방향으로 배치 */
     justify-content: space-between; /* 내용 간의 간격을 조정하여 아래로 밀기 */
@@ -137,12 +148,12 @@ h2 {
 }
 
 .job-card h3 {
-	margin: 0 0 10px 0;
+   margin: 0 0 10px 0;
 }
 
 .job-card .delete {
-	color: red;
-	cursor: pointer;
+   color: red;
+   cursor: pointer;
 }
 
 .add-button {
@@ -153,7 +164,13 @@ h2 {
     text-decoration: none; /* 밑줄 제거 */
 }
 .add-button:hover {
-	background-color: #0056b3;
+   background-color: #0056b3;
+}
+.job-info {
+    display: flex; /* Flexbox 사용 */
+    justify-content: space-between; /* 양끝에 위치하게 */
+    margin-top: 10px; /* 위쪽 여백 추가 (선택 사항) */
+     margin-top: auto; /* 위쪽 여백을 자동으로 설정하여 아래로 밀기 */
 }
 .job-info {
     display: flex; /* Flexbox 사용 */
@@ -162,7 +179,11 @@ h2 {
      margin-top: auto; /* 위쪽 여백을 자동으로 설정하여 아래로 밀기 */
 }
 .highlight {
+<<<<<<< HEAD
 color: red;	
+=======
+color: red;   
+>>>>>>> bd75c04cbdd8828ead663d63ba5d95ab8c6bc391
 font-weight: bold;
 }
 
@@ -170,7 +191,7 @@ font-weight: bold;
 <title>채용공고 관리</title>
 </head>
 <body>
-	<%@include file="/WEB-INF/includes/headerCompanyUser.jsp"%>
+   <%@include file="/WEB-INF/includes/headerCompanyUser.jsp"%>
 <main>
     <div class="container">
         <div class="tabs">

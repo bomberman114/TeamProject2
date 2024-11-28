@@ -3,7 +3,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.green.joboffer.rooms.mapper.JobofferRoomMapper">  
 
-	<select id="getJobOfferRoomCompanyUserList">
+	<select id="getJobOfferRoomActiveList">
 	
 	 SELECT
     JR.JOBOFFER_ROOM_IDX,
@@ -12,16 +12,32 @@
     JR.COMPANY_USER_IDX,
     JR.JOBOFFER_ROOM_USER_STATUS,
     JR.JOBOFFER_ROOM_COMPANY_USER_STATUS,
+    (SELECT USE.USER_NAME  FROM  USERS  USE  WHERE  USE.USER_IDX = JR.USER_IDX  ) USER_NAME,
+    (SELECT COUSE.COMPANY_USER_NAME  FROM  COMPANY_USERS  COUSE  
+    WHERE  COUSE.COMPANY_USER_IDX = JR.COMPANY_USER_IDX  ) COMPANY_USER_NAME,
     (SELECT  UI.USER_SFILE_NAME	FROM  USER_IMAGE UI WHERE JR.USER_IDX = UI.USER_IDX  )  USER_SFILE_NAME,
+    (SELECT  CI.COMPANY_SFILE_NAME	FROM  COMPANY_IMAGE CI WHERE JR.COMPANY_USER_IDX = CI.COMPANY_USER_IDX  )  COMPANY_SFILE_NAME,
     (SELECT MESSAGE_CONTENT  FROM JOBOFFER_MESSAGES  JM 
     WHERE JR.JOBOFFER_ROOM_IDX = JM.JOB_OFFER_ROOM_IDX  ORDER BY JM.MESSAGE_CONTENT_JOB_OFFERS_REGDATE DESC 
-    FETCH FIRST 1 ROW ONLY) MESSAGE_CONTENT
+    FETCH FIRST 1 ROW ONLY) MESSAGE_CONTENT,
+    (SELECT MESSAGE_CONTENT_JOB_OFFERS_REGDATE  FROM  JOBOFFER_MESSAGES  JM  WHERE   JM.JOB_OFFER_ROOM_IDX = JR.JOBOFFER_ROOM_IDX
+     ORDER BY MESSAGE_CONTENT_JOB_OFFERS_REGDATE DESC   FETCH FIRST 1 ROW ONLY
+     ) 
+    MESSAGE_CONTENT_JOB_OFFERS_REGDATE
 FROM
     JOBOFFER_ROOMS    JR
 WHERE
-	COMPANY_USER_IDX = #{company_user_idx}
-	AND
+	<if test="company_user_idx != null">
+		COMPANY_USER_IDX = #{company_user_idx}
+AND
     	JOBOFFER_ROOM_COMPANY_USER_STATUS = #{joboffer_room_company_user_status}
+	</if>
+	<if test=" user_idx != null">
+	
+	USER_IDX = #{user_idx}
+AND
+    	JOBOFFER_ROOM_USER_STATUS = #{joboffer_room_user_status}
+	</if>
     ORDER BY
         JOBOFFER_ROOM_REGDATE DESC
 	
@@ -55,5 +71,28 @@ FROM
    
 	
 	</insert>
+	
+	<select id="getJobOfferRoomActiveListCount">
+		
+	 SELECT
+    COUNT(*)
+FROM
+    JOBOFFER_ROOMS    JR
+WHERE
+	<if test="company_user_idx != null">
+		COMPANY_USER_IDX = #{company_user_idx}
+AND
+    	JOBOFFER_ROOM_COMPANY_USER_STATUS = #{joboffer_room_company_user_status}
+	</if>
+	<if test=" user_idx != null">
+	
+	USER_IDX = #{user_idx}
+AND
+    	JOBOFFER_ROOM_USER_STATUS = #{joboffer_room_user_status}
+	</if>
+   
+	
+	
+	</select>
 
 </mapper>

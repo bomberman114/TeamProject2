@@ -1,24 +1,22 @@
-document.addEventListener('DOMContentLoaded', () => {
-  let submenuActive = false;
-  const userElement = document.querySelector('.header-right.logined .user');
-  if (userElement) {
-    const $submenu = document.querySelector(".submenu");
-    const $user = document.querySelector(".user");
-    
-    // 초기 상태 설정
-    $submenu.style.display = "none";
+let submenuActive = false;
 
-    $user.addEventListener('click', (e) => {
-      e.stopPropagation(); // 이벤트 버블링 방지
-      $submenu.style.display = submenuActive ? "none" : "block";
-      submenuActive = !submenuActive;
-    });
-    
-    document.body.addEventListener("click", (e) => {
-      if (!e.target.closest(".submenu") && !e.target.closest(".user") && submenuActive) {
-        $submenu.style.display = "none";
-        submenuActive = false;
-      }
-    });
-  }
-});
+const $submenu = document.querySelector(".submenu");
+const $user    = document.querySelector(".user");
+
+document.addEventListener("click", (e) => {
+	const clicked = e.target;
+	
+	// 유저 클릭시 서브메뉴 보여줌
+	if (clicked.closest(".user")) {
+		e.stopPropagation(); // 이벤트 버블링 방지
+		$submenu.style.display = submenuActive ? "none" : "block";
+		submenuActive = !submenuActive;
+	}
+	
+	// 서브메뉴 외부 클릭시 서브메뉴 숨김
+	if (!clicked.closest(".submenu") && !clicked.closest(".user") && submenuActive) {
+		$submenu.style.display = "none";
+		submenuActive = false;
+	}
+})
+

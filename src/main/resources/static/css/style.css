@@ -1062,12 +1062,18 @@ footer {
           display: flex;
           gap: 24px;
           & .user-img {
-            width: 150px;
-            height: 150px;
-            background: #ccc;
-            border-radius: 100px;
-            flex-shrink: 0;
-          }
+          	flex-shrink : 0;
+		        width: 150px;
+		        height: 150px;
+		        background: #ccc;
+		        border-radius: 75px;
+		        margin-bottom: 20px;
+		        overflow: hidden;
+	        & img {
+	          display: block;
+	          width: 100%;
+	          }
+	        }
           & .user-details {
             width: 100%;
             & .user-util {
@@ -1667,6 +1673,7 @@ footer {
           height: 72px;
           background: #ccc;
           border-radius: 50px;
+          overflow: hidden;
         }
         & .company-name {
           & h5 {
@@ -1902,7 +1909,14 @@ footer {
       height: 48px;
       border-radius: 24px;
       flex-shrink: 0;
+      overflow: hidden;
+      
+      & img{
+      	display : block;
+      	width: 100%;
+      }
     }
+      
 
     & .audience-info {
       width: 100%;
@@ -1966,6 +1980,8 @@ footer {
     overflow-y: auto;
     height: 80%;
     padding-right: 20px;
+    display: flex;
+    flex-direction: column-reverse;
   }
 
   & .message {
@@ -1979,6 +1995,12 @@ footer {
       background: #eee;
       border-radius: 24px;
       flex-shrink: 0;
+      overflow: hidden;
+      
+      & img{
+      	display : block;
+      	width: 100%;
+      }
     }
 
     & p {
@@ -1988,6 +2010,8 @@ footer {
       color: #555;
       font-weight: 500;
       border-radius: 8px;
+      flex-basis : 0;
+      display: inline-block;
     }
 
     & .my-message {
@@ -2031,7 +2055,8 @@ footer {
     display : block;
    	padding : 8px 16px;
     text-align: center;
-    font-weight: 500
+    font-weight: 500;
+    cursor: pointer;
     }
     
     & input[type="radio"]:checked ~ label{
@@ -2075,7 +2100,7 @@ footer {
   }
 
   & .filter-reset-btn {
-    display: flex;
+    background : url("/images/icon/refresh-btn.png") no-repeat center center;
     width: 50px;
     height: 50px;
     border: solid 1px #d7dce5;
@@ -2083,9 +2108,7 @@ footer {
     justify-content: center;
     align-items: center;
     cursor: pointer; 
-    & img {
-      flex-basis: 0;
-    }
+
   }
 }
 
@@ -2107,8 +2130,9 @@ footer {
     gap: 12px;
 
     & img {
-      width: 16px;
+      width: 24px;
       cursor: pointer;
+      padding : 4px;
     }
   }
 }

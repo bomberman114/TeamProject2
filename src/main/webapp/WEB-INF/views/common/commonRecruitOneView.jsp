@@ -103,7 +103,16 @@
           <aside>
             <div class="recruit-oneview-aside">
               <div class="company-info">
-                <div class="company-img"></div>
+                <div class="company-img">
+                <c:choose>
+                	<c:when test="${not empty companyImage.COMPANY_SFILE_NAME}">
+               			 <img alt="프로필 이미지" src="${companyImage.COMPANY_SFILE_NAME}">
+                	</c:when>
+                	<c:otherwise>
+                	</c:otherwise>
+                </c:choose>
+                </div>
+                
                 <div class="company-name">
                   <h5>${vo.COMPANY_NAME}</h5>
                   <a href="#">기업정보 보기</a>
@@ -113,23 +122,27 @@
                 <li>업력</li>
                 <li>${companyHistory.COMPANY_YEAR}년차<span>(${companyHistory.ESTABLISH } 설립)</span></li>
               </ul>
+              <ul>
+                <li>조회수</li>
+                <li>${vo.COMPANY_RECRUIT_VIEWS}</li>
+              </ul>
               <button class="apply-btn">지원하기</button>
-						    <c:if test="${not empty userBookMarkList}">
-						        <c:set var="isBookmarked" value="false" />
-						        <c:forEach var="markup" items="${userBookMarkList}">
-						            <c:if test="${markup.company_recruit_idx eq vo.COMPANY_RECRUIT_IDX and markup.bookmark_check eq 1}">
-						                <c:set var="isBookmarked" value="true" />
-						            </c:if>
-						        </c:forEach>
-								</c:if>
-								<c:choose>
-									<c:when test="${isBookmarked}">
-						          <p class="bookmark-btn mark-up"><img src="/images/icon/mark-up.png" alt="북마크 아이콘">스크랩</p>									
-									</c:when>
-									<c:otherwise>
-						            <p class="bookmark-btn mark-down"><img src="/images/icon/recruit-oneview-mark-off.png" alt="북마크 아이콘">스크랩</p>
-									</c:otherwise>
-								</c:choose>
+			  <c:if test="${not empty userBookMarkList}">
+			    <c:set var="isBookmarked" value="false" />
+			    <c:forEach var="markup" items="${userBookMarkList}">
+			      <c:if test="${markup.company_recruit_idx eq vo.COMPANY_RECRUIT_IDX and markup.bookmark_check eq 1}">
+			        <c:set var="isBookmarked" value="true" />
+			      </c:if>
+			      </c:forEach>
+			   </c:if>
+			   <c:choose>
+			     <c:when test="${isBookmarked}">
+		           <p class="bookmark-btn mark-up"><img src="/images/icon/mark-up.png" alt="북마크 아이콘">스크랩</p>									
+				 </c:when>
+				 <c:otherwise>
+		           <p class="bookmark-btn mark-down"><img src="/images/icon/recruit-oneview-mark-off.png" alt="북마크 아이콘">스크랩</p>
+				 </c:otherwise>
+			  </c:choose>
             </div>
           </aside>
         </div>
@@ -193,8 +206,8 @@
 	
     	const $applyBtn       = document.querySelector(".apply-btn");
     	const $bookmarkbtn    = document.querySelector(".bookmark-btn");
-			const bookmarkStatus  = document.querySelector(".bookmark-btn img");
-			const $resumeApplyBtn = document.querySelector(".resume-apply-btn");
+		const bookmarkStatus  = document.querySelector(".bookmark-btn img");
+		const $resumeApplyBtn = document.querySelector(".resume-apply-btn");
     	
     	$applyBtn.addEventListener("click",()=>{
     		if("${sessionScope.userLogin}"){

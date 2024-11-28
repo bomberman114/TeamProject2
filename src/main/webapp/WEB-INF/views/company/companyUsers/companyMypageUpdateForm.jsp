@@ -14,7 +14,7 @@
     <script src="/js/inputForm.js" defer></script>
 </head>
 <body>
-      <%@include file="/WEB-INF/includes/headerCompanyUser.jsp"%>
+     <%@include file="/WEB-INF/includes/headerCompanyUser.jsp"%>
     <main class="mypage-update">
         <form action="/Company/MypageProfileUpdate" method="post"  enctype ="multipart/form-data" >
         <div class="inner">

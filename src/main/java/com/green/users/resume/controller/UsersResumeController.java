@@ -1,4 +1,4 @@
-package com.green.users.resume.controller;
+ package com.green.users.resume.controller;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -25,6 +25,7 @@ import com.green.skills.stack.vo.SkillStackVo;
 import com.green.skills.vo.SkillVo;
 import com.green.user.resume.skill.mapper.CommonUserResumeSkillMapper;
 import com.green.users.resume.service.UsersResumeService;
+import com.green.users.service.UsersService;
 import com.green.users.vo.UserVo;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,6 +36,9 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/Users/MyPage/Resume")
 public class UsersResumeController {
 	
+	@Autowired
+	private UsersService usersService;
+
 	@Autowired
 	private UsersResumeService usersResumeService;
 	
@@ -77,6 +81,9 @@ public class UsersResumeController {
 		
 		HttpSession session 	        = request.getSession();
 		UserVo vo                       = (UserVo) session.getAttribute("userLogin");
+		
+		HashMap<String, Object> map     = usersService.getUserData(vo);
+		
 		String userBirthYear            = vo.getUser_birth().substring(0,4);
 		vo                              = usersResumeService.findUser(vo);
 		List<RegionVo> regionList       = regionMapper.getRegionList();
@@ -92,6 +99,7 @@ public class UsersResumeController {
 		mv.addObject("stackList",stackList);
 		mv.addObject("initialSkillList",initialSkillList);
 		mv.addObject("eduList",eduList);
+		mv.addObject("map",map);
 		mv.setViewName("/users/resume/personalResumeWriteForm");
 		return mv;
 	}
@@ -116,12 +124,12 @@ public class UsersResumeController {
 	}
 	
 	@RequestMapping("/OneView")
-	public ModelAndView oneView(@RequestParam HashMap<String, Object> map) {
-		HashMap<String, Object> vo            = usersResumeService.resumeFindById(map);
+	public ModelAndView oneView(@RequestParam HashMap<String, Object> map, HttpServletRequest request) {
+		HttpSession session 	         = request.getSession();
+		UserVo userVo                    = (UserVo) session.getAttribute("userLogin");
+		HashMap<String, Object> vo       = usersResumeService.resumeFindById(map);
+		HashMap<String, Object> userData = usersService.getUserData(userVo);
 		vo.put("USER_BIRTH", String.valueOf(vo.get("USER_BIRTH")).substring(0,4));
-		/*UserCareerVo    resumeCareer  = userCareerMapper.resumeCareerfindById(map);
-		UserEducationVo   resumeEdu     = userEducationMapper.resumeEdufindById(map);
-		UserResumeIntroVo resumeIntro   = userResumeIntroMapper.resumeIntrofindById(map);*/
 		ModelAndView mv = new ModelAndView();
 	    if(vo.get("CARRER_YEAR") != null || vo.get("CARRER_MONTH") != null ) {
 	    	vo.put("CAREER_TYPE","exp");
@@ -134,17 +142,19 @@ public class UsersResumeController {
 
         String[] resumeSkillArr = skillString.split(",");
 		vo.put("SKILLS", Arrays.asList(resumeSkillArr));
-		System.out.println(vo);
 		mv.addObject("vo",vo);
+		mv.addObject("map",userData);
 		mv.setViewName("/users/resume/personalResumeOneView");
 		return mv;
 	}
 	
 	@RequestMapping("/UpdateForm")
-	public ModelAndView resumeUpdateForm(@RequestParam HashMap<String, Object> map) {
+	public ModelAndView resumeUpdateForm(@RequestParam HashMap<String, Object> map, HttpServletRequest request) {
 		HashMap<String, Object> vo    				 = usersResumeService.resumeFindById(map);
-		System.out.println(vo);
+		HttpSession session 	                     = request.getSession();
+		UserVo userVo                                = (UserVo) session.getAttribute("userLogin");
 		vo.put("USER_BIRTH", String.valueOf(vo.get("USER_BIRTH")).substring(0,4));
+		HashMap<String, Object> userData             = usersService.getUserData(userVo);
 		List<RegionVo> regionList       			 = regionMapper.getRegionList();
 		List<CommonDutyVo> dutyList   			     = commonDutyMapper.getCommonDutyList();
 		List<SkillStackVo> stackList     			 = skillStackMapper.getSkillStackList();
@@ -159,6 +169,7 @@ public class UsersResumeController {
 		ModelAndView mv = new ModelAndView();
 
 		mv.addObject("vo",vo);
+		mv.addObject("map",userData);
 		mv.addObject("regionList",regionList);
 		mv.addObject("dutyList",dutyList);
 		mv.addObject("stackList",stackList);

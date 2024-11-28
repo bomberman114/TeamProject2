@@ -47,7 +47,14 @@ public interface CompanyRecruitMapper {
 	
 
 	int getSearchCompanyRecruitCountWithConditions(HashMap<String, Object> map);
-
+  
+	List<HashMap<String, Object>> filterRecruitList(HashMap<String, Object> map);
+  
+	void updateViews(CompanyRecruitVo vo);
+  
 	List<HashMap<String, Object>> getSearchCompanyRecruitList(HashMap<String, Object> map);
+
+	List<HashMap<String, Object>> getRecruitListSkillStack(HashMap<String, Object> map);
+
 
 }

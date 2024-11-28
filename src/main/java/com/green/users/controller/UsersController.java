@@ -109,6 +109,12 @@ public class UsersController {
 		return "redirect:/";
 	}
 	
+	public String fileNemeReplace(String fileName) {	
+		fileName = fileName.replace("\\", "/");
+		String path = "/img/commonImage/";
+		fileName = path + fileName;
+		return fileName;
+	}
 	
 	@RequestMapping("/MyPage/Bookmark/List")
 	public ModelAndView personalUserApply(HttpServletRequest request) {
@@ -117,6 +123,11 @@ public class UsersController {
 		HttpSession                   session      = request.getSession();
 		UserVo                        vo           = (UserVo) session.getAttribute("userLogin");
 		List<HashMap<String, Object>> bookmarkList = usersBookmarkMapper.markUpRecruitList(vo.getUser_idx());
+		for (HashMap<String, Object>  recruit : bookmarkList) {
+			String companyImage = fileNemeReplace(String.valueOf(recruit.get("COMPANY_SFILE_NAME")));
+			recruit.put("COMPANY_SFILE_NAME", companyImage);
+		}
+		
 		int                           markupCount  = usersBookmarkMapper.countById(vo.getUser_idx());
 		
 		ModelAndView mv = new ModelAndView();
@@ -134,6 +145,7 @@ public class UsersController {
 		String userId    = map.get("userIdx");
 		String recruitId = map.get("recruitIdx"); 
 		UserBookmarkVo vo = usersBookmarkMapper.findById(userId,recruitId);
+		System.out.println(vo);
 		if(vo != null) {
 			int bookmarkCheck = vo.getBookmark_check();
 			vo.setBookmark_check(bookmarkCheck == 1 ? 0 : 1);
@@ -204,5 +216,13 @@ public class UsersController {
 		res.put("result","지원취소 되었습니다.");
 		return ResponseEntity.ok(res);
 	}
+	
+	@RequestMapping("/MyPage/Joboffer")
+	public ModelAndView joboffer() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/users/personalJoboffer/personalJobOfferMessage");
+		return mv;
+	}
+	
 	
 }
