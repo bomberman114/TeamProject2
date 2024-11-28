@@ -10,4 +10,6 @@ public interface JobofferMessageMapper {
 
 	List<HashMap<String, Object>> getJobofferMessageList(HashMap<String, Object> map);
 
+	void setMessageFrist(HashMap<String, Object> map);
+
 }

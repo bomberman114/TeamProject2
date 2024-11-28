@@ -149,31 +149,32 @@ font-weight: bold;
 </head>
 <body>
 	<%@include file="/WEB-INF/includes/headerCompanyUser.jsp"%>
-<main>
-    <div class="container">
-        <div class="tabs">
-            <h2>채용공고 관리</h2>
-            <div class="link-container">
-                <a href="/CompanyRecruit/RecruitList" class="highlight">전체</a>
-                <span class="separator">|</span>
-                <a href="/CompanyRecruit/DeadRecruittList">마감된 공고</a>
-            </div>
-            <a href="/CompanyRecruit/RecruitWriteForm" class="add-button">채용공고 추가</a>
-        </div>
 
-        <div class="job-list">
-            <c:forEach var="companyRecruitList" items="${companyRecruitList}">
-                <div class="job-card">
-                    <h3>${companyRecruitList.RECRUIT_TITLE}</h3>
-                    <p><a href="/CompanyRecruit/CompanyRecruitUpdateForm?company_recruit_idx=${companyRecruitList.COMPANY_RECRUIT_IDX}">공고 수정</a></p>
-                   <p class="job-info">
-                <span>지원자&nbsp;<strong>${companyRecruitList.APPLICATION_COUNT}명</strong></span>
-                <span>${companyRecruitList.COMPANY_RECRUIT_REGDATE} 등록</span>
-            </p>
-                </div>
-            </c:forEach>
-        </div>
-    </div>
-</main>
+	<main>
+		<div class="container">
+			<h2>채용공고 관리</h2>
+			<div class="tabs">
+				<span class="active"><a href="/CompanyRecruit/RecruitList">전체</a></span>
+				<span>
+					<a href="/CompanyRecruit/DeadRecruittList">마감된 공고</a>
+				</span>
+			</div>
+			<div class="job-list">
+				<c:forEach var="companyRecruitList" items="${companyRecruitList}">
+				<div class="job-card">
+					<h3>${companyRecruitList.RECRUIT_TITLE }</h3>
+					<p><a href="/CompanyRecruit/CompanyRecruitUpdateForm?company_recruit_idx=${companyRecruitList.COMPANY_RECRUIT_IDX}">공고 수정</a></p>
+					<p class="delete">공고 삭제</p>
+					<p>지원자 ${companyRecruitList.APPLICATION_COUNT }명</p>
+					<p>${companyRecruitList.COMPANY_RECRUIT_REGDATE } 등록</p>
+				</div>
+				</c:forEach>
+			</div>
+			<a href="/CompanyRecruit/RecruitWriteForm" class="add-button">채용공고 추가</a>
+			
+			
+		</div>
+	</main>
+
 </body>
 </html>

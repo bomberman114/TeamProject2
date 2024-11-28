@@ -111,12 +111,17 @@ public class CompanyController {
 									  @RequestParam(value="profileImge")  MultipartFile[]   profileImge) {
 		ModelAndView mv = new ModelAndView();
 		CompanyUserVo companyUserVo = (CompanyUserVo) session.getAttribute("companylogin");
+		System.out.println("companyUserVo전:" + companyUserVo);
 		map.put("companyUserVo", companyUserVo);
 		companyUserService.deleteProfileImge(map);
 		companyUserService.setProfileUpdate(map, profileImge);
 		companyUserVo = companyUserMapper.getCompanyUser(companyUserVo);
+		System.out.println("companyUserVo후:" + companyUserVo);
 		
 		//session.invalidate();
+		 LocalDate companyEstablishFormat = LocalDate.parse(companyUserVo.getCompany_establish().substring(0, 10),
+		DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		 companyUserVo.setCompany_establish(String.valueOf(companyEstablishFormat));
 		session.setAttribute("companylogin", companyUserVo);
 	
 		
@@ -267,9 +272,9 @@ public class CompanyController {
 	public ModelAndView companySearchUserResumeOneView (@RequestParam HashMap<String, Object> map) {
 		ModelAndView mv = new ModelAndView();
 		System.out.println(map);
-		
+		map.put("application_idx", null);
 		HashMap<String, Object> userResumeMap = usersResumeService.getuserResumeMap(map);
-		
+		System.out.println("userResumeMap:" + userResumeMap);
 		
 		mv.addObject("vo",userResumeMap);
 		mv.setViewName("/company/companyJoboffer/CompanySearchUserResumeOneView");
