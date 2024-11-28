@@ -17,7 +17,7 @@
     (SELECT CI.COMPANY_SFILE_NAME FROM   COMPANY_IMAGE  CI WHERE CI.COMPANY_USER_IDX = JM.COMPANY_USER_IDX) COMPANY_SFILE_NAME
 FROM
     JOBOFFER_MESSAGES  JM
-WHERE JM.JOB_OFFER_ROOM_IDX = #{job_offer_room_idx}
+WHERE JM.JOB_OFFER_ROOM_IDX = #{joboffer_room_idx}
 ORDER BY 
 	JM.MESSAGE_CONTENT_JOB_OFFERS_REGDATE DESC
     
@@ -28,18 +28,45 @@ ORDER BY
 	   INSERT INTO JOBOFFER_MESSAGES (
     JOB_OFFER_MESSAGES_IDX,
     JOB_OFFER_ROOM_IDX,
-    USER_IDX,
     COMPANY_USER_IDX,
     MESSAGE_CONTENT
     
 ) VALUES (
     JOBOFFER_MESSAGES_SEQ.NEXTVAL,
      #{joboffer_room_idx},
-    #{user_idx},
     (SELECT COMPANY_USER_IDX FROM COMPANY_RECRUIT WHERE COMPANY_RECRUIT_IDX = #{company_recruit_idx}),
     #{link}
 )
 	
+	</insert>
+	
+	<insert id="setMessage">
+	
+	 
+    INSERT INTO JOBOFFER_MESSAGES (
+    JOB_OFFER_MESSAGES_IDX,
+    JOB_OFFER_ROOM_IDX,
+    <if test="user_idx != null">
+    USER_IDX,
+    </if>
+     <if test="company_user_idx != null">
+    COMPANY_USER_IDX,
+    </if>
+    MESSAGE_CONTENT
+   
+) VALUES (
+    JOBOFFER_MESSAGES_SEQ.NEXTVAL,
+    #{joboffer_room_idx},
+    <if test="user_idx != null">
+    #{user_idx},
+    </if>
+    <if test="company_user_idx != null">
+    #{company_user_idx},
+    </if>
+    #{message_content}
+    
+)
+    
 	</insert>
 
 </mapper>

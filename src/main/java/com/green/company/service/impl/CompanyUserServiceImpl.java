@@ -62,7 +62,7 @@ public class CompanyUserServiceImpl implements CompanyUserService {
 		return fileName;
 	}
 
-<
+
 	private String formatDateKorean(String dateStr) {
 		// 입력 문자열에서 날짜 부분만 추출
 		LocalDate date = LocalDate.parse(dateStr.substring(0, 10), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -94,7 +94,6 @@ public class CompanyUserServiceImpl implements CompanyUserService {
 
 		// 2024-11-07 00:00:00.0
 		String companyEstablish = String.valueOf(getCompanyUserData.get("COMPANY_ESTABLISH"));
-
 
 		String formattedEstablishDate = formatDateKorean(companyEstablish);
 
