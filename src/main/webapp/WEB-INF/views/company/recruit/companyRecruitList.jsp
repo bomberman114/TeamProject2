@@ -168,10 +168,10 @@ font-weight: bold;
 </head>
 <body>
 	<%@include file="/WEB-INF/includes/headerCompanyUser.jsp"%>
-<main>
-    <div class="container">
-        <div class="tabs">
-            <h2>채용공고 관리</h2>
+	<main>
+		<div class="container">
+			<div class="tabs">
+			  <h2>채용공고 관리</h2>
             <div class="link-container">
                 <a href="/CompanyRecruit/RecruitList" class="highlight">전체</a>
                 <span class="separator">|</span>
@@ -179,30 +179,29 @@ font-weight: bold;
             </div>
             <a href="/CompanyRecruit/RecruitWriteForm" class="add-button">채용공고 추가</a>
         </div>
-
-        <div class="job-list">
-            <c:forEach var="companyRecruitList" items="${companyRecruitList}">
-                <div class="job-card">
-                 <div class="job-header">
-                    <h3>${companyRecruitList.RECRUIT_TITLE}</h3>
-                         <div class="toggle-btn" onclick="toggleDetails(this)">
+<div class="job-list">
+    <c:forEach var="companyRecruitList" items="${companyRecruitList}">
+        <div class="job-card">
+         <div class="job-header">
+                <h3>${companyRecruitList.RECRUIT_TITLE}</h3>
+                <div class="toggle-btn" onclick="toggleDetails(this)">
                     <img src="/images/icon/toggle.png" alt="토글 아이콘" />
                 </div>
-                </div>
-                    <div class="details" style="display: none;">
-                    <p><a href="/CompanyRecruit/CompanyRecruitUpdateForm?company_recruit_idx=${companyRecruitList.COMPANY_RECRUIT_IDX}">공고 수정</a></p>
-                    <p class="delete">공고 삭제</p>
-                    </div>
-                   <p class="job-info">
+            </div>
+            <div class="details" style="display: none;">
+                <p><a href="/CompanyRecruit/CompanyRecruitUpdateForm?company_recruit_idx=${companyRecruitList.COMPANY_RECRUIT_IDX}">공고 수정</a></p>
+                <p class="delete">공고 삭제</p>
+            </div>
+            <p class="job-info">
                 <span>지원자&nbsp;<strong>${companyRecruitList.APPLICATION_COUNT}명</strong></span>
                 <span>${companyRecruitList.COMPANY_RECRUIT_REGDATE} 등록</span>
             </p>
-                </div>
-            </c:forEach>
         </div>
+    </c:forEach>
+</div>
+
     </div>
-</main>
-<script>
+	<script>
 function toggleDetails(element) {
     const details = element.closest('.job-card').querySelector('.details'); // 부모 요소에서 .details 선택
     if (details.style.display === "none" || details.style.display === "") {

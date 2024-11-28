@@ -22,8 +22,7 @@
     <c:choose>
     	<c:when test="${not empty sessionScope.userLogin}">
     		<ul class="header-right logined">
-		      <li class="user"><span class="bedge role-user">개인</span>${sessionScope.userLogin.user_name}
-
+		      <li class="user"><span class="bedge role-user">개인</span>${sessionScope.userlogin.user_name}
 		      	<ul class="submenu">
 		      		<li><a href="/Users/MyPage/Home">마이페이지</a></li>
 		      		<li><a href="/Users/MyPage/UpdateForm">회원정보수정</a></li>

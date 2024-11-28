@@ -139,9 +139,9 @@ public class CompanyUserServiceImpl implements CompanyUserService {
       companyUserProfile.put("COMPANY_SFILE_NAME", companySfileName);
 
       // 2024-11-07 00:00:00.0
-      String companyEstablish = String.valueOf(companyUserProfile.get("COMPANY_ESTABLISH"));
-
-      String formattedEstablishDate = formatDate(companyEstablish);
+		String companyEstablish = String.valueOf(companyUserProfile.get("COMPANY_ESTABLISH"));
+		
+		String formattedEstablishDate = formatDate(companyEstablish);
 
       companyUserProfile.put("COMPANY_ESTABLISH", formattedEstablishDate);
 
