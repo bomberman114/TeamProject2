@@ -11,7 +11,7 @@
 
           <li><a href="/Company/SearchResumes">지원자검색</a></li>
           <li><a href="/CompanyApply/CompanyRecruitApplyUserResumeAllList">지원자관리</a></li>
-          <li><a href="#">메시지</a></li>
+          <li><a href="/Joboffer/JobOfferRoomComapnyUser">메시지</a></li>
         </ul>
       </div>
       <ul class="header-right logined">
