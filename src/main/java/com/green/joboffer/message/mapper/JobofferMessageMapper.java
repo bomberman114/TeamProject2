@@ -12,4 +12,6 @@ public interface JobofferMessageMapper {
 
 	void setMessageFrist(HashMap<String, Object> map);
 
+	void setMessage(HashMap<String, Object> map);
+
 }

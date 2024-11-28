@@ -22,13 +22,16 @@
 	           <div class="room-inner">
 	             <h3><img src="/images/icon/message.png" alt="메시지" />메시지</h3>
 	             <div class="audience-list">
-	             <c:forEach var="JobOfferRoomCompanyUserList" items="${JobOfferRoomCompanyUserList}">
+	             <c:forEach var="jobOfferRoomCompanyUserList" items="${jobOfferRoomCompanyUserList}">
 	               <div class="audience-item">
-	                 <div class="audience-img"><img alt="" src="<c:url value='${JobOfferRoomCompanyUserList.USER_SFILE_NAME}'/>""> </div>
+	                 <div class="audience-img"><img alt="" src="<c:url value='${jobOfferRoomCompanyUserList.USER_SFILE_NAME}'/>"> </div>
 	                 <div class="audience-info">
 	                   <div>
 	                     <h4>상대 유저이름</h4>
-	                     <p>${ JobOfferRoomCompanyUserList.MESSAGE_CONTENT	}</p>
+	                     <p>${ jobOfferRoomCompanyUserList.MESSAGE_CONTENT	}</p>
+	                     <c:if test="${ jobOfferRoomCompanyUserList.MESSAGE_CONTENT_JOB_OFFERS_REGDATE ne null }">
+	                     <span>마지막 채탱시간 : ${ jobOfferRoomCompanyUserList.MESSAGE_CONTENT_JOB_OFFERS_REGDATE }</span>
+	                     </c:if>
 	                   </div>
 	                   <img src="/images/icon/room-close.png" alt="" />
 	                 </div>
@@ -38,13 +41,31 @@
 	             </div>
 	           </div>
 	           <div class="message-inner">
+	           <form action="/Joboffer/JobOfferCompanyUserMessages" method="post">
+	            <input type="hidden" name="joboffer_room_idx" value="${jobofferRoomIdx}">
 	             <input
+	             	name = "message_content"
 	               class="messageInput"
 	               type="text"
-	               placeholder="메시지 보내기"
-	             />
+	               placeholder="메시지 보내기" />
+	              
+	            
+	           
+	           </form>
 	             <h5>상대 유저이름</h5>
-	             <div class="message-list"></div>
+	             <div class="message-list">
+	             <c:forEach var="jobOfferMessageList"  items="${jobOfferMessageList}">
+	             <div class="message">
+	                     <div class="user-img"><img alt="" src="<c:url value='${jobOfferMessageList.COMPANY_SFILE_NAME}'/>"></div>
+	                     <div>
+	                       <h5>나<span>${jobOfferMessageList.MESSAGE_CONTENT_JOB_OFFERS_REGDATE}</span></h5>
+	                       <p class="my-message">
+	                         ${jobOfferMessageList.MESSAGE_CONTENT}
+	                       </p>
+	                     </div>
+	                   </div>
+	             </c:forEach>
+	             </div>
 	           </div>
 	         </div>
 	       </div>
@@ -95,6 +116,7 @@
 	                   </div>`;
 	     let template2copy = template2
 	     let div2 = "";
+	     /*
 	     for (let i = 0; i < 50; i++) {
 	       if(i % 2 == 0){
 	         template2 = `                <div class="message">
@@ -112,6 +134,7 @@
 	       div2 += template2;
 	     }
 	     $messageList.innerHTML = div2;
+	     */
 	   </script>
   </body>
 </html>

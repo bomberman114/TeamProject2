@@ -80,19 +80,38 @@ public class JobofferServiceImpl implements JobofferService{
 		return jobofferMessageList;
 	}
 
+		
+
 	@Override
-	public List<HashMap<String, Object>> getJobOfferRoomCompanyUserList(HashMap<String, Object> map) {
-		List<HashMap<String, Object>> JobOfferRoomCompanyUserList = JobofferRoomMapper.getJobOfferRoomCompanyUserList(map);
-		for (int i = 0; i < JobOfferRoomCompanyUserList.size(); i++) {
-			if(JobOfferRoomCompanyUserList.get(i).get("USER_SFILE_NAME") != null) {
-				String userSfileName = String.valueOf(JobOfferRoomCompanyUserList.get(i).get("USER_SFILE_NAME") );
+	public List<HashMap<String, Object>> getJobOfferRoomActiveList(HashMap<String, Object> map) {
+		List<HashMap<String, Object>> jobOfferRoomActiveList = JobofferRoomMapper.getJobOfferRoomActiveList(map);
+		for (int i = 0; i < jobOfferRoomActiveList.size(); i++) {
+			String jobofferRoomRegdate = String.valueOf(jobOfferRoomActiveList.get(i).get("JOBOFFER_ROOM_REGDATE"));
+			jobofferRoomRegdate = formatDateKorean(jobofferRoomRegdate);
+			jobOfferRoomActiveList.get(i).put("JOBOFFER_ROOM_REGDATE", jobofferRoomRegdate);
+			
+			if(jobOfferRoomActiveList.get(i).get("USER_SFILE_NAME") != null) {
+				String userSfileName = String.valueOf(jobOfferRoomActiveList.get(i).get("USER_SFILE_NAME") );
 				userSfileName = fileNemeReplace(userSfileName);
-				JobOfferRoomCompanyUserList.get(i).put("USER_SFILE_NAME", userSfileName);
+				jobOfferRoomActiveList.get(i).put("USER_SFILE_NAME", userSfileName);
 			};
-		}
+			if(jobOfferRoomActiveList.get(i).get("COMPANY_SFILE_NAME") != null) {
+				String companyUserSfileName = String.valueOf(jobOfferRoomActiveList.get(i).get("COMPANY_SFILE_NAME"));
+				companyUserSfileName = fileNemeReplace(companyUserSfileName);
+				jobOfferRoomActiveList.get(i).put("COMPANY_SFILE_NAME", companyUserSfileName);
+			};
+			if(jobOfferRoomActiveList.get(i).get("MESSAGE_CONTENT_JOB_OFFERS_REGDATE") != null) {
+				String  messageContentJobOffersRegdate = String.valueOf(jobOfferRoomActiveList.get(i).get("MESSAGE_CONTENT_JOB_OFFERS_REGDATE"));
+				messageContentJobOffersRegdate = formatDateKorean(messageContentJobOffersRegdate);
+				jobOfferRoomActiveList.get(i).put("MESSAGE_CONTENT_JOB_OFFERS_REGDATE", messageContentJobOffersRegdate); 
+			};
+			
+			
+			
+		};
 		
 		
-		return JobOfferRoomCompanyUserList;
+		return jobOfferRoomActiveList;
 	}
 
 }
