@@ -10,7 +10,7 @@
 <link rel="icon" href="/images/favicon.ico" />
 <link rel="stylesheet" href="/css/reset.css" />
 <link rel="stylesheet" href="/css/style.css" />
-<script src="/js/headerSubmenu.js" defer></script>
+
 <style type="text/css">
 .header-container {
 	display: flex;
@@ -118,8 +118,9 @@ h2 {
       flex-direction: column; /* 세로 방향으로 배치 */
     justify-content: space-between; /* 내용 간의 간격을 조정하여 아래로 밀기 */
     display: flex; /* Flexbox 사용 */
-    
+      position: relative; /* 위치 설정 */
 }
+
 
 .job-card h3 {
 	margin: 0 0 10px 0;
@@ -129,6 +130,24 @@ h2 {
 	color: red;
 	cursor: pointer;
 }
+
+.job-header {
+    display: flex; /* Flexbox 사용 */
+    justify-content: space-between; /* 양 끝에 배치 */
+    align-items: center; /* 수직 중앙 정렬 */
+}
+
+.details {
+   display: none;
+          position: absolute;
+          top: 30px;
+          right: 0;
+          padding: 12px 20px;
+          background: #fff;
+          border-radius: 8px;
+          font-weight: 500;
+}
+
 
 .add-button {
     background-color: #e63946; /* 버튼 배경색 */
@@ -164,8 +183,16 @@ font-weight: bold;
         <div class="job-list">
             <c:forEach var="companyRecruitList" items="${companyRecruitList}">
                 <div class="job-card">
+                 <div class="job-header">
                     <h3>${companyRecruitList.RECRUIT_TITLE}</h3>
+                         <div class="toggle-btn" onclick="toggleDetails(this)">
+                    <img src="/images/icon/toggle.png" alt="토글 아이콘" />
+                </div>
+                </div>
+                    <div class="details" style="display: none;">
                     <p><a href="/CompanyRecruit/CompanyRecruitUpdateForm?company_recruit_idx=${companyRecruitList.COMPANY_RECRUIT_IDX}">공고 수정</a></p>
+                    <p class="delete">공고 삭제</p>
+                    </div>
                    <p class="job-info">
                 <span>지원자&nbsp;<strong>${companyRecruitList.APPLICATION_COUNT}명</strong></span>
                 <span>${companyRecruitList.COMPANY_RECRUIT_REGDATE} 등록</span>
@@ -175,5 +202,15 @@ font-weight: bold;
         </div>
     </div>
 </main>
+<script>
+function toggleDetails(element) {
+    const details = element.closest('.job-card').querySelector('.details'); // 부모 요소에서 .details 선택
+    if (details.style.display === "none" || details.style.display === "") {
+        details.style.display = "block"; // 펼치기
+    } else {
+        details.style.display = "none"; // 접기
+    }
+}
+</script>
 </body>
 </html>
