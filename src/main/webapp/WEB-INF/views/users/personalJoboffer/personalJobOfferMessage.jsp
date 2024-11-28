@@ -24,19 +24,19 @@
 	             <div class="audience-list">
 	             <c:forEach var="jobOfferRoomUserList" items="${jobOfferRoomUserList}">
 	               <div class="audience-item">
+	                   	<a href="/Joboffer/JobOfferRoomOneView?joboffer_room_idx=${jobOfferRoomUserList.JOBOFFER_ROOM_IDX } ">
 	                 <div class="audience-img"><img alt="" src="<c:url value='${jobOfferRoomUserList.COMPANY_SFILE_NAME}'/>"> </div>
 	                 <div class="audience-info">
 	                   <div>
-	                   	<a href="/Joboffer/JobOfferRoomOneView?joboffer_room_idx=${jobOfferRoomUserList.JOBOFFER_ROOM_IDX } ">
 	                     <h4>${jobOfferRoomUserList.COMPANY_USER_NAME }</h4>
 	                     <p>${ jobOfferRoomUserList.MESSAGE_CONTENT	}</p>
 	                     <c:if test="${ jobOfferRoomUserList.MESSAGE_CONTENT_JOB_OFFERS_REGDATE ne null }">
 	                     <span>마지막 채탱시간 : ${ jobOfferRoomUserList.MESSAGE_CONTENT_JOB_OFFERS_REGDATE }</span>
 	                     </c:if>
-	                   	</a>
 	                   </div>
 	                   <img src="/images/icon/room-close.png" alt="" />
 	                 </div>
+	                   	</a>
 	               </div>
 	             </c:forEach>
 	             </div>

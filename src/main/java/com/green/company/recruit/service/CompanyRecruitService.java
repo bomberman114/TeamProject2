@@ -31,6 +31,8 @@ public interface CompanyRecruitService {
   
 	List<HashMap<String, Object>> getSearchCompanyRecruitList(HashMap<String, Object> map);
 
+	List<HashMap<String, Object>> getRecruitListSkillStack(HashMap<String, Object> map);
+
 
 
 }

@@ -219,4 +219,18 @@ public class CompanyRecruitServiceImpl implements CompanyRecruitService {
 		return searchCompanyRecruitList;
 	}
 
+
+	@Override
+	public List<HashMap<String, Object>> getRecruitListSkillStack(HashMap<String, Object> map) {
+		List<HashMap<String, Object>> recruitListSkillStack = companyRecruitMapper.getRecruitListSkillStack(map);
+		for(int i = 0;i < recruitListSkillStack.size(); i++ ) {
+			if(recruitListSkillStack.get(i).get("COMPANY_SFILE_NAME") != null) {
+				String companyUserFile =  String.valueOf(recruitListSkillStack.get(i).get("COMPANY_SFILE_NAME"));
+				companyUserFile = fileNemeReplace(companyUserFile);
+				recruitListSkillStack.get(i).put("COMPANY_SFILE_NAME",companyUserFile);
+			};
+		};
+		return recruitListSkillStack;
+	}
+
 }

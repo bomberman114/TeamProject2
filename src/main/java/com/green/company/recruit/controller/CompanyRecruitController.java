@@ -30,6 +30,7 @@ import com.green.skills.stack.mapper.SkillStackMapper;
 import com.green.skills.stack.vo.SkillStackVo;
 import com.green.skills.vo.SkillVo;
 import com.green.user.resume.mapper.UserResumeMapper;
+import com.green.users.vo.UserVo;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -65,31 +66,7 @@ public class CompanyRecruitController {
 	@Autowired
 	private EducationStatusMapper educationStatusMapper;
 	
-	@RequestMapping("/Test")
-	public ModelAndView test (@RequestParam HashMap<String, Object> map) {
-		ModelAndView mv = new ModelAndView();
-		System.out.println("Test:" + map); //Test:{test=<a href="/"><div>asddasd</div></a>}
-		/*
-		<form action="/CompanyRecruit/Test" method="get">
-		<textarea name="test" rows="" cols=""><a href="/"><div>asddasd</div></a></textarea>
-		<input type="submit" value="GO">
-		</form>
-		<form action="/CompanyRecruit/Test" method="get">
-		<textarea name="test" rows="" cols=""><a href="/">
-		<div>asddasd</div><div>dasdad</div>
-		</a></textarea>
-		<input type="submit" value="GO">
-		</form>
-		
-		Test:{test=<a href="/">
-		<div>asddasd</div><div>dasdad</div>
-		</a>}
 
-		
-		*/
-		return mv;
-		
-	}
 	
 	@RequestMapping("/RecruitListAjax")
 	@ResponseBody
@@ -98,6 +75,20 @@ public class CompanyRecruitController {
 		List<HashMap<String, Object>> companyRecruitList = companyRecruitService.getCompanyRecruiteList(companyUserVo);
 		System.out.println("RecruitListAjax:" + companyRecruitList);
 		return companyRecruitList;
+	}
+	
+	@RequestMapping("/RecruitListSkillStackAjax")
+	@ResponseBody
+	public List<HashMap<String, Object>> recruitListSkillStackAjax (HttpSession session,@RequestParam HashMap<String, Object> map) {
+		String skillSTackIdxToString = String.valueOf(map.get("skill_stack_idx"));
+		map.put("skill_stack_idx", skillSTackIdxToString);
+		UserVo userVo      = (UserVo) session.getAttribute("userLogin");
+		//map.put("user_idx", userVo.getUser_idx());  //1일떄 마크업
+		System.out.println(map);
+		List<HashMap<String, Object>> recruitListSkillStack = companyRecruitService.getRecruitListSkillStack(map);
+		System.out.println("recruitListSkillStack :" + recruitListSkillStack);
+		return recruitListSkillStack;
+		
 	}
 	
 	// 회사가 자기들 채용공고 보기

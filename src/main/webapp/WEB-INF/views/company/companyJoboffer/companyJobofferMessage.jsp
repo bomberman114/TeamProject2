@@ -24,6 +24,7 @@
                 <div class="audience-list">
                 <c:forEach var="jobOfferRoomCompanyUserList" items="${jobOfferRoomCompanyUserList}">
                   <div class="audience-item">
+                      <a href="/Joboffer/JobOfferRoomOneView?joboffer_room_idx=${jobOfferRoomCompanyUserList.JOBOFFER_ROOM_IDX } ">
                     <div class="audience-img"><img alt="" src="<c:url value='${jobOfferRoomCompanyUserList.USER_SFILE_NAME}'/>"> </div>
                     <div class="audience-info">
                       <div>
@@ -35,6 +36,7 @@
                       </div>
                       <img src="/images/icon/room-close.png" alt="" />
                     </div>
+                        </a>
                   </div>
                 
                 </c:forEach>
