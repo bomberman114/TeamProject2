@@ -376,6 +376,31 @@ window.onload = function() {
     
     const skillStackEl = document.querySelector('#skillStack');
     const skillEl = document.querySelector('#skill');
+    const selectedSkillsList = document.getElementById('selected-skills-list');
+    //console.log(skillEl);
+    //console.log(selectedSkillsList);
+    // X 버튼 클릭 시 해당 스킬 항목 삭제
+    document.querySelectorAll('#selected-skills-list li button').forEach(button => {
+        button.onclick = function(event) {
+            event.preventDefault();
+            const listItem = button.closest('li');
+            const skillId = listItem.dataset.skillId;
+            console.log(skillId);
+            const hiddenInput = document.querySelector('#hidden-skill-' + listItem.dataset.skillId);
+            const option = document.querySelector('#skill option[value="' + listItem.dataset.skillId + '"]');
+            if (option) {
+                option.selected = false;
+            }  if (listItem) {
+                listItem.remove(); // 목록에서 li 제거
+            }
+            if (hiddenInput) {
+                hiddenInput.remove(); // 숨겨진 input 요소 제거
+            }
+        };
+    });
+    
+    
+    
 
     const recruitWriteEl = document.querySelector('#recruitWrite');
     

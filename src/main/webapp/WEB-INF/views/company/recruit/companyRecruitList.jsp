@@ -111,7 +111,7 @@ h2 {
    border-radius: 5px;
    padding: 15px;
    margin: 10px;
-   flex: 1 1 calc(33% - 20px);
+   flex-basis: 1;
    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     width: 360px;
     height: 200px;
@@ -185,7 +185,9 @@ font-weight: bold;
     <c:forEach var="companyRecruitList" items="${companyRecruitList}">
         <div class="job-card">
          <div class="job-header">
+         		<a href="/Common/RecruitOneView?company_recruit_idx=${companyRecruitList.COMPANY_RECRUIT_IDX }">
                 <h3>${companyRecruitList.RECRUIT_TITLE}</h3>
+                </a>
                 <div class="toggle-btn" onclick="toggleDetails(this)">
                     <img src="/images/icon/toggle.png" alt="토글 아이콘" />
                 </div>

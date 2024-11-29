@@ -97,7 +97,7 @@
           <div class="resume-container">
             <div class="resume-content">
               <div class="user-info">
-                <div class="user-img"></div>
+                <div class="user-img"><img  alt="" src="<c:url value='${vo.USER_SFILE_NAME}'/>"> </div>
                 <div class="user-details">
                   <div class="user-util">
                     <h3>

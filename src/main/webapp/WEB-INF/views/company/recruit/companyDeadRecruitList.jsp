@@ -193,7 +193,9 @@ font-weight: bold;
     <c:forEach var="companyRecruitDeadList" items="${companyRecruitDeadList}">
         <div class="job-card">
          <div class="job-header">
+         	<a href="/Common/RecruitOneView?company_recruit_idx=${companyRecruitDeadList.COMPANY_RECRUIT_IDX }">
                 <h3>${companyRecruitDeadList.RECRUIT_TITLE}</h3>
+             </a>
                 <div class="toggle-btn" onclick="toggleDetails(this)">
                     <img src="/images/icon/toggle.png" alt="토글 아이콘" />
                 </div>

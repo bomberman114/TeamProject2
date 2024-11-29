@@ -210,6 +210,14 @@ public class UserResumeServiceImpl implements UsersResumeService {
 	public void deleteResume(HashMap<String, Object> map) {
 		userResumeMapper.deleteResume(map);
 	}
+	
+	// 파일경로바꾸기
+	public String fileNemeReplace(String fileName) {
+		fileName = fileName.replace("\\", "/");
+		String path = "/img/commonImage/";
+		fileName = path + fileName;
+		return fileName;
+	}
 
 	@Override
 	public HashMap<String, Object> getuserResumeMap(HashMap<String, Object> map) {
@@ -225,6 +233,11 @@ public class UserResumeServiceImpl implements UsersResumeService {
 		userResumeMap.put("USER_BIRTH", userBirth);
 		//System.out.println("전userWookedYearStart:" + userWookedYearStart);
 		//System.out.println("전userWookedYearEnd:" + userWookedYearEnd);
+		if(userResumeMap.get("USER_SFILE_NAME") != null) {
+			String userFile = fileNemeReplace(String.valueOf(userResumeMap.get("USER_SFILE_NAME")));
+			userResumeMap.put("USER_SFILE_NAME", userFile);
+		};
+		
 		if(!userWookedYearStart.equals("null") && !userWookedYearEnd.equals("null")) {
 			careerType(userResumeMap);
 			userWookedYearStart = formatDate(userWookedYearStart);
