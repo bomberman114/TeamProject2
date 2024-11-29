@@ -139,9 +139,11 @@ public class CompanyRecruitServiceImpl implements CompanyRecruitService {
 			// 2024-11-07 00:00:00.0
 			// USER_WOOKED_YEAR_START=202004
 			datetotalMonths(companyRecruitApplyUserResumeAllList.get(i));
-			String appliedDate = String.valueOf(companyRecruitApplyUserResumeAllList.get(i).get("APPLIED_DATE"));
-			//appliedDate = formatDate(appliedDate);
-			companyRecruitApplyUserResumeAllList.get(i).put("APPLIED_DATE",appliedDate);
+			if(companyRecruitApplyUserResumeAllList.get(i).get("APPLIED_DATE") != null){
+				String appliedDate = String.valueOf(companyRecruitApplyUserResumeAllList.get(i).get("APPLIED_DATE"));
+				appliedDate = formatDate(appliedDate);
+				companyRecruitApplyUserResumeAllList.get(i).put("APPLIED_DATE",appliedDate);
+			};
 		};
 
 		System.out.println("companyRecruitApplyUserResumeAllList Service 후:" + companyRecruitApplyUserResumeAllList);

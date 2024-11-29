@@ -323,8 +323,7 @@ border: none;
     font-size: 20px;
     font-weight: bold;
 }
-   
-}
+      
 .title {
     font-size: 36px;
     font-weight: bold;
@@ -740,129 +739,6 @@ window.onload = function() {
                 hiddenInput.value = option.value;
                 hiddenInput.id = 'hidden-skill-' + option.value; // ID로 식별 가능하게 설정
 
-=======
-
-    const recruit_titleEl = document.querySelector('[name="recruit_title"]');
-    const common_duty_idxEl = document.querySelector('[name="common_duty_idx"]');
-    const getmanEl = document.querySelector('[name="getman"]');
-    const application_deadlineEl = document.querySelector('[name="application_deadline"]');
-    const main_work_content1El = document.querySelector('[name="main_work_content1"]');
-    const qualification1El = document.querySelector('[name="qualification1"]');
-    const preferential_treatment1El = document.querySelector('[name="preferential_treatment1"]');
-    const region_idxEl = document.querySelector('[name="region_idx"]');
-    const company_addressEl = document.querySelector('[name="company_address"]');
-    const company_infoEl = document.querySelector('[name="company_info"]');
-    
-    const skillStackEl = document.querySelector('#skillStack');
-    const skillEl = document.querySelector('#skill');
-
-    const recruitWriteEl = document.querySelector('#recruitWrite');
-    
-    const today = new Date().toISOString().split('T')[0];  // 현재 날짜를 'yyyy-MM-dd' 형식으로 가져옴
-
-    // 오늘부터 가능하도록 설정 (채용공고기간)
-    const applicationDeadlineEl = document.querySelector('[name=application_deadline]');
-    applicationDeadlineEl.setAttribute("min", today);
-
-    recruitWriteEl.onsubmit = function() {
-        if (recruit_titleEl.value == "") {
-            alert("공고제목을 입력하세요.");
-            recruit_titleEl.focus();
-            return false;
-        }
-        if (common_duty_idxEl.value == "") {
-            alert("직무를 선택하세요.");
-            common_duty_idxEl.focus();
-            return false;
-        }
-        if (getmanEl.value == "") {
-            alert("모집인원을 입력하세요.");
-            getmanEl.focus();
-            return false;
-        }
-        if (application_deadlineEl.value == "") {
-            alert("마감일을 입력하세요.");
-            application_deadlineEl.focus();
-            return false;
-        }
-        if (main_work_content1El.value == "") {
-            alert("주요업무를 입력하세요.");
-            main_work_content1El.focus();
-            return false;
-        }
-        if (qualification1El.value == "") {
-            alert("자격요건을 입력하세요.");
-            qualification1El.focus();
-            return false;
-        }
-        if (preferential_treatment1El.value == "") {
-            alert("우대사항을 입력하세요.");
-            preferential_treatment1El.focus();
-            return false;
-        }
-        if (region_idxEl.value == "") {
-            alert("근무지역을 선택하세요.");
-            region_idxEl.focus();
-            return false;
-        }
-        if (company_addressEl.value == "") {
-            alert("회사 주소를 입력하세요.");
-            company_addressEl.focus();
-            return false;
-        }
-        if (company_infoEl.value == "") {
-            alert("회사 소개를 입력하세요.");
-            company_infoEl.focus();
-            return false;
-        }
-
-        // 모든 값이 유효할 경우 true 반환
-        return true;
-    };
-
-    skillStackEl.onchange = function() {
-        let skillStack = skillStackEl.value;       
-        const skillSelect = document.getElementById('skill');
-
-        // 기술 스택 초기화 (기본 옵션 제거)
-        skillSelect.innerHTML = ''; // 기존 옵션 제거
-
-        // AJAX 요청으로 서버에 선택된 분야 ID 전송
-        fetch('/CompanyRecruit/SeletedSkillStackSkillList?skill_stack_idx=' + skillStack)
-            .then(response => response.json())
-            .then(data => {
-                // 받아온 기술 스택 목록을 select 요소에 추가
-                data.forEach(skill => {
-                    const option = document.createElement('option');
-                    option.value = skill.skill_idx;
-                    option.textContent = skill.skill_name;
-                    skillSelect.appendChild(option);
-                });
-            })
-            .catch(error => console.error('Error:', error));
-    }; 
-
-    // 선택된 스킬을 목록에 표시하고, 숨겨진 input에 값 저장
-    document.getElementById('skill').onchange = function() {
-        const selectedSkillsList = document.getElementById('selected-skills-list');
-        const selectedOptions = Array.from(this.selectedOptions);
-
-        selectedOptions.forEach(option => {
-            // 이미 선택된 스킬이 목록에 있는지 확인
-            if (!Array.from(selectedSkillsList.children).some(item => item.dataset.skillId === option.value)) {
-                // 선택된 스킬을 표시할 li 요소 생성
-                const listItem = document.createElement('li');
-                listItem.textContent = option.textContent;
-                listItem.dataset.skillId = option.value; // 스킬 ID를 데이터 속성에 저장
-
-                // 숨겨진 input 요소 생성하여 선택한 스킬 값을 폼에 추가
-                const hiddenInput = document.createElement('input');
-                hiddenInput.type = 'hidden';
-                hiddenInput.name = 'skill_idx'; // 서버로 보낼 때 사용될 이름
-                hiddenInput.value = option.value;
-                hiddenInput.id = 'hidden-skill-' + option.value; // ID로 식별 가능하게 설정
-
->>>>>>> bd75c04cbdd8828ead663d63ba5d95ab8c6bc391
                 // X 버튼 생성하여 선택 해제 기능 추가
                 const removeButton = document.createElement('button');
                 removeButton.textContent = 'X';
@@ -916,15 +792,8 @@ function addInput(type) {
         alert('우대사항은 최대 3개까지 추가할 수 있습니다.');
         return;
     }
-<<<<<<< HEAD
     const newInput = document.createElement('input'); // 새로운 입력 필드 생성
     newInput.type = 'text';
-=======
-
-    const newInput = document.createElement('input'); // 새로운 입력 필드 생성
-    newInput.type = 'text';
-
->>>>>>> bd75c04cbdd8828ead663d63ba5d95ab8c6bc391
     // type에 따라 placeholder와 name 속성 설정
     if (type === 'main_work_content') {
         newInput.placeholder = '주요업무를 입력해주세요.';
@@ -939,10 +808,6 @@ function addInput(type) {
         newInput.name = 'preferential_treatment' + (currentInputsBenefits.length + 2); // 우대사항 name 속성
         benefitsContainerEl.appendChild(newInput); // 우대사항 컨테이너에 추가
     }
-<<<<<<< HEAD
-=======
-
->>>>>>> bd75c04cbdd8828ead663d63ba5d95ab8c6bc391
     // 스타일 적용
     newInput.style.width = '97%'; // 너비 설정
     newInput.style.padding = '10px'; // 여백 추가
@@ -955,11 +820,6 @@ function addInput(type) {
     newInput.style.marginBottom = '20px'; // 아래쪽 여백 추가
     newInput.style.marginLeft = '0'; // 왼쪽 여백을 0으로 설정하여 왼쪽으로 더 당김
     newInput.style.outline = 'none'; // 포커스 시 아웃라인 제거
-<<<<<<< HEAD
-=======
-
-
->>>>>>> bd75c04cbdd8828ead663d63ba5d95ab8c6bc391
 }
 </script>
 </head>
@@ -985,13 +845,9 @@ function addInput(type) {
                 <ul class="required-fields">
                     <li><span>*</span> 직무</li>
                     <li><span>&nbsp;&nbsp;</span> 기술스택</li>
-<<<<<<< HEAD
                     <li><span>&nbsp;&nbsp;</span> 개발분야</li>
                     <li><span>*</span> 모집인원</li>
                     <li><span>*</span> 모집부문</li>
-=======
-                    <li><span>*</span> 모집인원</li>
->>>>>>> bd75c04cbdd8828ead663d63ba5d95ab8c6bc391
                     <li><span>*</span> 마감일</li>
                     <li><span>*</span> 주요업무</li>
                     <li><span>*</span> 자격요건</li>
