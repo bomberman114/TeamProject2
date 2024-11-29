@@ -95,9 +95,10 @@
 	</main>
 	<%@include file="/WEB-INF/includes/footer.jsp"%>
 	<script>
-         let recruitListIndex = 0;	
+	
+        let recruitListIndex = 0;	
     
-		  const developRecruitListEl = document.getElementById('develop-recruit-list');
+		    const developRecruitListEl  = document.getElementById('develop-recruit-list');
 	      const $prevBtn              = document.querySelector(".prev-btn");
 	      const $nextBtn              = document.querySelector(".next-btn");
 	      const $developRecruitList   = document.querySelector(".develop-recruit-list");
@@ -125,7 +126,7 @@
 	    	            // 기업 로고 이미지 추가
 	    	            const img = document.createElement('img');
 	    	            console.log(recruitListSkillStack.BOOKMARK_CHECK);
-	    	            if(recruitListSkillStack.BOOKMARK_CHECK === 1){
+	    	            if(recruitListSkillStack.BOOKMARK_CHECK === 1 && "${sessionScope.userLogin.user_idx}" == recruitListSkillStack.USER_IDX){
 	    	            img.className = 'bookmark mark-up';
 	    	            img.src = '/images/icon/mark-up.png'; // 이미지 경로 설정
 	    	            	
@@ -207,18 +208,38 @@
     	  const clicked = e.target
           if (clicked.matches(".bookmark")) {
               if ("${sessionScope.userLogin}") {
-                const userIdx = "${sessionScope.userLogin.user_idx}";
-                const recruitIdx = e.target.dataset.recruitidx;
+                const userIdx      = "${sessionScope.userLogin.user_idx}";
+                const recruitIdx   = e.target.dataset.recruitidx;
+                const bookmarkList = document.querySelectorAll(".bookmark")
                 if (clicked.classList[1] == "mark-down") {
                 	  clicked.classList.remove("mark-down");
                 	  clicked.classList.add("mark-up");
-                      recruitBookMarkAjax(userIdx, recruitIdx);
-                      clicked.src = "/images/icon/mark-up.png";
+                    recruitBookMarkAjax(userIdx, recruitIdx);
+                    
+                    bookmarkList.forEach(bookmark=>{
+                    	if(bookmark.dataset.recruitidx == recruitIdx){
+                    		bookmark.classList.remove("mark-down");
+                    		bookmark.classList.add("mark-up")
+                    		bookmark.src = "/images/icon/mark-up.png";
+                    	}
+                    })
+
+                    
+                    clicked.src = "/images/icon/mark-up.png";
                 } else {
                 	  clicked.classList.remove("mark-up");
                 	  clicked.classList.add("mark-down");
-                      recruitBookMarkAjax(userIdx, recruitIdx);
-                      clicked.src = "/images/icon/mark-off.png";
+                    recruitBookMarkAjax(userIdx, recruitIdx);
+                    
+                    bookmarkList.forEach(bookmark=>{
+                    	if(bookmark.dataset.recruitidx == recruitIdx){
+                    		bookmark.classList.remove("mark-up");
+                    		bookmark.classList.add("mark-down")
+                    		bookmark.src = "/images/icon/mark-off.png";
+                    	}
+                    })
+
+                    clicked.src = "/images/icon/mark-off.png";
                 }
               } else {
                 alert("로그인이 필요합니다.");

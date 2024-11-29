@@ -23,8 +23,7 @@
                 <h3><img src="/images/icon/message.png" alt="메시지" />메시지</h3>
                 <div class="audience-list">
                 <c:forEach var="jobOfferRoomCompanyUserList" items="${jobOfferRoomCompanyUserList}">
-                  <div class="audience-item">
-                      <a href="/Joboffer/JobOfferRoomOneView?joboffer_room_idx=${jobOfferRoomCompanyUserList.JOBOFFER_ROOM_IDX } ">
+	                 <div class="audience-item" data-roomidx="${jobOfferRoomCompanyUserList.JOBOFFER_ROOM_IDX}">
                     <div class="audience-img"><img alt="" src="<c:url value='${jobOfferRoomCompanyUserList.USER_SFILE_NAME}'/>"> </div>
                     <div class="audience-info">
                       <div>
@@ -34,11 +33,8 @@
                         <span>마지막 채탱시간 : ${ jobOfferRoomCompanyUserList.MESSAGE_CONTENT_JOB_OFFERS_REGDATE }</span>
                         </c:if>
                       </div>
-                      <img src="/images/icon/room-close.png" alt="" />
                     </div>
-                        </a>
                   </div>
-                
                 </c:forEach>
                 </div>
               </div>
@@ -83,15 +79,31 @@
       </main>
       <script>
       
-        document.addEventListener("click", function (e) {
-          const $messageRoomList = document.querySelectorAll(".audience-item");
-          if ($messageRoomList && e.target.closest(".audience-item")) {
-            $messageRoomList.forEach((item) => {
-              item.classList.remove("room-active");
-            });
-            e.target.closest(".audience-item").classList.add("room-active");
-          }
-        });
+		   const url = new URLSearchParams(window.location.search)
+		   const uriRoomIdx = url.get('joboffer_room_idx')
+		   console.log(uriRoomIdx)
+		   const $messageRoomList = document?.querySelectorAll(".audience-item");
+		   if(!uriRoomIdx){
+			   $messageRoomList[0].classList.add("room-active")
+		   } else if($messageRoomList){
+			   $messageRoomList.forEach((room)=>{
+				   if(room.dataset.roomidx == uriRoomIdx){
+					   room.classList.add("room-active")
+				   }
+			   })
+		   }
+		   
+		      document.addEventListener("click", function (e) {
+	          const $messageRoomList = document.querySelectorAll(".audience-item");
+	          if ($messageRoomList && e.target.closest(".audience-item")) {
+	             location.href = "/Joboffer/JobOfferRoomOneView?joboffer_room_idx=" + e.target.closest(".audience-item").dataset.roomidx
+	            e.target.closest(".audience-item").classList.add("room-active");
+	          }
+	          if(e.target.matches(".audience-item a")){
+	        	  e.preventDefault();
+	          }
+	        });
+		       
 
 	     let cachedData = null;
 

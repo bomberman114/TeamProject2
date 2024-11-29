@@ -12,11 +12,13 @@
 		INSERT INTO users_bookmark (
 	    bookmark_idx,
 	    user_idx,
-	    company_recruit_idx      ) 
+	    company_recruit_idx,
+	    BOOKMARK_CHECK           ) 
 	  VALUES                     (
 	    USERS_BOOKMARK_SEQ.NEXTVAL,
 	    #{arg0},
-	    #{arg1}   )
+	    #{arg1},
+	    1                        )
 	</insert>
 	
 	<update id="updateBookMark">

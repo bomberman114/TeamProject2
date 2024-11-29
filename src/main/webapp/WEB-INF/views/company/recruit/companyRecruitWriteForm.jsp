@@ -17,10 +17,6 @@
 }
 body {
     padding: 20px;
-<<<<<<< HEAD
-=======
-  
->>>>>>> bd75c04cbdd8828ead663d63ba5d95ab8c6bc391
     margin: 0;
     display: flex;
     flex-direction: column; /* 세로 방향으로 정렬 */
@@ -57,11 +53,7 @@ body {
     margin-bottom: 50px;
 }
 .sidebar {
-<<<<<<< HEAD
-	margin-left:20px;
-=======
-   margin-left:20px;
->>>>>>> bd75c04cbdd8828ead663d63ba5d95ab8c6bc391
+   	margin-left:20px;
     width: 340px; /* 사이드바 고정 너비 설정 */
     background-color: #fff; /* 흰색 배경 */
     padding: 20px;
@@ -72,7 +64,6 @@ body {
       display: flex; /* 플렉스 컨테이너로 설정 */
     flex-direction: column; /* 세로 방향으로 정렬 */
     justify-content: space-between; /* 사이드바 내부 요소를 위 아래로 정렬 */
-<<<<<<< HEAD
 }
 .sidebar-title {
     font-size: 36px;
@@ -81,16 +72,6 @@ body {
     font-weight: bold;
     margin-top: 5px;
 }
-=======
-}
-.sidebar-title {
-    font-size: 36px;
-    position: relative; /* 상대 위치 지정 */
-    padding: 10px; /* 상하좌우 패딩 */
-    font-weight: bold;
-    margin-top: 5px;
-}
->>>>>>> bd75c04cbdd8828ead663d63ba5d95ab8c6bc391
 
 .sidebar-title::after {
     content: ''; /* 가상의 요소 생성 */
@@ -102,7 +83,6 @@ body {
     background: rgba(0, 0, 0, 0.1); /* 선의 색상 */
 }
 .sidebar-subtitle {
-<<<<<<< HEAD
 	margin-left:13px;
 	margin-top:40px;
 	font-size: 20px;
@@ -181,7 +161,7 @@ select {
 }
 #skill{
 	margin-top: 10px; /* 위쪽 여백 제거 */
-    margin-bottom: 20px; /* 아래쪽 여백 제거 */
+  margin-bottom: 20px; /* 아래쪽 여백 제거 */
 }
  #skillStack {
     margin-top: 10px; /* 위쪽 여백 제거 */
@@ -338,12 +318,11 @@ border: none;
 /* 포커스 시 스타일 */
 #main-task:focus {
     border-color: #ffffff; /* 포커스 시 테두리 색상 */
+    margin-left:13px;
+    margin-top:40px;
+    font-size: 20px;
+    font-weight: bold;
 }
-=======
-   margin-left:13px;
-   margin-top:40px;
-   font-size: 20px;
-   font-weight: bold;
    
 }
 .title {
@@ -596,7 +575,6 @@ border: none;
 #main-task:focus {
     border-color: #ffffff; /* 포커스 시 테두리 색상 */
 }
->>>>>>> bd75c04cbdd8828ead663d63ba5d95ab8c6bc391
 
 #qualifications {
  width: 97%; /* 너비 설정 */
@@ -627,11 +605,7 @@ width: 97%; /* 너비 설정 */
 #benefits:focus {
 border-color: #ffffff;
 }
-<<<<<<< HEAD
-=======
 
-
->>>>>>> bd75c04cbdd8828ead663d63ba5d95ab8c6bc391
 #company-desc {
 width: 97%; /* 너비 설정 */
     padding: 10px; /* 여백 추가 */
@@ -642,15 +616,10 @@ width: 97%; /* 너비 설정 */
     margin-bottom: 20px; /* 아래쪽 여백 추가 */
     outline: none; /* 포커스 시 테두리 제거 */
     border: none;
-<<<<<<< HEAD
-=======
- 
->>>>>>> bd75c04cbdd8828ead663d63ba5d95ab8c6bc391
 }
 </style>
 <script type="text/javascript">
 window.onload = function() {
-<<<<<<< HEAD
     const recruit_titleEl = document.querySelector('[name="recruit_title"]');
     const common_duty_idxEl = document.querySelector('[name="common_duty_idx"]');
     const getmanEl = document.querySelector('[name="getman"]');

@@ -46,7 +46,7 @@
 	                </ul>
 	              </div>
 	              <div class="resume-item-bottom">
-	                <p>입사 지원 내역 <span>0건</span></p>
+	                <p>입사 지원 내역 <span>${resume.APPLY_COUNT}건</span></p>
 	                <p>${resume.USER_RESUME_REGDATE} 등록</p>
 	              </div>
 	            </div>

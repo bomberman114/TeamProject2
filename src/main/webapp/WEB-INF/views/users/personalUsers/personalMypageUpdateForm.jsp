@@ -20,7 +20,15 @@
         <div class="inner">
 	        <div class="aside">
 	          <h2>계정 정보 설정</h2>
-	          <div class="user-img"><img class="profile-img" alt="" src="<c:url value='${vo.USER_SFILE_NAME}'/>"></div>
+	          <div class="user-img">
+	          	<c:choose>
+	          		<c:when test="${not empty vo.USER_SFILE_NAME}">
+	          			<img class="profile-img" alt="" src="<c:url value='${vo.USER_SFILE_NAME}'/>">
+	          		</c:when>
+	          		<c:otherwise>
+	          		</c:otherwise>
+        	  	</c:choose>
+	          	</div>
             <input type="file" id="upfile" name="profileImge" aria-label="upfile" accept=".jpg,.jpeg,.png">
 	          <label class="profile-btn" for="upfile">프로필 변경</label>
 	        </div>

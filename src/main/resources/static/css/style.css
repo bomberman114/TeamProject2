@@ -1940,6 +1940,13 @@ footer {
     padding: 12px;
     margin-bottom: 12px;
     cursor: pointer;
+    position : relative;
+    
+    & .room-idx{
+    	position : absolute;
+    	width: 100%;
+    	height: 100%;
+    }
 
     & .audience-img {
       background: #ddd;
