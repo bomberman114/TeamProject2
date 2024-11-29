@@ -11,14 +11,20 @@
 <link rel="stylesheet" href="/css/reset.css" />
 <link rel="stylesheet" href="/css/style.css" />
 <style type="text/css">
+
 body {
-	background-color: #f5f5f5;
-	font-family: "Pretendard", sans-serif;
+background: #F5F5F8;
+
 }
 
+h2 {
+margin-bottom: 25px;
+}
 .main-container {
 	display: flex;
 	padding: 40px;
+	width: 1200px;
+	margin: auto;
 }
 
 .filter-section {
@@ -47,21 +53,22 @@ body {
 }
 
 .resume-list {
-	flex-grow: 1; /* 이력서 목록이 남은 공간을 채우도록 설정 */
-	background-color: #fff;
-	padding: 20px;
 	border-radius: 12px;
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	width: 70%;
+	
 }
 
 .resume-item {
+	background: #ffffff;
 	margin-bottom: 20px;
-	border-bottom: 1px solid #e0e0e0;
-	padding-bottom: 10px;
+	border: 1px solid #e0e0e0;
+	border-radius:12px;
+	padding: 20px;
+	border: 
 }
 .resume-item:hover {
-	background-color: #a23541; /* 호버 시 배경색 */
-    color: white; /* 호버 시 글자색 변경 */
+	background-color: rgb(242,242,242); /* 호버 시 배경색 */
+    color: black; /* 호버 시 글자색 변경 */
 }
 
 
@@ -84,55 +91,74 @@ body {
 .pagination {
 	display: flex;
 	justify-content: center;
-	margin-top: 20px;
+		border-radius: 15px;
 }
 
 .pagination span, .pagination a {
 	margin: 0 5px;
 	padding: 8px 12px;
-	border: 1px solid #d7dce5;
-	border-radius: 4px;
-	color: #333;
+	border: 1px solid #ffffff;
+	border-radius: 15px;
+	color: black;
 	text-decoration: none;
 	cursor: pointer;
 }
-
+.com {
+justify-content:space-between;
+display: flex;
+}
 .current-page {
-	background-color: #EBFFEE;
+	background-color: #ffffff;
 	color: #2E7D32;
 	font-weight: bold;
-	border: 1px solid #2E7D32;
+	border: 1px solid #ffffff;
+	border-radius: 15px;
 }
+
+
+.conditionButton:hover {
+    background-color: #ffffff; /* 호버 시 배경색 */
+    color: black; /* 호버 시 글자색 변경 */
+}
+
+.conditionButtonActive {
+    background-color: white; /* 활성화된 버튼 배경색 */
+    color: black; /* 활성화된 버튼 글자색 */
+    font-weight:bold;
+    border-color: black; /* 활성화된 버튼 테두리 색상 */
+    display: inline-block; /* 인라인 블록으로 설정하여 버튼처럼 보이게 */
+    text-decoration: none; /* 기본 스타일 제거 */
+    padding: 10px 20px; /* 여백 */
+    border: 1px solid #ddd; /* 기본 테두리 추가 */
+    border-radius: 5px; /* 모서리 둥글게 */
+    font-size: 16px; /* 글자 크기 */
+    cursor: pointer; /* 마우스 커서 변경 */
+    transition: background-color 0.3s, border-color 0.3s; /* 배경색과 테두리 색 변화에 애니메이션 추가 */
+}
+
 .conditionButton {
     display: inline-block; /* 인라인 블록으로 설정하여 버튼처럼 보이게 */
     text-decoration: none; /* 기본 스타일 제거 */
     color: black; /* 기본 글자 색상 */
     padding: 10px 20px; /* 여백 */
-    background-color: white; /* 기본 배경색 */
-    border: 1px solid #ddd; /* 기본 테두리 추가 */
+    background-color: #f5f5f5; /* 기본 배경색 */
     border-radius: 5px; /* 모서리 둥글게 */
     font-size: 16px; /* 글자 크기 */
     cursor: pointer; /* 마우스 커서 변경 */
     transition: background-color 0.3s, border-color 0.3s; /* 배경색과 테두리 색 변화에 애니메이션 추가 */
 }
 
-.conditionButton:hover {
-    background-color: #0056b3; /* 호버 시 배경색 */
-    color: white; /* 호버 시 글자색 변경 */
+.search {
+	background:#ffffff;
+	border: 1px solid #d7dce5;
+	width: 100%;
+	height: 35px;
+	border-radius: 8px;
 }
 
-.conditionButtonActive {
-    background-color: #a23541; /* 활성화된 버튼 배경색 */
-    color: white; /* 활성화된 버튼 글자색 */
-    border-color: #a23541; /* 활성화된 버튼 테두리 색상 */
-    display: inline-block; /* 인라인 블록으로 설정하여 버튼처럼 보이게 */
-    text-decoration: none; /* 기본 스타일 제거 */
-    padding: 10px 20px; /* 여백 */
-    border: 1px solid #ddd; /* 기본 테두리 추가 */
-    border-radius: 5px; /* 모서리 둥글게 */
-    font-size: 16px; /* 글자 크기 */
-    cursor: pointer; /* 마우스 커서 변경 */
-    transition: background-color 0.3s, border-color 0.3s; /* 배경색과 테두리 색 변화에 애니메이션 추가 */
+.buuuuuton {
+	background: #F8F8F8;
+	padding: 10px;
 }
 
 
@@ -307,6 +333,8 @@ body {
         };
     };
     
+    
+    
     </script>
 </head>
 <body>
@@ -330,12 +358,17 @@ body {
 					</c:forEach>
 					<c:set var="condition" value="${param.condition}" />
 					<c:set var="regdate" value="UR.USER_RESUME_REGDATE" />
+					
+					
+					<div style="display: flex; gap: 1px;">
+					<div class="buuuuuton"> <!-- 버튼 사이의 간격을 설정 -->
 					<a class=" ${condition eq regdate ? 'conditionButtonActive' : 'conditionButton'}" href="${url}&condition=${regdate}">최신순</a>
 					<c:set var="views" value="UR.USER_RESUME_VIEWS" />
 					<a class="${condition eq views ? 'conditionButtonActive' : 'conditionButton'}" href="${url}&condition=${views}">인기순</a>
+					</div>
+					</div>
 					
-					
-					<p>기술스택</p>
+					<p><b>기술스택</b></p>
 					<select id="skills">
 						<option value="">기술스택 선택</option>
 						<c:forEach var="skillList" items="${skillList}">
@@ -355,7 +388,7 @@ body {
 							</c:forEach>
 						</c:if>
 					</ul>
-					<p>직무</p>
+					<p><b>직무</b></p>
 					<select id="commonDutys">
 						<option value="">직무 선택</option>
 						<c:forEach var="commonDutyList" items="${commonDutyList}">
@@ -376,7 +409,7 @@ body {
 							</c:forEach>
 						</c:if>
 					</ul>
-					<p>지역</p>
+					<p><b>지역</b></p>
 					<select id="regions">
 						<option value="">지역 선택</option>
 						<c:forEach var="regionList" items="${regionList}">
@@ -399,7 +432,7 @@ body {
 				</div>
 				<input type="hidden" name="nowpage" value="${nowpage}" >
 				<input type="hidden" name="pageSize" value="${pageSize}" >
-				<br> <input type="submit" value="검색">
+				<br> <input type="submit" value="검색" class="search">
 			</form>
 		</section>
 
@@ -409,7 +442,7 @@ body {
 		        <div class="resume-item">
 		        <a class="resume" href="/Company/CompanySearchUserResumeOneView?user_resume_idx=${userResume.USER_RESUME_IDX}">
 		            <h3>${userResume.USER_TITLE}</h3>
-		            <p>${userResume.USER_NAME} · ${userResume.USER_AGE}세 · 
+		            <p><strong>${userResume.USER_NAME}</strong> · ${userResume.USER_AGE}세 · 
 		            <c:if test="${userResume.USER_CAREER_IDX eq null }">
 		            신입
 		            </c:if>
@@ -419,8 +452,7 @@ body {
 		            </p>
 		            <p>${ userResume.EDUCATION_STATUS_TYPE}</p>
 		            <p>${ userResume.COMMON_DUTY_NAME}</p>
-		            <p>${userResume.SKILL_NAME}</p>
-		            <span>${userResume.USER_RESUME_REGDATE} 등록</span>
+		            <p class="com">${userResume.SKILL_NAME} <span>${userResume.USER_RESUME_REGDATE} 등록</span></p>
 		           </a>
 		        </div>
 		    </c:forEach>

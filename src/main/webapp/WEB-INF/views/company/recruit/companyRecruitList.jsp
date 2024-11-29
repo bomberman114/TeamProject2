@@ -167,13 +167,19 @@ font-weight: bold;
 <title>채용공고 관리</title>
 </head>
 <body>
+<<<<<<< HEAD
+=======
 
+>>>>>>> 6160dad7770f63e762232fd2576892afca2e7431
 	<%@include file="/WEB-INF/includes/headerCompanyUser.jsp"%>
 	<main>
 		<div class="container">
 			<div class="tabs">
 			  <h2>채용공고 관리</h2>
+<<<<<<< HEAD
+=======
 
+>>>>>>> 6160dad7770f63e762232fd2576892afca2e7431
             <div class="link-container">
                 <a href="/CompanyRecruit/RecruitList" class="highlight">전체</a>
                 <span class="separator">|</span>

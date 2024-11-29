@@ -69,6 +69,8 @@
             border: none; /* 테두리 제거 */
             border-radius: 5px; /* 모서리 둥글게 */
             cursor: pointer; /* 커서 변경 */
+            width: 100%;
+            text-align: center;
         }
         
          .write-btn-select {
@@ -81,7 +83,7 @@
         }
 
         .cancel-button {
-            padding: 10px 15px; /* 버튼 안쪽 여백 */
+            padding:0px 15px; /* 버튼 안쪽 여백 */
             background-color: #white; /* 취소 버튼 색상 */
             color: white; /* 글씨 색상 */
             border-radius: 5px; /* 모서리 둥글게 */

@@ -53,7 +53,11 @@ body {
     margin-bottom: 50px;
 }
 .sidebar {
+<<<<<<< HEAD
+      margin-left:20px;
+=======
    	margin-left:20px;
+>>>>>>> 6160dad7770f63e762232fd2576892afca2e7431
     width: 340px; /* 사이드바 고정 너비 설정 */
     background-color: #fff; /* 흰색 배경 */
     padding: 20px;
@@ -83,11 +87,19 @@ body {
     background: rgba(0, 0, 0, 0.1); /* 선의 색상 */
 }
 .sidebar-subtitle {
+<<<<<<< HEAD
+   margin-left:13px;
+   margin-top:40px;
+   font-size: 20px;
+   font-weight: bold;
+   
+=======
 	margin-left:13px;
 	margin-top:40px;
 	font-size: 20px;
 	font-weight: bold;
 	
+>>>>>>> 6160dad7770f63e762232fd2576892afca2e7431
 }
 .title {
     font-size: 36px;
@@ -126,7 +138,7 @@ body {
     border: 1px solid #dc3545;
 }
 .required-fields {
-	margin-left:13px;
+   margin-left:13px;
 }
 .jickmu {
   border: none; 
@@ -147,7 +159,7 @@ select {
     margin-top: 0px;
     margin-bottom: 0px;
     background: #F5F5F8;
-	border: none; 
+   border: none; 
     border-radius: 5px;
     height: auto; /* 자동 높이 설정 */
 }
@@ -160,7 +172,11 @@ select {
     color: gray; /* 모든 옵션의 텍스트 색상 설정 */
 }
 #skill{
+<<<<<<< HEAD
+   margin-top: 10px; /* 위쪽 여백 제거 */
+=======
 	margin-top: 10px; /* 위쪽 여백 제거 */
+>>>>>>> 6160dad7770f63e762232fd2576892afca2e7431
   margin-bottom: 20px; /* 아래쪽 여백 제거 */
 }
  #skillStack {
