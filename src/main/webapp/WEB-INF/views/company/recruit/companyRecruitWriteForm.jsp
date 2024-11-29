@@ -53,7 +53,7 @@ body {
     margin-bottom: 50px;
 }
 .sidebar {
-   margin-left:20px;
+   	margin-left:20px;
     width: 340px; /* 사이드바 고정 너비 설정 */
     background-color: #fff; /* 흰색 배경 */
     padding: 20px;
@@ -161,7 +161,7 @@ select {
 }
 #skill{
 	margin-top: 10px; /* 위쪽 여백 제거 */
-    margin-bottom: 20px; /* 아래쪽 여백 제거 */
+  margin-bottom: 20px; /* 아래쪽 여백 제거 */
 }
  #skillStack {
     margin-top: 10px; /* 위쪽 여백 제거 */
@@ -318,13 +318,12 @@ border: none;
 /* 포커스 시 스타일 */
 #main-task:focus {
     border-color: #ffffff; /* 포커스 시 테두리 색상 */
+    margin-left:13px;
+    margin-top:40px;
+    font-size: 20px;
+    font-weight: bold;
 }
-   margin-left:13px;
-   margin-top:40px;
-   font-size: 20px;
-   font-weight: bold;
-   
-}
+      
 .title {
     font-size: 36px;
     font-weight: bold;
@@ -605,6 +604,7 @@ width: 97%; /* 너비 설정 */
 #benefits:focus {
 border-color: #ffffff;
 }
+
 #company-desc {
 width: 97%; /* 너비 설정 */
     padding: 10px; /* 여백 추가 */
@@ -619,7 +619,6 @@ width: 97%; /* 너비 설정 */
 </style>
 <script type="text/javascript">
 window.onload = function() {
-
     const recruit_titleEl = document.querySelector('[name="recruit_title"]');
     const common_duty_idxEl = document.querySelector('[name="common_duty_idx"]');
     const getmanEl = document.querySelector('[name="getman"]');

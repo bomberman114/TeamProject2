@@ -17,7 +17,15 @@
     <main class="mypage-home">
       <div class="inner">
         <aside>
-          <div class="user-img"><img class="profile-img" alt="" src="<c:url value='${vo.USER_SFILE_NAME}'/>"></div>
+          <div class="user-img">
+          	<c:choose>
+	            <c:when test="${not empty vo.USER_SFILE_NAME}">
+          			<img class="profile-img" alt="" src="<c:url value='${vo.USER_SFILE_NAME}'/>">
+          		</c:when>
+          		<c:otherwise>
+          		</c:otherwise>
+          	</c:choose>
+          </div>
           <ul class="user-menu">
             <li><a href="/Users/MyPage/UpdateForm">계정 정보 설정</a></li>
             <li><a href="#">계정 탈퇴</a></li>

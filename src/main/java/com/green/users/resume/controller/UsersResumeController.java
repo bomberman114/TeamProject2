@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.green.application.mapper.ApplicationMapper;
 import com.green.common.duty.mapper.CommonDutyMapper;
 import com.green.common.duty.vo.CommonDutyVo;
 import com.green.education.status.mapper.EducationStatusMapper;
@@ -60,7 +61,7 @@ public class UsersResumeController {
 	@Autowired
 	private CommonUserResumeSkillMapper commonUserResumeSkillMapper;
 	
-
+	
 	@RequestMapping("/List")
 	public ModelAndView resumeList(
 			HttpServletRequest request, HttpServletResponse responese) {
@@ -68,6 +69,7 @@ public class UsersResumeController {
 		HttpSession session = request.getSession();
 		UserVo vo           = (UserVo) session.getAttribute("userLogin");
 		List<HashMap<String, Object>> resumeList = usersResumeService.findResumeAll(vo);
+		System.out.println(resumeList);
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("vo",vo);
 		mv.addObject("resumeList",resumeList);
@@ -91,6 +93,7 @@ public class UsersResumeController {
 		List<SkillStackVo> stackList    = skillStackMapper.getSkillStackList();
 		List<SkillVo> initialSkillList  = skillsMapper.getSeletedSkillStackSkillList(1);
 		List<EducationStatusVo> eduList = educationStatusMapper.getEducationStatuList();
+		System.out.println(map);
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("vo",vo);
 		mv.addObject("userBirthYear",userBirthYear);

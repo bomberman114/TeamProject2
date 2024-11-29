@@ -131,11 +131,6 @@
 	        console.log("Error Ajax",err)
 	      }
 	    }
-    
-
-	    
-	    
-	    
     </script>
   </body>
 </html>

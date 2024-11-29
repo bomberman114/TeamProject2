@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Param;
 import com.green.application.vo.AppllicationVo;
 import com.green.company.recruit.vo.CompanyRecruitVo;
 import com.green.company.vo.CompanyUserVo;
+import com.green.users.vo.UserVo;
 
 @Mapper
 public interface ApplicationMapper {
@@ -27,5 +28,7 @@ public interface ApplicationMapper {
 	AppllicationVo findById(Map<String, String> map);
 
 	void deleteUserApply(Map<String, String> map);
+
+	List<Integer> getApplyCount(UserVo vo);
 
 }

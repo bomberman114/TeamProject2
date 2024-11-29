@@ -22,7 +22,16 @@
           <div class="resume-container">
             <div class="resume-content">
               <div class="user-info">
-                <div class="user-img"><img alt="프로필 이미지" src="${map.USER_SFILE_NAME}"></div>
+	              <div class="user-img">
+		          	<c:choose>
+		          		<c:when test="${not empty map.USER_SFILE_NAME}">
+		          			<img class="profile-img" alt="" src="<c:url value='${map.USER_SFILE_NAME}'/>">
+		          		</c:when>
+		          		<c:otherwise>
+		          		</c:otherwise>
+	        	  	</c:choose>
+		          	</div>
+
                 <div class="user-details">
                   <div class="user-util">
                     <h3>
