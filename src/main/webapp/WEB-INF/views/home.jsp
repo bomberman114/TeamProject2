@@ -142,17 +142,27 @@
 	    	            const recruitImg = document.createElement('div');
 	    	            recruitImg.className = 'recruit-img';
 	    	            
-	    	            const dimmed = document.createElement("a")
-	    	            dimmed.href = "/Common/RecruitOneView?company_recruit_idx=" + recruitListSkillStack.COMPANY_RECRUIT_IDX
-	    	            recruitImg.appendChild(dimmed);
-	    	            
+	    	            if(recruitListSkillStack.COMPANY_SFILE_NAME != null){
+		    	        		const dimmed = document.createElement("a")
+		    	            dimmed.href = "/Common/RecruitOneView?company_recruit_idx=" + recruitListSkillStack.COMPANY_RECRUIT_IDX
+		    	            recruitImg.appendChild(dimmed);
+	    	        		}else{
+	    	        			 const dimmed = document.createElement("a")
+  		    	            dimmed.href = "/Common/RecruitOneView?company_recruit_idx=" + recruitListSkillStack.COMPANY_RECRUIT_IDX
+  		    	            dimmed.classList.add("not-image");
+	    	        			  dimmed.textContent = "등록된 이미지가 없습니다."
+  		    	            recruitImg.appendChild(dimmed);
+	    	        		}
+	    	      
 	    	            const recruitInfo = document.createElement('div');
 	    	            recruitInfo.className = 'recruit-info';
 	    	            		
-	    	            const logoImg = document.createElement('img');
-	    	            logoImg.alt = ''; // 대체 텍스트 설정
-	    	            logoImg.src = recruitListSkillStack.COMPANY_SFILE_NAME; // 기업 로고 이미지 설정
-	    	            recruitImg.appendChild(logoImg); // 로고 이미지를 div에 추가
+	    	            if(recruitListSkillStack.COMPANY_SFILE_NAME != null){
+		    	            const logoImg = document.createElement('img');
+		    	            logoImg.alt = ''; // 대체 텍스트 설정
+		    	            logoImg.src = recruitListSkillStack.COMPANY_SFILE_NAME; // 기업 로고 이미지 설정
+		    	            recruitImg.appendChild(logoImg); // 로고 이미지를 div에 추가	    	            	
+	    	            }
 
 	    	            // 기업 정보 추가
 	    	            const companyInfo = document.createElement('div');

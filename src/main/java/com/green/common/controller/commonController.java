@@ -215,10 +215,17 @@ public class commonController {
         map.put("SKILLS", Arrays.asList(resumeSkillArr));
         HashMap<String, Object> companyHistory = companyRecruitService.getCompanyHistory(vo.getCompany_recruit_idx());
         HashMap<String, Object> companyImage   = companyImageMapper.findById(vo);
-        String imageSrc = fileNemeReplace(String.valueOf(companyImage.get("COMPANY_SFILE_NAME")));
-        companyImage.put("COMPANY_SFILE_NAME", imageSrc);
+        
         
         ModelAndView mv = new ModelAndView();
+        
+        if(companyImage != null) {
+        	String imageSrc = fileNemeReplace(String.valueOf(companyImage.get("COMPANY_SFILE_NAME")));
+        	companyImage.put("COMPANY_SFILE_NAME", imageSrc);
+        	mv.addObject("companyImage",companyImage);
+        	
+        }
+        
 		HttpSession                   session      = request.getSession();
 		UserVo                        userVo       = (UserVo) session.getAttribute("userLogin");
 		if(userVo != null) {
@@ -232,7 +239,6 @@ public class commonController {
 
 		mv.addObject("vo",map);
 		mv.addObject("companyHistory",companyHistory);
-		mv.addObject("companyImage",companyImage);
 		mv.setViewName("/common/commonRecruitOneView");
 		return mv;
 	}
