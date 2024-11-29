@@ -115,6 +115,7 @@
 	    	        recruitListIndex = 0;
 	    	        moveRecruitList(recruitListIndex);
 	    	        $prevBtn.style.display = "none";
+	    	        $nextBtn.style.display = "block" 
     	       		const developRecruitListEl = document.getElementById('develop-recruit-list');
     	            developRecruitListEl.innerHTML = '';
 	    	        data.forEach(function(recruitListSkillStack) {
