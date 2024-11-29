@@ -126,7 +126,7 @@ body {
     border: 1px solid #dc3545;
 }
 .required-fields {
-	margin-left:13px;
+   margin-left:13px;
 }
 .jickmu {
   border: none; 
@@ -147,7 +147,7 @@ select {
     margin-top: 0px;
     margin-bottom: 0px;
     background: #F5F5F8;
-	border: none; 
+   border: none; 
     border-radius: 5px;
     height: auto; /* 자동 높이 설정 */
 }

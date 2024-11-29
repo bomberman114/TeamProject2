@@ -513,7 +513,7 @@ window.onload = function() {
                 removeButton.textContent = 'X';
                 removeButton.style.marginLeft = '10px';
                 removeButton.onclick = function() {
-                    option.selected = false; // select에서 선택 해제
+                    	.selected = false; // select에서 선택 해제
                     listItem.remove(); // 목록에서 li 제거
                     hiddenInput.remove(); // 숨겨진 input 요소 제거
                 };

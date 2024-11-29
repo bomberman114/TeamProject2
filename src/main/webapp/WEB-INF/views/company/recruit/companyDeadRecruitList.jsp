@@ -104,10 +104,8 @@ h2 {
 	border-radius: 5px;
 	padding: 15px;
 	margin: 10px;
-	flex: 1 1 calc(33% - 20px);
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 	 width: 360px;
-
     height: 200px;
       flex-direction: column; /* 세로 방향으로 배치 */
     justify-content: space-between; /* 내용 간의 간격을 조정하여 아래로 밀기 */
