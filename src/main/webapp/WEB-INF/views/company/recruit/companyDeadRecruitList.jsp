@@ -106,10 +106,6 @@ h2 {
 	margin: 10px;
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 	 width: 360px;
-<<<<<<< HEAD
-=======
-
->>>>>>> 6160dad7770f63e762232fd2576892afca2e7431
     height: 200px;
       flex-direction: column; /* 세로 방향으로 배치 */
     justify-content: space-between; /* 내용 간의 간격을 조정하여 아래로 밀기 */
@@ -171,11 +167,7 @@ h2 {
      margin-top: auto; /* 위쪽 여백을 자동으로 설정하여 아래로 밀기 */
 }
 .highlight {
-<<<<<<< HEAD
-color: red;	  
-=======
 color: red;   
->>>>>>> 6160dad7770f63e762232fd2576892afca2e7431
 font-weight: bold;
 }
 
@@ -199,7 +191,9 @@ font-weight: bold;
     <c:forEach var="companyRecruitDeadList" items="${companyRecruitDeadList}">
         <div class="job-card">
          <div class="job-header">
+         	<a href="/Common/RecruitOneView?company_recruit_idx=${companyRecruitDeadList.COMPANY_RECRUIT_IDX }">
                 <h3>${companyRecruitDeadList.RECRUIT_TITLE}</h3>
+             </a>
                 <div class="toggle-btn" onclick="toggleDetails(this)">
                     <img src="/images/icon/toggle.png" alt="토글 아이콘" />
                 </div>

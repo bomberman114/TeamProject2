@@ -50,7 +50,7 @@
           <div class="resume-container">
             <div class="resume-content">
               <div class="user-info">
-                <div class="user-img"></div>
+                <div class="user-img"><img  alt="" src="<c:url value='${vo.USER_SFILE_NAME}'/>"></div>
                 <div class="user-details">
                   <div class="user-util">
                     <h3>
@@ -154,7 +154,6 @@
                <h3>${vo.USER_TITLE}</h3>
               <div class="write-btn-container">
           <button type="button" class="write-btn" id="job-offer-btn">채용제의</button>
-          <button type="button" class="write-btn">스크랩</button>
           <a href="/Company/SearchResumes">돌아가기</a>
         </div>
       </div>
@@ -166,11 +165,11 @@
             <span>채용 제의</span>
             <img src="/images/icon/stack-remove.png" alt="" class="close-modal" />
         </div>
-            <form id="job-offer-form" method="post" action="/Joboffer/JobOfferRoomCreate">
+            <form id="job-offer-form" method="get" action="/Joboffer/JobOfferRoomCreate" >
             <input type="hidden" name="user_idx"  value="${vo.USER_IDX }">
         <div class="modal-content" id="modal-content">
             <div id="recruitList"></div>
-                <div class="modal-bar" style="display: flex; justify-content: center; cursor: pointer;" onclick="document.getElementById('job-offer-form').submit();">
+                <div  class="modal-bar" style="display: flex; justify-content: center; cursor: pointer;"  onclick="document.getElementById('job-offer-form').submit();">
                     <span>채용제의</span>
                 </div>
               
@@ -182,6 +181,24 @@
   
     </main>
     <script>
+    /*
+    document.getElementById("job-offer-form").addEventListener("submit", function (e) {
+        // 채용 공고 라디오 버튼 확인
+        const selectedRecruit = document.querySelector('input[name="company_recruit_idx"]:checked');
+		
+        // 선택된 항목이 없을 경우 제출 방지
+        if (!selectedRecruit) {
+            e.preventDefault(); // 폼 제출 막기
+            alert("채용 공고를 선택해주세요."); // 경고 메시지 표시
+            return false;
+        }
+
+        // 선택된 경우 정상적으로 제출
+        alert("채용 제의가 제출되었습니다."); 
+        document.getElementById("job-offer-modal").style.display = "none";
+    });
+
+    */
     
     document.getElementById("job-offer-btn").addEventListener("click", function(e) {
   
@@ -251,8 +268,9 @@
     document.getElementById("job-offer-form").addEventListener("submit", function(e) {
         e.preventDefault();
         alert("채용 제의가 제출되었습니다."); 
-        document.getElementById("job-offer-modal").style.display = "none";
+       
     });
+    
     </script>
     
   </body>
