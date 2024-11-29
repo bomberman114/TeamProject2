@@ -185,28 +185,20 @@ padding-bottom: 10px;
 				<h3 class="section-title">나의 현황</h3>
 				  <ul class="user-apply">
             <li>
-              <a href="/Users/MyPage/Apply/List">
                 <p>신규 지원자</p>
                 <p>${applicationStatusIdx.APPLICATION_STATUS_IDX1}</p>
-              </a>
             </li>
             <li>
-              <a href="/Users/MyPage/Apply/List">
                 <p>서류통과</p>
                 <p>${applicationStatusIdx.APPLICATION_STATUS_IDX2}</p>
-              </a>
             </li>
             <li>
-              <a href="/Users/MyPage/Apply/List">
                 <p>최종합격</p>
                 <p>${applicationStatusIdx.APPLICATION_STATUS_IDX3}</p>
-              </a>
             </li>
             <li>
-              <a href="/Users/MyPage/Apply/List">
                 <p>불합격</p>
                 <p>${applicationStatusIdx.APPLICATION_STATUS_IDX4}</p>
-              </a>
             </li>
           </ul>
 			
