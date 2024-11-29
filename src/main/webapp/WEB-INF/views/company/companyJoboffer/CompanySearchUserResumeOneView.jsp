@@ -19,23 +19,9 @@
     text-align: center;
     }
     
-    #job-offer-modal {
-    display: none; /* 기본적으로 숨김 */
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 480px; /* 모달 너비 */
-    overflow: hidden; /* 기본 오버플로우 숨김 */
-    background-color: #fff; /* 배경색 */
-    border-radius: 8px; /* 모서리 둥글게 */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* 그림자 */
-    z-index: 1000; /* 최상위 요소로 */
-    height: 670px;
 }
 
 #recruitList {
-    max-height: 580px; /* 원하는 최대 높이 설정 */
     overflow-y: auto; /* 세로 스크롤 가능 */
     width: 480px;
  

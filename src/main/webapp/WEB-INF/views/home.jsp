@@ -11,12 +11,6 @@
 <link rel="stylesheet" href="/css/reset.css" />
 <link rel="stylesheet" href="/css/style.css" />
 <script src="/js/headerMain.js" defer></script>
-<script type="text/javascript">
-window.onload = function(){
-	
-	
-};
-</script>
 </head>
 <body>
 	<%@include file="/WEB-INF/includes/headerMain.jsp"%>
@@ -38,11 +32,6 @@ window.onload = function(){
 						src="/images/icon/carasel-right.png" alt="다음 버튼">
 					<div class="carasel-inner">
 						<div id="develop-recruit-list" class="develop-recruit-list">
-							
-						
-							
-							
-							
 						</div>
 					</div>
 				</div>
@@ -73,9 +62,8 @@ window.onload = function(){
 						<c:choose>
 							<c:when test="${not empty recruit.COMPANY_SFILE_NAME}">
 								<div class="recruit-img">
-									<a
-										href="/Common/RecruitOneView?company_recruit_idx=${recruit.COMPANY_RECRUIT_IDX}"></a><img
-										alt="" src="<c:url value='${recruit.COMPANY_SFILE_NAME}'/>">
+									<a href="/Common/RecruitOneView?company_recruit_idx=${recruit.COMPANY_RECRUIT_IDX}"></a>
+									<img alt="" src="<c:url value='${recruit.COMPANY_SFILE_NAME}'/>">
 								</div>
 							</c:when>
 							<c:otherwise>
@@ -107,18 +95,30 @@ window.onload = function(){
 	</main>
 	<%@include file="/WEB-INF/includes/footer.jsp"%>
 	<script>
-	window.onload = function(){
-		
-		  const developRecruitListEl = document.getElementById('develop-recruit-list');
+	
+        let recruitListIndex = 0;	
+    
+		    const developRecruitListEl  = document.getElementById('develop-recruit-list');
+	      const $prevBtn              = document.querySelector(".prev-btn");
+	      const $nextBtn              = document.querySelector(".next-btn");
+	      const $developRecruitList   = document.querySelector(".develop-recruit-list");
 	    	// AJAX 요청
-	    	fetch('/CompanyRecruit/RecruitListSkillStackAjax?skill_stack_idx=' + 3)
+	     getDevelopRecruitListAjax()
+	     	
+	      function getDevelopRecruitListAjax(developValue = 3){
+	    		
+	    	fetch('/CompanyRecruit/RecruitListSkillStackAjax?skill_stack_idx=' + developValue)
 	    	    .then(response => response.json())
 	    	    .then(data => {
 	    	        // 받아온 채용 공고 목록을 추가
 	    	        //console.log(data);
+	    	        recruitListIndex = 0;
+	    	        moveRecruitList(recruitListIndex);
+	    	        $prevBtn.style.display = "none";
+    	       		const developRecruitListEl = document.getElementById('develop-recruit-list');
+    	            developRecruitListEl.innerHTML = '';
 	    	        data.forEach(function(recruitListSkillStack) {
-	    	       // console.log(recruitListSkillStack);
-	    	        	
+
 	    	            // recruit-card div 생성
 	    	            const recruitCard = document.createElement('div');
 	    	            recruitCard.className = 'recruit-card';
@@ -126,7 +126,7 @@ window.onload = function(){
 	    	            // 기업 로고 이미지 추가
 	    	            const img = document.createElement('img');
 	    	            console.log(recruitListSkillStack.BOOKMARK_CHECK);
-	    	            if(recruitListSkillStack.BOOKMARK_CHECK === 1){
+	    	            if(recruitListSkillStack.BOOKMARK_CHECK === 1 && "${sessionScope.userLogin.user_idx}" == recruitListSkillStack.USER_IDX){
 	    	            img.className = 'bookmark mark-up';
 	    	            img.src = '/images/icon/mark-up.png'; // 이미지 경로 설정
 	    	            	
@@ -141,6 +141,14 @@ window.onload = function(){
 	    	            // 기업 로고 및 직무 이미지 추가
 	    	            const recruitImg = document.createElement('div');
 	    	            recruitImg.className = 'recruit-img';
+	    	            
+	    	            const dimmed = document.createElement("a")
+	    	            dimmed.href = "/Common/RecruitOneView?company_recruit_idx=" + recruitListSkillStack.COMPANY_RECRUIT_IDX
+	    	            recruitImg.appendChild(dimmed);
+	    	            
+	    	            const recruitInfo = document.createElement('div');
+	    	            recruitInfo.className = 'recruit-info';
+	    	            		
 	    	            const logoImg = document.createElement('img');
 	    	            logoImg.alt = ''; // 대체 텍스트 설정
 	    	            logoImg.src = recruitListSkillStack.COMPANY_SFILE_NAME; // 기업 로고 이미지 설정
@@ -158,98 +166,22 @@ window.onload = function(){
 	    	            recruitTitle.className = 'recruit-title';
 	    	            recruitTitle.textContent = recruitListSkillStack.RECRUIT_TITLE; // 채용 공고 제목 추가
 
-	    	            companyInfo.appendChild(companyName);
-	    	            companyInfo.appendChild(recruitTitle);
 
 	    	            // 스택 리스트 추가
 	    	            const stackList = document.createElement('ul');
 	    	            stackList.className = 'stack-list';
 	    	            stackList.textContent =  recruitListSkillStack.SKILL_NAME ;
 
-
-	    	            // recruit-card에 모든 요소들을 추가
-	    	            recruitCard.appendChild(img); // 북마크 이미지 추가
-	    	            recruitCard.appendChild(recruitImg); // 기업 로고/직무 이미지 추가
-	    	            recruitCard.appendChild(companyInfo); // 기업 정보 추가
-	    	            recruitCard.appendChild(stackList); // 기술 스택 추가
-
-	    	            // 최종적으로 developRecruitListEl에 recruit-card 추가
-	    	            developRecruitListEl.appendChild(recruitCard);
-	    	        });
-	    	    })
-	    	    .catch(error => {
-	    	        console.error('Error fetching data:', error);
-	    	    });
-		
-	};
-	
-	  const $sortLists   = document.querySelectorAll(".develop-recruit-sort li");
-	  $sortLists.forEach((li)=>{
-	    li.addEventListener("click",(e)=>{
-	    	  const value = e.target.getAttribute("value"); // value 속성 가져오기
-	    	 // const recruitCardEL = document.getElementById('recruit-card');
-	    	  const developRecruitListEl = document.getElementById('develop-recruit-list');
-	    	  developRecruitListEl.innerHTML = '';
-	    	// AJAX 요청
-	    	fetch('/CompanyRecruit/RecruitListSkillStackAjax?skill_stack_idx=' + value)
-	    	    .then(response => response.json())
-	    	    .then(data => {
-	    	        // 받아온 채용 공고 목록을 추가
-	    	        console.log(data);
-	    	        data.forEach(function(recruitListSkillStack) {
-	    	        console.log(recruitListSkillStack);
-	    	        	
-	    	            // recruit-card div 생성
-	    	            const recruitCard = document.createElement('div');
-	    	            recruitCard.className = 'recruit-card';
-
-	    	            // 기업 로고 이미지 추가
-	    	            const img = document.createElement('img');
-	    	            if(recruitListSkillStack.BOOKMARK_CHECK === 1){
-		    	            img.className = 'bookmark mark-up';
-		    	            img.src = '/images/icon/mark-up.png'; // 이미지 경로 설정
-		    	          }
-		    	          else{
-		    	            img.className = 'bookmark mark-down';
-	    	           		 img.src = '/images/icon/mark-off.png'; // 이미지 경로 설정
-		    	          };
-	    	            img.alt = '북마크'; // 대체 텍스트 설정
-	    	            img.setAttribute('data-recruitidx', recruitListSkillStack.COMPANY_RECRUIT_IDX); // data-recruitidx 속성 추가
-
-	    	            // 기업 로고 및 직무 이미지 추가
-	    	            const recruitImg = document.createElement('div');
-	    	            recruitImg.className = 'recruit-img';
-	    	            const logoImg = document.createElement('img');
-	    	            logoImg.alt = ''; // 대체 텍스트 설정
-	    	            logoImg.src = recruitListSkillStack.COMPANY_SFILE_NAME; // 기업 로고 이미지 설정
-	    	            recruitImg.appendChild(logoImg); // 로고 이미지를 div에 추가
-
-	    	            // 기업 정보 추가
-	    	            const companyInfo = document.createElement('div');
-	    	            companyInfo.className = 'company-info';
-
-	    	            const companyName = document.createElement('p');
-	    	            companyName.className = 'company-name';
-	    	            companyName.textContent = recruitListSkillStack.COMPANY_NAME; // 기업 이름 추가
-
-	    	            const recruitTitle = document.createElement('p');
-	    	            recruitTitle.className = 'recruit-title';
-	    	            recruitTitle.textContent = recruitListSkillStack.RECRUIT_TITLE; // 채용 공고 제목 추가
-
 	    	            companyInfo.appendChild(companyName);
 	    	            companyInfo.appendChild(recruitTitle);
-
-	    	            // 스택 리스트 추가
-	    	            const stackList = document.createElement('ul');
-	    	            stackList.className = 'stack-list';
-	    	            stackList.textContent = recruitListSkillStack.SKILL_NAME;
-
+	    	            
+	    	            recruitInfo.appendChild(companyInfo);
+	    	            recruitInfo.appendChild(stackList);
 
 	    	            // recruit-card에 모든 요소들을 추가
 	    	            recruitCard.appendChild(img); // 북마크 이미지 추가
 	    	            recruitCard.appendChild(recruitImg); // 기업 로고/직무 이미지 추가
-	    	            recruitCard.appendChild(companyInfo); // 기업 정보 추가
-	    	            recruitCard.appendChild(stackList); // 기술 스택 추가
+	    	            recruitCard.appendChild(recruitInfo); // 기업 정보 추가
 
 	    	            // 최종적으로 developRecruitListEl에 recruit-card 추가
 	    	            developRecruitListEl.appendChild(recruitCard);
@@ -258,17 +190,7 @@ window.onload = function(){
 	    	    .catch(error => {
 	    	        console.error('Error fetching data:', error);
 	    	    });
-
-	    	  
-	      $sortLists.forEach(a=>{
-	        a.classList.remove("sort-active")
-	      })
-	      li.classList.remove("sort-active")
-	      e.target.classList.add("sort-active")
-	    })
-	  })
-	
-	
+	    	}	
 	
     if ("${sessionScope.userLogin}") {
         const $bookMarkUp = document.querySelectorAll(".mark-up");
@@ -282,28 +204,42 @@ window.onload = function(){
         });
       }
 
-      let recruitListIndex = 0;
-      
-      const $prevBtn              = document.querySelector(".prev-btn");
-      const $nextBtn              = document.querySelector(".next-btn");
-      const $developRecruitList   = document.querySelector(".develop-recruit-list");
-      
       document.addEventListener("click", (e) => {
     	  const clicked = e.target
           if (clicked.matches(".bookmark")) {
               if ("${sessionScope.userLogin}") {
-                const userIdx = "${sessionScope.userLogin.user_idx}";
-                const recruitIdx = e.target.dataset.recruitidx;
+                const userIdx      = "${sessionScope.userLogin.user_idx}";
+                const recruitIdx   = e.target.dataset.recruitidx;
+                const bookmarkList = document.querySelectorAll(".bookmark")
                 if (clicked.classList[1] == "mark-down") {
                 	  clicked.classList.remove("mark-down");
                 	  clicked.classList.add("mark-up");
-                      recruitBookMarkAjax(userIdx, recruitIdx);
-                      clicked.src = "/images/icon/mark-up.png";
+                    recruitBookMarkAjax(userIdx, recruitIdx);
+                    
+                    bookmarkList.forEach(bookmark=>{
+                    	if(bookmark.dataset.recruitidx == recruitIdx){
+                    		bookmark.classList.remove("mark-down");
+                    		bookmark.classList.add("mark-up")
+                    		bookmark.src = "/images/icon/mark-up.png";
+                    	}
+                    })
+
+                    
+                    clicked.src = "/images/icon/mark-up.png";
                 } else {
                 	  clicked.classList.remove("mark-up");
                 	  clicked.classList.add("mark-down");
-                      recruitBookMarkAjax(userIdx, recruitIdx);
-                      clicked.src = "/images/icon/mark-off.png";
+                    recruitBookMarkAjax(userIdx, recruitIdx);
+                    
+                    bookmarkList.forEach(bookmark=>{
+                    	if(bookmark.dataset.recruitidx == recruitIdx){
+                    		bookmark.classList.remove("mark-up");
+                    		bookmark.classList.add("mark-down")
+                    		bookmark.src = "/images/icon/mark-off.png";
+                    	}
+                    })
+
+                    clicked.src = "/images/icon/mark-off.png";
                 }
               } else {
                 alert("로그인이 필요합니다.");
@@ -329,6 +265,19 @@ window.onload = function(){
             clicked.style.display = "none";
           }
         }
+        
+        if(clicked.matches(".develop-recruit-sort li")){
+    	  const value = clicked.getAttribute("value"); // value 속성 가져오기
+	    	// AJAX 요청
+			getDevelopRecruitListAjax(value)
+	      const $sortLists = document.querySelectorAll(".develop-recruit-sort li")   
+	      $sortLists.forEach(a=>{
+	        a.classList.remove("sort-active")
+	      })
+	      clicked.classList.add("sort-active")
+	    
+       }
+        
       });
 
       async function recruitBookMarkAjax(userIdx, recruitIdx) {

@@ -35,7 +35,15 @@
             </div>
             <div class="resume-content">
               <div class="user-info">
-                <div class="user-img"><img alt="프로필 이미지" src="${map.USER_SFILE_NAME}"></div>
+             		<div class="user-img">
+		          	<c:choose>
+		          		<c:when test="${not empty map.USER_SFILE_NAME}">
+		          			<img class="profile-img" alt="" src="<c:url value='${map.USER_SFILE_NAME}'/>">
+		          		</c:when>
+		          		<c:otherwise>
+		          		</c:otherwise>
+	        	  	</c:choose>
+		          	</div>
                 <div class="user-details">
                   <div class="user-util">
                     <h3>
@@ -184,7 +192,6 @@
 
       let selectSkill = {};
       let selectSkillList = [];
-      console.log($stackItem)
 
       $searchInput.addEventListener("click", (e) => {
         e.stopPropagation();
@@ -212,20 +219,6 @@
     	          displaySelectStack(selectSkillList, $selectList);
     	  }
     	});
-      
-      /*
-      $stackItem.forEach((item) => {
-        item.addEventListener("click", (e) => {
-        	selectSkill = {"skill_idx" : e.target.dataset.skillidx , "skill_name" : item.textContent}
-
-          selectSkillList.push(selectSkill);
-        	selectSkillList =  [ ...new Map(selectSkillList.map((obj) => [obj["skill_idx"], obj])).values() ];
-        	console.log(selectSkillList)
-        	
-          displaySelectStack(selectSkillList, $selectList);
-        });
-      });
-      */
 
       function displaySelectStack(arr, output) {
         let listInner = "";
@@ -307,46 +300,6 @@
 	
 	    const result = await res.json();
 	    const skillList = result.selectSkillList;
-	    console.log(skillList)
-	    let html = ""
-	    skillList.forEach(skill=>{
-	    	let li = "<li data-skillidx="+skill.skill_idx+">"+skill.skill_name+"</li>"
-	    	html += li
-	    })
-	    $skillListInner.innerHTML = html;
-	    return result;
-	}
-      
-      
-      const $searchStackList = document.querySelectorAll(".stack-type li")
-
-      $searchStackList[0].classList.add("stack-active");
-      $searchStackList.forEach(stack=>{
-    	  stack.addEventListener("click",(e)=>{
-    		  $searchStackList.forEach(a=>{
-    			  a.classList.remove("stack-active")
-    		  })
-    	 		e.target.classList.add("stack-active");
-    		 selectStackAjax(e.target.dataset.stackid)
-    	  })
-      })
-      
-      async function selectStackAjax(stackId) {
-	    const res =  await fetch("/Users/MyPage/Resume/SkillFindById", {
-	        method: "POST",
-	        headers: {
-	            "Content-Type": "application/json",
-	        },
-	        body: JSON.stringify({ stackId: stackId })
-	    });
-	
-	    if (!res.ok) {
-	        throw new Error(`HTTP error status: ${res.status}`);
-	    }
-	
-	    const result = await res.json();
-	    const skillList = result.selectSkillList;
-	    console.log(skillList)
 	    let html = ""
 	    skillList.forEach(skill=>{
 	    	let li = "<li data-skillidx="+skill.skill_idx+">"+skill.skill_name+"</li>"

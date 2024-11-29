@@ -115,5 +115,6 @@ WHERE
 		SET    APPLICATION_STATUS_IDX = 9
 		WHERE  USER_RESUME_IDX = #{resumeIdx} AND COMPANY_RECRUIT_IDX = #{recruitIdx}
 	</delete>
+	
 
 </mapper>
