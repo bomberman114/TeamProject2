@@ -117,11 +117,6 @@ public class CompanyApplyController {
 	@RequestMapping("/CompanyApplyUserResumeView")
 	public ModelAndView companyApplyUserResumeView (@RequestParam HashMap<String, Object> map) {
 		ModelAndView mv = new ModelAndView();
-		UserResumeVo userResumeVo = new UserResumeVo();
-		userResumeVo.setUser_resume_idx(43);
-		//map.put("user_resume_idx", 44);
-		//map.put("company_recruit_idx", 33);
-		//map.put("application_idx", 2);
 		System.out.println(map);
 		HashMap<String, Object> userResumeMap = usersResumeService.getuserResumeMap(map);
 		List<ApplicationStatusVo> applicationStatuList = applicationStatusMapper.getapplicationStatuList();

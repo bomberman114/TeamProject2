@@ -371,7 +371,8 @@ WHERE
 	       CD.COMMON_DUTY_NAME,
          SKILLS,
          SKILLSIDX,
-         CI.COMPANY_SFILE_NAME
+         CI.COMPANY_SFILE_NAME,
+         CR.APPLICATION_DEADLINE
 	FROM   COMPANY_RECRUIT CR  LEFT JOIN (
 			                                SELECT 
 			                                  COMPANY_RECRUIT_IDX,
