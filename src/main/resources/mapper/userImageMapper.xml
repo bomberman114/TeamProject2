@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.green.user.mapper.UserImageMapper">
+
+<insert id="setUserImage">
+ INSERT INTO USER_IMAGE (
+    USER_IMAGE_IDX,
+		USER_IDX,
+		USER_IMAGE_NAME,
+		USER_IMAGE_EXT,
+USER_SFILE_NAME
+	) VALUES (
+    (SELECT NVL(MAX(USER_IMAGE_IDX),0)+1 FROM USER_IMAGE),
+    #{user_idx},
+    #{fileList[0].user_image_name},
+    #{fileList[0].user_image_ext},
+    #{fileList[0].user_sfile_name}
+	)
+</insert>
+
+<delete id="deleteUserImge">
+  DELETE FROM 
+  		USER_IMAGE
+	WHERE
+         USER_IDX = #{user_idx}
+
+  
+</delete>
+
+<select id="getUserProfileImge">
+	SELECT
+		*
+	FROM
+		USER_IMAGE
+	WHERE
+		USER_IDX = #{userVo.user_idx}
+
+</select>
+
+<select id="setUserImageCountCheck">
+	SELECT
+		COUNT(*)
+	FROM
+		USER_IMAGE
+	WHERE
+		 USER_IDX = #{userVo.user_idx}
+</select>
+
+</mapper>

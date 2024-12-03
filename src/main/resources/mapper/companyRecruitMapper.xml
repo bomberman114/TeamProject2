@@ -3,4 +3,575 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.green.company.recruit.mapper.CompanyRecruitMapper">  
 
+<select id="getCompanyHomeRecruiteList">
+	 SELECT 
+      *
+   FROM  
+        COMPANY_IMAGE CI
+    JOIN
+        COMPANY_USERS CU
+    ON  
+        CI.COMPANY_USER_IDX = CU.COMPANY_USER_IDX
+    JOIN
+       COMPANY_RECRUIT CR
+    ON
+        CU.COMPANY_USER_IDX = CR.COMPANY_USER_IDX
+   LEFT JOIN (
+       SELECT 
+             CCRK.COMPANY_RECRUIT_IDX
+           , LISTAGG(DISTINCT CCRK.SKILL_IDX, ', ') WITHIN GROUP (ORDER BY CCRK.SKILL_IDX) AS SKILL_IDX
+           , LISTAGG(DISTINCT S.SKILL_NAME, ', ') WITHIN GROUP (ORDER BY S.SKILL_NAME) AS SKILL_NAME
+       FROM
+           COMMON_COMPANY_RECRUIT_SKILL CCRK
+        JOIN
+            SKILLS S
+        ON
+            CCRK.SKILL_IDX = S.SKILL_IDX
+         
+          <if test="skillListCheck != null ">    
+       WHERE 
+          CCRK.SKILL_IDX IN
+        <foreach item="skill" index="index" collection="skillListCheck"
+         open="(" separator="," close=")">
+           #{ skill.skill_idx }
+         </foreach>
+       </if>
+       
+       GROUP BY 
+       	COMPANY_RECRUIT_IDX ) CCRK 
+       ON 
+       	CCRK.COMPANY_RECRUIT_IDX = CR.COMPANY_RECRUIT_IDX
+   JOIN 
+       REGION R ON CR.REGION_IDX = R.REGION_IDX
+         <if test="regionListCheck != null">
+   WHERE 
+       CR.REGION_IDX IN 
+       <foreach item="region" index="index" collection="regionListCheck"
+         open="(" separator="," close=")">
+           #{ region.region_idx }
+         </foreach>
+         AND
+   </if>
+       
+   ORDER BY 
+       CR.COMPANY_RECRUIT_REGDATE DESC
+    OFFSET
+    	1
+    	  
+    	ROWS FETCH NEXT 
+    	20
+    		 ROWS ONLY
+    
+</select>
+
+<select id="getCompanyRecruiteSkillStackList">
+	 SELECT 
+      *
+   FROM  
+        COMPANY_IMAGE CI
+    JOIN
+        COMPANY_USERS CU
+    ON  
+        CI.COMPANY_USER_IDX = CU.COMPANY_USER_IDX
+    JOIN
+       COMPANY_RECRUIT CR
+    ON
+        CU.COMPANY_USER_IDX = CR.COMPANY_USER_IDX
+   LEFT JOIN (
+       SELECT 
+             CCRK.COMPANY_RECRUIT_IDX
+           , LISTAGG(DISTINCT CCRK.SKILL_IDX, ', ') WITHIN GROUP (ORDER BY CCRK.SKILL_IDX) AS SKILL_IDX
+           , LISTAGG(DISTINCT S.SKILL_NAME, ', ') WITHIN GROUP (ORDER BY S.SKILL_NAME) AS SKILL_NAME
+       FROM
+           COMMON_COMPANY_RECRUIT_SKILL CCRK
+       JOIN
+            SKILLS S
+       ON
+            CCRK.SKILL_IDX = S.SKILL_IDX
+         
+       WHERE
+         	S.SKILL_STACK = #{skill_stack}
+       
+       GROUP BY 
+       	COMPANY_RECRUIT_IDX ) CCRK 
+       ON 
+       	CCRK.COMPANY_RECRUIT_IDX = CR.COMPANY_RECRUIT_IDX
+   JOIN 
+       REGION R ON CR.REGION_IDX = R.REGION_IDX
+
+   ORDER BY 
+       CR.COMPANY_RECRUIT_REGDATE DESC
+    OFFSET
+    	1
+    	ROWS FETCH NEXT 
+    	10
+    		 ROWS ONLY
+    
+</select>
+
+<select id="getCompanyRecruiteList">
+ SELECT
+    CR.COMPANY_RECRUIT_IDX,
+    CR.COMPANY_USER_IDX,
+    CR.RECRUIT_TITLE,
+    cr.application_deadline,
+    CR.COMPANY_RECRUIT_REGDATE,
+    CR.COMPANY_RECRUIT_VIEWS,
+    COUNT(CASE WHEN A.application_status_idx &lt;&gt;  5 THEN 5 END) AS APPLICATION_COUNT
+FROM
+    COMPANY_RECRUIT CR
+LEFT JOIN
+    APPLICATIONS A 
+ON 
+    CR.COMPANY_RECRUIT_IDX = A.COMPANY_RECRUIT_IDX
+WHERE
+    CR.COMPANY_USER_IDX = #{company_user_idx}
+GROUP BY
+    CR.COMPANY_RECRUIT_IDX,
+    CR.COMPANY_USER_IDX,
+    CR.RECRUIT_TITLE,
+    cr.application_deadline,
+    CR.COMPANY_RECRUIT_REGDATE,
+    CR.COMPANY_RECRUIT_VIEWS
+ORDER BY 
+    CR.COMPANY_RECRUIT_REGDATE DESC
+
+</select>
+
+<insert id="setCompanyRecruitInsert"  parameterType="java.util.HashMap">
+  INSERT INTO COMPANY_RECRUIT (
+    COMPANY_RECRUIT_IDX,
+    COMPANY_USER_IDX,
+    COMPANY_NAME,
+    RECRUIT_TITLE,
+    COMPANY_JOB,
+    COMMON_DUTY_IDX,
+    MAIN_WORK_CONTENT1,
+    MAIN_WORK_CONTENT2,
+    MAIN_WORK_CONTENT3,
+    QUALIFICATION1,
+    QUALIFICATION2,
+    QUALIFICATION3,
+    PREFERENTIAL_TREATMENT1,
+    PREFERENTIAL_TREATMENT2,
+    PREFERENTIAL_TREATMENT3,
+    EDUCATION_STATUS_IDX,
+    GETMAN,
+    REGION_IDX,
+    COMPANY_ADDRESS,
+    COMPANY_INFO,
+    APPLICATION_DEADLINE,
+    COMPANY_ESTABLISH
+  
+) VALUES (
+    COMPANY_RECRUIT_SEQ.NEXTVAL,
+    #{company_user_idx},
+    #{company_name},
+    #{recruit_title},
+    #{company_job},
+    #{common_duty_idx},
+    #{main_work_content1},
+	<if test="main_work_content2 != null">
+    #{main_work_content2},
+    </if>
+    <if test="main_work_content3 != null">
+     #{main_work_content3},
+    </if>
+     <if test="main_work_content2 == null">
+     null,
+    </if>
+    <if test="main_work_content3 == null">
+     null,
+    </if>
+     #{qualification1},
+     <if test="qualification2 != null">
+     #{qualification2},
+    </if>
+    <if test="qualification3 != null">
+    #{qualification3},
+    </if>
+     <if test="qualification2 == null">
+     null,
+    </if>
+    <if test="qualification3 == null">
+     null,
+    </if>
+     #{preferential_treatment1},
+     <if test="preferential_treatment2 != null">
+     #{preferential_treatment2},
+    </if>
+    <if test="preferential_treatment3 != null">
+     #{preferential_treatment3},
+    </if>
+     <if test="preferential_treatment2 == null">
+     null,
+    </if>
+    <if test="preferential_treatment3 == null">
+     null,
+    </if>
+    <if test="education_status_idx != null">
+     #{education_status_idx},
+    </if>
+    <if test="education_status_idx == null">
+     null,
+    </if>
+    #{getman},
+    #{region_idx},
+    #{company_address},
+    #{company_info},
+    #{application_deadline},
+    #{company_establish}
+)
+
+</insert>
+
+<select id="getCompanyRecruitIdx">
+SELECT
+	COMPANY_RECRUIT_IDX
+FROM
+	COMPANY_RECRUIT
+WHERE 
+	COMPANY_USER_IDX = #{company_user_idx}
+ORDER BY 
+         COMPANY_RECRUIT_IDX DESC
+      FETCH FIRST 1 ROW ONLY
+</select>
+
+<!-- 홈 -->
+
+<select id="findAllHomeRecruiteList">
+	SELECT *
+	FROM   COMPANY_RECRUIT CR LEFT JOIN  (
+	                SELECT 
+	                  COMPANY_RECRUIT_IDX,
+	                  LISTAGG(DISTINCT S.SKILL_Name, ' · ') WITHIN GROUP (ORDER BY COMMON_COMPANY_RECRUIT_SKILL_IDX)  AS SKILLS
+	                FROM COMMON_COMPANY_RECRUIT_SKILL CCRS JOIN SKILLS S ON CCRS.SKILL_IDX = S.SKILL_IDX
+	                GROUP BY CCRS.COMPANY_RECRUIT_IDX
+	               ) SKILLS_SUBQUERY  ON  CR.COMPANY_RECRUIT_IDX = SKILLS_SUBQUERY.COMPANY_RECRUIT_IDX
+	                LEFT JOIN 
+                    COMPANY_IMAGE CI
+                   ON
+                    CR.COMPANY_USER_IDX = CI.COMPANY_USER_IDX
+	                  ORDER BY 
+	       CR.COMPANY_RECRUIT_VIEWS DESC
+	OFFSET 0 ROWS FETCH NEXT 19 ROWS ONLY
+</select>
+
+<select id="getCompanyRecruiteMap">
+   SELECT 
+      *
+   FROM  
+       COMPANY_RECRUIT CR
+   LEFT JOIN (
+       SELECT 
+             CCRK.COMPANY_RECRUIT_IDX
+           , LISTAGG(DISTINCT CCRK.SKILL_IDX, ', ') WITHIN GROUP (ORDER BY CCRK.SKILL_IDX) AS SKILL_IDX
+           , LISTAGG(DISTINCT S.SKILL_NAME, ', ') WITHIN GROUP (ORDER BY S.SKILL_NAME) AS SKILL_NAME
+       FROM
+           COMMON_COMPANY_RECRUIT_SKILL CCRK
+        JOIN
+            SKILLS S
+        ON
+            CCRK.SKILL_IDX = S.SKILL_IDX
+       GROUP BY 
+       	COMPANY_RECRUIT_IDX ) CCRKS
+       ON 
+       	CCRKS.COMPANY_RECRUIT_IDX = CR.COMPANY_RECRUIT_IDX
+   JOIN 
+       REGION R ON CR.REGION_IDX = R.REGION_IDX
+    JOIN
+        COMMON_DUTY CD
+    ON
+        CR.COMMON_DUTY_IDX = CD.COMMON_DUTY_IDX
+    JOIN
+        EDUCATION_STATUS ES
+    ON
+        CR.EDUCATION_STATUS_IDX = ES.EDUCATION_STATUS_IDX
+    WHERE
+    CR.COMPANY_RECRUIT_IDX = #{company_recruit_idx} 
+   
+
+</select>
+
+<select id="setCompanyRecruitUpdate">
+  UPDATE COMPANY_RECRUIT
+SET
+	recruit_title = #{recruit_title},
+	company_job = #{company_job},
+	common_duty_idx = #{common_duty_idx},
+	main_work_content1 = #{main_work_content1},
+	main_work_content2 = 
+	<if test="main_work_content2 != null">
+	#{main_work_content2},
+	</if>
+	<if test="main_work_content2 == null">
+	null,
+	</if>
+	main_work_content3 = 
+	<if test="main_work_content3 != null">
+	#{main_work_content3},
+	</if>
+	<if test="main_work_content3 == null">
+	null,
+	</if>
+	qualification1 = #{qualification1},
+	qualification2 = 
+	<if test="qualification2 != null">
+	#{qualification2},
+	</if>
+	<if test="qualification2 == null">
+	null,
+	</if>
+	qualification3 = 
+	<if test="qualification3 != null">
+	#{qualification3},
+	</if>
+	<if test="qualification3 == null">
+	null,
+	</if>
+	preferential_treatment1 = #{preferential_treatment1},
+	preferential_treatment2 = 
+	<if test="preferential_treatment2 != null">
+	#{preferential_treatment2},
+	</if>
+	<if test="preferential_treatment2 == null">
+	null,
+	</if>
+	preferential_treatment3 = 
+	<if test="preferential_treatment3 != null">
+	#{preferential_treatment3},
+	</if>
+	<if test="preferential_treatment3 == null">
+	null,
+	</if>
+	education_status_idx = #{education_status_idx},
+	getman = #{getman},
+	region_idx = #{region_idx},
+	company_address = #{company_address},
+	company_info = #{company_info},
+	application_deadline = #{application_deadline},
+	company_establish = #{company_establish}
+WHERE
+        company_recruit_idx = #{company_recruit_idx}
+ 
+</select>
+
+<select id="getCompanyHistory">
+	SELECT TO_CHAR(COMPANY_ESTABLISH,'YY"년 "MM"월"') establish,
+	       FLOOR(MONTHS_BETWEEN(SYSDATE, COMPANY_ESTABLISH) / 12) COMPANY_YEAR
+	FROM   COMPANY_USERS
+	WHERE  COMPANY_USER_IDX = (select COMPANY_USER_IDX  from COMPANY_RECRUIT WHERE COMPANY_RECRUIT_IDX = #{company_recruit_idx})
+</select>
+
+<select id="filterRecruitList">
+	SELECT CR.COMPANY_RECRUIT_IDX,
+				 CR.COMPANY_NAME,
+	       CR.RECRUIT_TITLE,
+	       R.REGION_NAME,
+	       CD.COMMON_DUTY_NAME,
+         SKILLS,
+         SKILLSIDX,
+         CI.COMPANY_SFILE_NAME,
+         CR.APPLICATION_DEADLINE
+	FROM   COMPANY_RECRUIT CR  LEFT JOIN (
+			                                SELECT 
+			                                  COMPANY_RECRUIT_IDX,
+			                                  LISTAGG(DISTINCT S.SKILL_NAME, ', ') WITHIN GROUP (ORDER BY COMMON_COMPANY_RECRUIT_SKILL_IDX)  AS SKILLS,
+                                        LISTAGG(DISTINCT S.SKILL_IDX, ', ') WITHIN GROUP (ORDER BY COMMON_COMPANY_RECRUIT_SKILL_IDX)  AS SKILLSIDX
+			                                FROM COMMON_COMPANY_RECRUIT_SKILL CCRS LEFT JOIN SKILLS S ON CCRS.SKILL_IDX = S.SKILL_IDX
+			                                GROUP BY CCRS.COMPANY_RECRUIT_IDX
+			                               ) SS   ON CR.COMPANY_RECRUIT_IDX = SS.COMPANY_RECRUIT_IDX
+		                          LEFT JOIN REGION        R  ON CR.REGION_IDX       = R.REGION_IDX
+		                          LEFT JOIN COMMON_DUTY   CD ON CR.COMMON_DUTY_IDX  = CD.COMMON_DUTY_IDX
+		                          LEFT JOIN COMPANY_IMAGE CI ON CR.COMPANY_USER_IDX = CI.COMPANY_USER_IDX 
+	WHERE 1 = 1
+	<if test="regionIdx != null and regionIdx != ''">
+		AND CR.REGION_IDX = #{regionIdx}
+	</if>
+	<if test="dutyIdx != null and dutyIdx != ''">
+		AND CR.COMMON_DUTY_IDX = #{dutyIdx}
+	</if>
+	<if test="search != null and search != ''">
+		AND CR.RECRUIT_TITLE LIKE '%${search}%'
+	</if>
+	<if test="filter == 'earliest'">
+		ORDER BY CR.COMPANY_RECRUIT_REGDATE DESC
+	</if>
+	<if test="filter == 'popular'">
+		ORDER BY CR.COMPANY_RECRUIT_VIEWS DESC
+	</if>
+</select>
+
+<update id="updateViews">
+	UPDATE COMPANY_RECRUIT
+	SET    COMPANY_RECRUIT_VIEWS = COMPANY_RECRUIT_VIEWS + 1
+	WHERE  COMPANY_RECRUIT_IDX   = #{company_recruit_idx}
+</update>
+
+<select id="getSearchCompanyRecruitCountWithConditions">
+
+ SELECT 
+      COUNT(*)
+   FROM 
+        COMPANY_RECRUIT CR
+   LEFT JOIN (
+       SELECT 
+             CCPRS.COMPANY_RECRUIT_IDX
+           , LISTAGG(DISTINCT S.SKILL_NAME, ', ') WITHIN GROUP (ORDER BY S.SKILL_NAME) AS SKILL_NAME
+           , LISTAGG(DISTINCT S.SKILL_IDX, ', ') WITHIN GROUP (ORDER BY S.SKILL_IDX) AS SKILL_IDX
+       FROM 
+           COMMON_COMPANY_RECRUIT_SKILL  CCPRS
+    JOIN SKILLS S ON CCPRS.SKILL_IDX = S.SKILL_IDX
+     
+        GROUP BY CCPRS.COMPANY_RECRUIT_IDX
+   )  CCRK ON CCRK.COMPANY_RECRUIT_IDX = CR.COMPANY_RECRUIT_IDX
+   LEFT JOIN 
+       REGION R ON CR.REGION_IDX = R.REGION_IDX
+  
+    LEFT JOIN
+        COMMON_DUTY CD
+    ON  
+        CR.COMMON_DUTY_IDX = CD.COMMON_DUTY_IDX
+      LEFT JOIN
+        EDUCATION_STATUS ES
+    ON
+        CR.EDUCATION_STATUS_IDX = ES.EDUCATION_STATUS_IDX
+    WHERE
+        CR.RECRUIT_TITLE LIKE '%' || #{ recruit_title } || '%'
+	 <if test="checkedCommonDutyList != null">
+ 	OR
+  		CR.COMMON_DUTY_IDX IN 
+  	 <foreach item="commonDuty" index="index" collection="checkedCommonDutyList"
+         open="(" separator="," close=")">
+           #{ commonDuty.common_duty_idx }
+         </foreach>
+    </if>
+    
+     <if test="checkedRegionList != null">
+   OR 
+       CR.REGION_IDX IN 
+       <foreach item="region" index="index" collection="checkedRegionList"
+         open="(" separator="," close=")">
+           #{ region.region_idx }
+         </foreach>
+   </if>    
+   
+       <if test="checkedSkillListToTypeString != null ">    
+       OR 
+           CCRK.SKILL_IDX IN
+        <foreach item="skill_idx" index="index" collection="checkedSkillListToTypeString"
+         open="(" separator="," close=")">
+           #{ skill_idx }
+         </foreach>
+       </if>
+
+</select>
+
+<select id="getSearchCompanyRecruitList">
+   SELECT 
+      *
+   FROM 
+        COMPANY_RECRUIT CR
+   LEFT JOIN (
+       SELECT 
+             CCPRS.COMPANY_RECRUIT_IDX
+           , LISTAGG(DISTINCT S.SKILL_NAME, ', ') WITHIN GROUP (ORDER BY S.SKILL_NAME) AS SKILL_NAME
+           , LISTAGG(DISTINCT S.SKILL_IDX, ', ') WITHIN GROUP (ORDER BY S.SKILL_IDX) AS SKILL_IDX
+       FROM 
+           COMMON_COMPANY_RECRUIT_SKILL  CCPRS
+    JOIN SKILLS S ON CCPRS.SKILL_IDX = S.SKILL_IDX
+     
+        GROUP BY CCPRS.COMPANY_RECRUIT_IDX
+   )  CCRK ON CCRK.COMPANY_RECRUIT_IDX = CR.COMPANY_RECRUIT_IDX
+   LEFT JOIN 
+       REGION R ON CR.REGION_IDX = R.REGION_IDX
+  
+    LEFT JOIN
+        COMMON_DUTY CD
+    ON  
+        CR.COMMON_DUTY_IDX = CD.COMMON_DUTY_IDX
+      LEFT JOIN
+        EDUCATION_STATUS ES
+    ON
+        CR.EDUCATION_STATUS_IDX = ES.EDUCATION_STATUS_IDX
+    WHERE
+        CR.RECRUIT_TITLE LIKE  '%' || #{ recruit_title } || '%'
+     <if test="checkedCommonDutyList != null">
+ 	OR
+  		CR.COMMON_DUTY_IDX IN 
+  	 <foreach item="commonDuty" index="index" collection="checkedCommonDutyList"
+         open="(" separator="," close=")">
+           #{ commonDuty.common_duty_idx }
+         </foreach>
+    </if>
+    
+     <if test="checkedRegionList != null">
+   OR 
+       CR.REGION_IDX IN 
+       <foreach item="region" index="index" collection="checkedRegionList"
+         open="(" separator="," close=")">
+           #{ region.region_idx }
+         </foreach>
+   </if>    
+       <if test="checkedSkillListToTypeString != null ">    
+       OR 
+           CCRK.SKILL_IDX IN
+        <foreach item="skill_idx" index="index" collection="checkedSkillListToTypeString"
+         open="(" separator="," close=")">
+           #{ skill_idx }
+         </foreach>
+       </if>
+        
+   ORDER BY 
+       CR.COMPANY_RECRUIT_REGDATE DESC
+    OFFSET #{startRow} ROWS FETCH NEXT #{endRow} ROWS ONLY 
+
+
+</select>
+
+<select id="getRecruitListSkillStack">
+SELECT 
+      *
+   FROM 
+        COMPANY_RECRUIT CR
+   LEFT JOIN (
+       SELECT 
+             CCPRS.COMPANY_RECRUIT_IDX
+           , LISTAGG(DISTINCT S.SKILL_NAME, ', ') WITHIN GROUP (ORDER BY S.SKILL_NAME) AS SKILL_NAME
+           , LISTAGG(DISTINCT S.SKILL_IDX, ', ') WITHIN GROUP (ORDER BY S.SKILL_IDX) AS SKILL_IDX
+           , LISTAGG(DISTINCT S.SKILL_STACK_IDX, ', ') WITHIN GROUP (ORDER BY S.SKILL_STACK_IDX) AS SKILL_STACK_IDX
+       FROM 
+           COMMON_COMPANY_RECRUIT_SKILL  CCPRS
+    JOIN SKILLS S ON CCPRS.SKILL_IDX = S.SKILL_IDX
+     
+        GROUP BY CCPRS.COMPANY_RECRUIT_IDX
+   )  CCRK ON CCRK.COMPANY_RECRUIT_IDX = CR.COMPANY_RECRUIT_IDX
+   LEFT JOIN 
+       REGION R ON CR.REGION_IDX = R.REGION_IDX
+  
+    LEFT JOIN
+        COMMON_DUTY CD
+    ON  
+        CR.COMMON_DUTY_IDX = CD.COMMON_DUTY_IDX
+      LEFT JOIN
+        EDUCATION_STATUS ES
+    ON
+        CR.EDUCATION_STATUS_IDX = ES.EDUCATION_STATUS_IDX
+    LEFT JOIN
+        COMPANY_IMAGE  CI
+    ON
+        CR.COMPANY_USER_IDX = CI.COMPANY_USER_IDX
+    LEFT JOIN
+    	USERS_BOOKMARK  UBK
+    ON
+    	UBK.COMPANY_RECRUIT_IDX = CCRK.COMPANY_RECRUIT_IDX
+  WHERE
+    CCRK.SKILL_STACK_IDX = #{skill_stack_idx}
+        
+   ORDER BY 
+       CR.COMPANY_RECRUIT_REGDATE DESC
+    OFFSET 0 ROWS FETCH NEXT 10 ROWS ONLY 
+
+</select>
+
 </mapper>

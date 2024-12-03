@@ -2,5 +2,55 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.green.user.bookmark.mapper.UsersBookmarkMapper">
-
+	<select id="findById">
+		SELECT *
+		FROM   USERS_BOOKMARK
+		WHERE  USER_IDX = #{arg0} AND COMPANY_RECRUIT_IDX = #{arg1}
+	</select>
+	
+	<insert id="saveBookMark">
+		INSERT INTO users_bookmark (
+	    bookmark_idx,
+	    user_idx,
+	    company_recruit_idx,
+	    BOOKMARK_CHECK           ) 
+	  VALUES                     (
+	    USERS_BOOKMARK_SEQ.NEXTVAL,
+	    #{arg0},
+	    #{arg1},
+	    1                        )
+	</insert>
+	
+	<update id="updateBookMark">
+		UPDATE USERS_BOOKMARK
+		SET    BOOKMARK_CHECK = #{bookmark_check}
+		WHERE  USER_IDX = #{user_idx} AND COMPANY_RECRUIT_IDX = #{company_recruit_idx}
+	</update>
+	
+	<select id="findAllById">
+		SELECT *
+		FROM   USERS_BOOKMARK
+		WHERE  USER_IDX = #{user_idx}
+	</select>
+	
+	<select id="markUpRecruitList">
+		SELECT *
+    FROM   USERS_BOOKMARK UB LEFT JOIN USERS           U  ON UB.USER_IDX            = U.USER_IDX 
+                             LEFT JOIN COMPANY_RECRUIT CR ON UB.COMPANY_RECRUIT_IDX = CR.COMPANY_RECRUIT_IDX
+														 LEFT JOIN COMPANY_IMAGE   CI ON CR.COMPANY_USER_IDX    = CI.COMPANY_USER_IDX
+                           LEFT JOIN  (
+                SELECT 
+                                  COMPANY_RECRUIT_IDX,
+                                  LISTAGG(DISTINCT S.SKILL_NAME, ', ') WITHIN GROUP (ORDER BY COMMON_COMPANY_RECRUIT_SKILL_IDX)  AS SKILLS
+                                FROM COMMON_COMPANY_RECRUIT_SKILL CCRS JOIN SKILLS S ON CCRS.SKILL_IDX = S.SKILL_IDX
+                                GROUP BY CCRS.COMPANY_RECRUIT_IDX
+                               ) SKILLS_SUBQUERY  ON  CR.COMPANY_RECRUIT_IDX = SKILLS_SUBQUERY.COMPANY_RECRUIT_IDX
+    WHERE  UB.USER_IDX = #{userIdx} AND UB.BOOKMARK_CHECK = 1
+	</select>
+	
+	<select id="countById">
+	 SELECT COUNT(USER_IDX)
+	 FROM   USERS_BOOKMARK
+	 WHERE  USER_IDX = #{user_idx} AND BOOKMARK_CHECK = 1
+	</select>
 </mapper>

@@ -1,7 +1,120 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.green.application.mapper.ApplicationMapper">  
-  
-  
+<mapper namespace="com.green.application.mapper.ApplicationMapper">
+
+	<select id="companyRecruitApplyUserResumeAllList" resultType="java.util.HashMap">
+		SELECT
+    A.APPLIED_DATE,
+    A.APPLICATION_IDX,
+    A.APPLICATION_STATUS_IDX,
+    (SELECT APS.APPLICATION_STATUS_TYPE FROM APPLICATION_STATUS APS WHERE APS.APPLICATION_STATUS_IDX = A.APPLICATION_STATUS_IDX) AS APPLICATION_STATUS_TYPE,
+    (SELECT UC.USER_WOOKED_YEAR_START FROM USER_CAREER UC WHERE UC.USER_RESUME_IDX = UR.USER_RESUME_IDX) AS USER_WOOKED_YEAR_START,
+    (SELECT UC.USER_WOOKED_YEAR_END FROM USER_CAREER UC WHERE UC.USER_RESUME_IDX = UR.USER_RESUME_IDX) AS USER_WOOKED_YEAR_END,
+    (SELECT COD.COMMON_DUTY_NAME FROM COMMON_DUTY  COD   WHERE UR.COMMON_DUTY_IDX = COD.COMMON_DUTY_IDX) AS COMMON_DUTY_NAME,
+    UR.USER_NAME,
+    UR.USER_RESUME_IDX,
+    UR.USER_TITLE,
+    CR.RECRUIT_TITLE,
+    UR.USER_IDX
+FROM
+    COMPANY_RECRUIT CR
+LEFT JOIN
+    APPLICATIONS A ON CR.COMPANY_RECRUIT_IDX = A.COMPANY_RECRUIT_IDX
+LEFT JOIN
+    USER_RESUME UR ON A.USER_RESUME_IDX = UR.USER_RESUME_IDX
+WHERE
+	<if test="company_user_idx != null">
+    CR.COMPANY_USER_IDX = #{company_user_idx}
+	</if>
+	
+	<if test="company_recruit_idx != null">
+   CR.COMPANY_RECRUIT_IDX = #{company_recruit_idx}
+	</if>
+	</select>
+	
+	<select id="checkedCompanyRecruitApplyUserResumeAllList">
+	SELECT
+    A.APPLIED_DATE,
+    A.APPLICATION_STATUS_IDX,
+    (SELECT APS.APPLICATION_STATUS_TYPE FROM APPLICATION_STATUS APS WHERE APS.APPLICATION_STATUS_IDX = A.APPLICATION_STATUS_IDX) AS APPLICATION_STATUS_TYPE,
+    (SELECT UC.USER_WOOKED_YEAR_START FROM USER_CAREER UC WHERE UC.USER_RESUME_IDX = UR.USER_RESUME_IDX) AS USER_WOOKED_YEAR_START,
+    (SELECT UC.USER_WOOKED_YEAR_END FROM USER_CAREER UC WHERE UC.USER_RESUME_IDX = UR.USER_RESUME_IDX) AS USER_WOOKED_YEAR_END,
+    (SELECT COD.COMMON_DUTY_NAME FROM COMMON_DUTY  COD   WHERE UR.COMMON_DUTY_IDX = COD.COMMON_DUTY_IDX) AS COMMON_DUTY_NAME,
+    UR.USER_NAME,
+    UR.USER_RESUME_IDX,
+    UR.USER_TITLE,
+    CR.RECRUIT_TITLE,
+    UR.USER_IDX
+FROM
+    COMPANY_RECRUIT CR
+LEFT JOIN
+    APPLICATIONS A ON CR.COMPANY_RECRUIT_IDX = A.COMPANY_RECRUIT_IDX
+LEFT JOIN
+    USER_RESUME UR ON A.USER_RESUME_IDX = UR.USER_RESUME_IDX
+WHERE
+    CR.COMPANY_RECRUIT_IDX = #{company_recruit_idx}
+	
+	</select>
+	
+	
+	<!-- 개인 유저 지원내역 관리 -->
+	
+	<insert id="userApplySubmit">
+		INSERT INTO applications   (
+      APPLICATION_IDX,
+      USER_RESUME_IDX,
+      COMPANY_RECRUIT_IDX,
+      APPLICATION_STATUS_IDX   ) 
+    VALUES                     (
+      APPLICATIONS_SEQ.NEXTVAL,
+      #{userResumeIdx},
+      #{recruitIdx},
+      5                         )
+	</insert>
+
+	<select id="findApplyCountListById">
+		SELECT (SELECT COUNT(*)
+        FROM   APPLICATIONS A LEFT JOIN USER_RESUME UR ON A.USER_RESUME_IDX = UR.USER_RESUME_IDX
+                              LEFT JOIN USERS       U  ON UR.USER_IDX       = U.USER_IDX
+        WHERE  APPLICATION_STATUS_IDX = 5 AND U.USER_IDX =  #{userIdx} <if test="selectedResume != null and selectedResume != '' ">AND A.USER_RESUME_IDX = #{selectedResume}</if>) SUBMITTED,
+        (SELECT COUNT(*)
+        FROM   APPLICATIONS A LEFT JOIN USER_RESUME UR ON A.USER_RESUME_IDX = UR.USER_RESUME_IDX
+                              LEFT JOIN USERS       U  ON UR.USER_IDX       = U.USER_IDX
+        WHERE  APPLICATION_STATUS_IDX = 6 AND U.USER_IDX =  #{userIdx} <if test="selectedResume != null and selectedResume != '' ">AND A.USER_RESUME_IDX = #{selectedResume}</if>) PAPER_PASSED,
+        (SELECT COUNT(*)
+        FROM   APPLICATIONS A LEFT JOIN USER_RESUME UR ON A.USER_RESUME_IDX = UR.USER_RESUME_IDX
+                              LEFT JOIN USERS       U  ON UR.USER_IDX       = U.USER_IDX
+        WHERE  APPLICATION_STATUS_IDX = 7 AND U.USER_IDX =  #{userIdx} <if test="selectedResume != null and selectedResume != '' ">AND A.USER_RESUME_IDX = #{selectedResume}</if>) PASS,
+        (SELECT COUNT(*)
+        FROM   APPLICATIONS A LEFT JOIN USER_RESUME UR ON A.USER_RESUME_IDX = UR.USER_RESUME_IDX
+                              LEFT JOIN USERS       U  ON UR.USER_IDX       = U.USER_IDX
+        WHERE  APPLICATION_STATUS_IDX = 8 AND U.USER_IDX =  #{userIdx} <if test="selectedResume != null and selectedResume != '' ">AND A.USER_RESUME_IDX = #{selectedResume}</if>) FAIL
+		FROM DUAL
+	</select>
+	
+	<select id="findApplyList">
+		SELECT TO_CHAR(A.APPLIED_DATE,'YYYY.MM.DD') APPLYDATE , CR.RECRUIT_TITLE, A.USER_RESUME_IDX, A.COMPANY_RECRUIT_IDX
+		FROM   APPLICATIONS A LEFT JOIN USER_RESUME UR     ON A.USER_RESUME_IDX     = UR.USER_RESUME_IDX
+		                      LEFT JOIN COMPANY_RECRUIT CR ON A.COMPANY_RECRUIT_IDX = CR.COMPANY_RECRUIT_IDX
+		WHERE  UR.USER_IDX = #{userIdx}
+			<if test="applyStatus == null or applyStatus == '' ">AND APPLICATION_STATUS_IDX  = 5</if>   
+			<if test="applyStatus != null and applyStatus != '' ">AND APPLICATION_STATUS_IDX  = #{applyStatus}</if>
+			<if test="selectedResume != null and selectedResume != '' ">AND A.USER_RESUME_IDX = #{selectedResume}</if>
+		ORDER  BY APPLIED_DATE DESC
+	</select>
+
+	<select id="findById">
+		SELECT *
+		FROM   APPLICATIONS
+		WHERE  USER_RESUME_IDX = #{userResumeIdx} AND COMPANY_RECRUIT_IDX = #{recruitIdx} AND NOT APPLICATION_STATUS_IDX = 9
+	</select>
+	
+	<delete id="deleteUserApply">
+		UPDATE APPLICATIONS
+		SET    APPLICATION_STATUS_IDX = 9
+		WHERE  USER_RESUME_IDX = #{resumeIdx} AND COMPANY_RECRUIT_IDX = #{recruitIdx}
+	</delete>
+	
+
 </mapper>

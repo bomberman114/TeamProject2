@@ -10,6 +10,18 @@
  			REGION
  	</select>
   
+  <select id="getCheckedRegionList">
+  SELECT
+  *
+  FROM
+  	REGION
+  WHERE
+  	REGION_IDX IN
+   <foreach item="region" index="index" collection="checkedRegionList"
+         open="(" separator="," close=")">
+           #{ region.region_idx }
+         </foreach>
+  </select>
   
 </mapper>
 
