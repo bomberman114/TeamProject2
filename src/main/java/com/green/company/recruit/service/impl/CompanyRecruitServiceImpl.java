@@ -2,6 +2,7 @@ package com.green.company.recruit.service.impl;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -45,15 +46,28 @@ public class CompanyRecruitServiceImpl implements CompanyRecruitService {
 	// 마감일이 현재 날짜를 넘었는지 확인하는 메서드
 		private boolean isPastDeadline(HashMap<String, Object> recruit, LocalDate now) {
 			// 2024-11-07 00:00:00.0
-			String applicationDeadlineStr = String.valueOf(recruit.get("APPLICATION_DEADLINE"));
+			  // 모집 마감일 문자열 가져오기
+		    String applicationDeadlineStr = String.valueOf(recruit.get("APPLICATION_DEADLINE"));
+		    
+		    // 마감일 파싱 및 비교
+		    LocalDate applicationDeadlineStrFormat = null;
+		    boolean booleanApplicationDeadLineType = false;
 
-			// 입력 문자열에서 날짜 부분만 추출
-			LocalDate applicationDeadlineStrFormat = LocalDate.parse(applicationDeadlineStr.substring(0, 10),
-					DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		    if (applicationDeadlineStr != null && !applicationDeadlineStr.equals("null")) {
+		            // 날짜 부분만 추출하고 파싱
+		            applicationDeadlineStrFormat = LocalDate.parse(applicationDeadlineStr.substring(0, 10),
+		                    DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		            // 마감일이 현재 날짜 이후인지 확인
+		            booleanApplicationDeadLineType = applicationDeadlineStrFormat.isAfter(now);
+		    }
+		   //System.out.println("Error parsing date: " + applicationDeadlineStr);
+		   //System.out.println(" booleanApplicationDeadLineType date: " + booleanApplicationDeadLineType);
 
-			recruit.put("APPLICATION_DEADLINE", applicationDeadlineStr);
-			// 마감일이 현재 날짜보다 이전인 경우 true 반환
-			return applicationDeadlineStrFormat.isAfter(now); // isBefore(now);
+		    // 모집 데이터에 마감일 추가
+		    recruit.put("APPLICATION_DEADLINE", applicationDeadlineStr);
+
+		    // 결과 반환
+		    return booleanApplicationDeadLineType;
 		}
 
 		private String formatDate(String dateStr) {
@@ -208,6 +222,7 @@ public class CompanyRecruitServiceImpl implements CompanyRecruitService {
 	@Override
 	public List<HashMap<String, Object>> filterRecruitList(HashMap<String, Object> map) {
 		List<HashMap<String, Object>> recruitList = companyRecruitMapper.filterRecruitList(map); 
+		recruitList.removeIf(recruit -> !isPastDeadline(recruit, now));
 		return recruitList;
 	}
 

@@ -13,6 +13,7 @@ import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.green.files.FileImage;
 import com.green.joboffer.message.mapper.JobofferMessageMapper;
 import com.green.joboffer.rooms.mapper.JobofferRoomMapper;
 import com.green.joboffer.service.JobofferService;
